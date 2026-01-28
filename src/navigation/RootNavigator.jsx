@@ -4,16 +4,51 @@ import ProductsScreen from "../screens/ProductsScreen";
 import RoutinesScreen from "../screens/RoutinesScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 
+import Ionicons from '@expo/vector-icons/Ionicons';
+
+
+
 export default function RootNavigator() {
     const Tabs = createBottomTabNavigator();
 
     return (
       
-        <Tabs.Navigator>
-            <Tabs.Screen name="Today" component={TodayNavigator}/>
-            <Tabs.Screen name="Products" component={ProductsScreen}/>
-            <Tabs.Screen name="Routines" component={RoutinesScreen}/>
-            <Tabs.Screen name="Profile" component={ProfileScreen}/>
+        <Tabs.Navigator
+            screenOptions={{
+                tabBarActiveTintColor: '#E68BBE',
+                tabBarInactiveTintColor: '#aaa',
+            }}
+        >
+            <Tabs.Screen 
+                name="Today" 
+                component={TodayNavigator}
+                options={{
+                    tabBarIcon: ({ color, size }) => <Ionicons name="today-outline" size={size} color={color} />,
+                    headerShown: false
+                }}
+               
+            />
+            <Tabs.Screen 
+                name="Products"
+                component={ProductsScreen}
+                options={{
+                    tabBarIcon: ({ color, size }) => <Ionicons name="cube-outline" size={size} color={color} />,
+                }}
+            />
+            <Tabs.Screen 
+                name="Routines" 
+                component={RoutinesScreen}
+                options={{
+                    tabBarIcon: ({ color, size }) => <Ionicons name="list-outline" size={size} color={color} />,
+                }}
+            />
+            <Tabs.Screen 
+                name="Profile" 
+                component={ProfileScreen}
+                options={{
+                    tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" size={size} color={color} />,
+                }}
+            />
         </Tabs.Navigator>
 
         );
