@@ -5,7 +5,7 @@ export default function ProductCard({ product }) {
     const navigation = useNavigation();
 
     const productPressHandler = () => {
-        navigation.navigate('ProductDetails', {id: product.id})
+        navigation.navigate('Product Details', {id: product.id})
     }
 
     return (

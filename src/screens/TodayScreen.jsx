@@ -1,51 +1,56 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import CalendarStrip from 'react-native-calendar-strip';
-import LinearGradient from 'react-native-linear-gradient';
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { styles } from '../../styles';
+
 
 export default function TodayScreen() {
     return (
-        <View style={styles.container}>
-            {/* Header */}
-            <View
-                style={styles.header}
-            >
-                <View style={styles.headerContent}>
-                    <View style={currStyles.avatar}></View>
-                    <View>
-                        <Text style={styles.title}>Hey you!</Text>
-                        <Text style={currStyles.dateText}>January 27, Tuesday</Text>
+        <SafeAreaProvider>
+
+        
+            <SafeAreaView style={styles.container}>
+                {/* Header */}
+                <View
+                    style={styles.header}
+                >
+                    <View style={styles.headerContent}>
+                        <View style={currStyles.avatar}></View>
+                        <View>
+                            <Text style={styles.title}>Hey you!</Text>
+                            <Text style={currStyles.dateText}>January 27, Tuesday</Text>
+                        </View>
                     </View>
                 </View>
-            </View>
 
-            {/* Calendar */}
-            <CalendarStrip
-                scrollable
-                style={currStyles.calendar}
-                calendarColor="transparent"
-                calendarHeaderStyle={{color: '#F39EB6', fontSize: 20}}
-                highlightDateNumberStyle={currStyles.highlightDateNumber}
-                highlightDateNameStyle={currStyles.highlightDateName}
-                dateNumberStyle={currStyles.dateNumber}
-                dateNameStyle={currStyles.dateName}
-                iconContainer={{ flex: 0.1 }}
-                selectedDate={new Date()}
-            />
+                {/* Calendar */}
+                <CalendarStrip
+                    scrollable
+                    style={currStyles.calendar}
+                    calendarColor="transparent"
+                    calendarHeaderStyle={{color: '#F39EB6', fontSize: 20}}
+                    highlightDateNumberStyle={currStyles.highlightDateNumber}
+                    highlightDateNameStyle={currStyles.highlightDateName}
+                    dateNumberStyle={currStyles.dateNumber}
+                    dateNameStyle={currStyles.dateName}
+                    iconContainer={{ flex: 0.1 }}
+                    selectedDate={new Date()}
+                />
 
-            {/* Routine Section */}
-            <View style={currStyles.routineContainer}>
-                <View style={currStyles.routineHeader}>
-                    <Text style={currStyles.routineTitle}>Your daily routine</Text>
-                    <TouchableOpacity>
-                        <Text style={currStyles.editButton}>Edit routines </Text>
-                    </TouchableOpacity>
+                {/* Routine Section */}
+                <View style={currStyles.routineContainer}>
+                    <View style={currStyles.routineHeader}>
+                        <Text style={currStyles.routineTitle}>Your daily routine</Text>
+                        <TouchableOpacity>
+                            <Text style={currStyles.editButton}>Edit routines </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <Text style={currStyles.routineSubtitle}>
+                        Tap on a routine to complete
+                    </Text>
                 </View>
-                <Text style={currStyles.routineSubtitle}>
-                    Tap on a routine to complete
-                </Text>
-            </View>
-        </View>
+            </SafeAreaView>
+        </SafeAreaProvider>
     );
 }
 
