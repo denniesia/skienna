@@ -2,34 +2,37 @@ import { Text, View, StyleSheet, TextInput, ScrollView } from "react-native";
 import { styles } from "../../styles";
 import { products } from "../../data/products";
 import ProductCard from "../components/ProductCard";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 export default function ProductsScreen() {
     return (
-        <View style={styles.container}>
-            {/* Header */}
-            <View style={styles.header}>
-                <View style={styles.headerContent}>
-                    <Text style={styles.title}>My Products</Text>
+        <SafeAreaProvider>
+            <SafeAreaView style={[styles.container]}>
+                {/* Header */}
+                <View style={styles.header}>
+                    <View style={styles.headerContent}>
+                        <Text style={styles.title}>My Products</Text>
+                    </View>
                 </View>
-            </View>
 
-            {/* Search */}
-            <View style={currStyles.searchBar}>
-                <TextInput
-                    placeholder="Search"
-                    placeholderTextColor="#9A9A9A"
-                    style={currStyles.search}
-                />
-            </View>
+                {/* Search */}
+                <View style={currStyles.searchBar}>
+                    <TextInput
+                        placeholder="Search"
+                        placeholderTextColor="#9A9A9A"
+                        style={currStyles.search}
+                    />
+                </View>
 
-            <View style={currStyles.divider} />;
-            {/* Product List */}
-            <ScrollView contentContainerStyle={currStyles.listContainer}>
-                {products.map((product) => (
-                    <ProductCard key={product.id} product={product} />
-                ))}
-            </ScrollView>
-        </View>
+                <View style={currStyles.divider} />
+                {/* Product List */}
+                <ScrollView contentContainerStyle={currStyles.listContainer}>
+                    {products.map((product) => (
+                        <ProductCard key={product.id} product={product} />
+                    ))}
+                </ScrollView>
+            </SafeAreaView>
+        </SafeAreaProvider>
     );
 }
 
@@ -49,7 +52,7 @@ const currStyles = StyleSheet.create({
     },
     searchBar: {
         alignItems: 'center',
-    }, 
+    },
     divider: {
         height: 1,
         backgroundColor: "#EDEDED",

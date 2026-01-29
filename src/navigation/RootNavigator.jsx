@@ -1,12 +1,11 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import TodayNavigator from "./TodayNavigator";
-import ProductsScreen from "../screens/ProductsScreen";
+
 import RoutinesScreen from "../screens/RoutinesScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 
 import Ionicons from '@expo/vector-icons/Ionicons';
-
-
+import ProductNavigator from "./ProductNavigator";
 
 export default function RootNavigator() {
     const Tabs = createBottomTabNavigator();
@@ -25,14 +24,16 @@ export default function RootNavigator() {
                 options={{
                     tabBarIcon: ({ color, size }) => <Ionicons name="today-outline" size={size} color={color} />,
                     headerShown: false
+                    
                 }}
                
             />
             <Tabs.Screen 
                 name="Products"
-                component={ProductsScreen}
+                component={ProductNavigator}
                 options={{
                     tabBarIcon: ({ color, size }) => <Ionicons name="cube-outline" size={size} color={color} />,
+                    headerShown: false
                 }}
             />
             <Tabs.Screen 

@@ -1,8 +1,15 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { useRoute, useNavigation } from "@react-navigation/native";
+import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 
 export default function ProductCard({ product }) {
+    const navigation = useNavigation();
+
+    const productPressHandler = () => {
+        navigation.navigate('ProductDetails', {id: product.id})
+    }
+
     return (
-        <TouchableOpacity style={styles.card}>
+        <Pressable style={styles.card} onPress={productPressHandler}>
             <Image
                 source={{ uri: product.imageUrl }}
                 style={styles.image}
@@ -20,7 +27,7 @@ export default function ProductCard({ product }) {
 
 
             </View>
-        </TouchableOpacity>
+        </Pressable>
     );
 }
 

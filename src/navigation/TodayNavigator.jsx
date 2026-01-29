@@ -5,7 +5,7 @@ export default function TodayNavigator() {
     const Stack = createNativeStackNavigator();
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Today" component={TodayScreen} />
+            <Stack.Screen name="Today" component={TodayScreen}  />
         </Stack.Navigator>
     );
 };
