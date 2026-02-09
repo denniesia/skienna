@@ -10,36 +10,85 @@ import {
 	TouchableOpacity,
 	Image,
 	Button,
-	KeyboardAvoidingView
+	KeyboardAvoidingView,
+	Platform,
+	ActivityIndicator
 } from "react-native";
 import { styles } from "../../styles";
 
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
+import { useCameraPermissions, launchCameraAsync, useMediaLibraryPermissions, launchImageLibraryAsync } from "expo-image-picker";
 
 
 export default function AddProductScreen() {
+	const [status, requestPermission] = useCameraPermissions();
+	const [libraryStatus, requestLibraryPermission] = useMediaLibraryPermissions();
+
 	const [name, setName] = useState("");
+	const [brand, setBrand] = useState("")
+	const [image, setImage] = useState(null);
+	const [expiresInMonths, setExpiresInMonths] = useState("")
+	const [notes, setNotes] = useState("")
+
+ 	if (!status || !libraryStatus) {
+      return <ActivityIndicator/>
+    }
+
+	if (!status.granted) {
+		return (
+			<Button
+				title="Grant Camera Permission"
+				onPress={requestPermission}
+			/>
+		)
+	}
+
+	if (!libraryStatus.granted) {
+		return (
+			<Button
+				title="Grant Photo Permission"
+				onPress={requestLibraryPermission}
+			/>
+		)
+	}
 
 	return (
-
+	
 		<SafeAreaProvider>
 			<SafeAreaView style={styles.container}>
+				
 				<ScrollView>
 					<View style={currStyles.container}>
 						<View style={currStyles.topRow}>
 							<View>
 								<Image 
-									source={require('../../assets/photo_placeholder.jpg')}
+									source={image ? { uri : image} : require('../../assets/photo_placeholder.jpg')}
 									style={currStyles.photo}
 							
 								/>
 								<View style={currStyles.photoBtns}>
-									<TouchableOpacity style={currStyles.uploadPhotoBtn}>
+									<TouchableOpacity 
+										style={currStyles.uploadPhotoBtn}
+										onPress={async() => {
+											const result = await launchImageLibraryAsync({});
+
+											if (!result.canceled) {
+												setImage(result.assets[0].uri)
+											}
+										}}
+									>
 										<Text style={currStyles.btnText}>Upload Photo</Text>
 									</TouchableOpacity>
 
-									<TouchableOpacity style={currStyles.takePhotoBtn}>
+									<TouchableOpacity 
+										style={currStyles.takePhotoBtn} 
+										onPress={async() => {
+											const result = await launchCameraAsync({quality: 0.5});
+											if (!result.canceled) {
+												setImage(result.assets[0].uri);
+											}
+										}}>
 										<Text style={currStyles.btnText}>Take Photo</Text>
 									</TouchableOpacity>
 								</View>
@@ -49,12 +98,22 @@ export default function AddProductScreen() {
 							<View style={{paddingTop: 20, width: '48%'}}>
 								<View style={currStyles.inputCont}>
 									<Text style={currStyles.label}>Product Name:</Text>
-									<TextInput placeholder="Hydrating Cleanser" style={currStyles.input} />
+									<TextInput 
+										placeholder="Hydrating Cleanser" 
+										style={currStyles.input} 
+										value={name}
+										onChangeText={setName}
+									/>
 								</View>
 								
 								<View style={currStyles.inputCont}>
 									<Text style={currStyles.label}>Product Brand:</Text>
-									<TextInput placeholder="CeraVe" style={currStyles.input} />
+									<TextInput 
+										placeholder="CeraVe" 
+										style={currStyles.input} 
+										value={brand}
+										onChangeText={setBrand}
+									/>
 								</View>
 								
 							</View>
@@ -65,7 +124,7 @@ export default function AddProductScreen() {
 							<View style={{paddingTop: 20, width: '100%'}}>
 								<View style={currStyles.inputCont}>
 									<Text style={currStyles.label}>Category:</Text>
-									<TextInput placeholder="Hydrating Cleanser" style={currStyles.input} />
+									<TextInput placeholder="Cleanser" style={currStyles.input} />
 								</View>
 								
 								<View style={currStyles.inputCont}>
@@ -78,11 +137,25 @@ export default function AddProductScreen() {
 								</View>
 								<View style={currStyles.inputCont}>
 									<Text style={currStyles.label}>Expire in (months):</Text>
-									<TextInput placeholder="CeraVe" style={currStyles.input} />
+									
+									<TextInput 
+										placeholder="12" 
+										style={currStyles.input} 
+										keyboardType="numeric"
+										value={expiresInMonths}
+										onChangeText={setExpiresInMonths}
+									/>
+									
+									
 								</View>
 								<View style={currStyles.inputCont}>
 									<Text style={currStyles.label}>Notes:</Text>
-									<TextInput placeholder="CeraVe" style={currStyles.input} />
+									<TextInput 
+										placeholder="CeraVe" 
+										style={currStyles.input} 
+										value={notes}
+										onChangeText={setNotes}
+									/>
 								</View>
 								
 							</View>
@@ -98,10 +171,12 @@ export default function AddProductScreen() {
 							</TouchableOpacity>
 						</View> 
 					</View>
+					
 			</ScrollView>
+			
 			</SafeAreaView>
 		</SafeAreaProvider>
-
+	
 	);
 }
 
@@ -112,8 +187,7 @@ const currStyles = StyleSheet.create({
 	photo: {
 		width: 180,
 		height: 180,
-		borderRadius: 30,
-
+		borderRadius: 20,
 	},
 	photoBtns: {
 		flexDirection: 'row',
@@ -121,13 +195,13 @@ const currStyles = StyleSheet.create({
 		marginTop: 5,
 	},
 	uploadPhotoBtn: {
-		padding: 10,
+		padding: 7,
 		backgroundColor: 'pink',
 		borderRadius: 10,
 		
 	},
 	takePhotoBtn: {
-		padding: 10,
+		padding: 7,
 		backgroundColor: 'pink',
 		borderRadius: 10,
 	},
@@ -136,7 +210,7 @@ const currStyles = StyleSheet.create({
 	},
 	topRow: {
 		flexDirection: 'row',
-		gap: 8
+		gap: 10
 	},
 	inputCont: {
 		marginBottom: 15,
