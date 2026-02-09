@@ -9,7 +9,8 @@ import {
 	ScrollView,
 	TouchableOpacity,
 	Image,
-	Button
+	Button,
+	KeyboardAvoidingView
 } from "react-native";
 import { styles } from "../../styles";
 
@@ -24,69 +25,80 @@ export default function AddProductScreen() {
 
 		<SafeAreaProvider>
 			<SafeAreaView style={styles.container}>
+				<ScrollView>
+					<View style={currStyles.container}>
+						<View style={currStyles.topRow}>
+							<View>
+								<Image 
+									source={require('../../assets/photo_placeholder.jpg')}
+									style={currStyles.photo}
+							
+								/>
+								<View style={currStyles.photoBtns}>
+									<TouchableOpacity style={currStyles.uploadPhotoBtn}>
+										<Text style={currStyles.btnText}>Upload Photo</Text>
+									</TouchableOpacity>
 
-				<View>
-					<View style={currStyles.card}>
-						<View style={currStyles.container}>
-
-							{/* Top Row: Image (left) + Name/Brand (right) */}
-							<View style={currStyles.topRow}>
-
-								{/* LEFT: Product Image + Buttons */}
-								<View style={currStyles.imageSection}>
-									<Image source={require("../../assets/icon.png")}
-										// ''			'imageUri ? { uri: imageUri } : require("../../assets/icon.png")'
-
-										style={currStyles.productImage}
-									/>
-
-									<View style={currStyles.imageButtons}>
-										<Button title="Add Photo" onPress={() => console.log('image')} />
-										<Button title="Remove" onPress={() => console.log('set image')} />
-									</View>
+									<TouchableOpacity style={currStyles.takePhotoBtn}>
+										<Text style={currStyles.btnText}>Take Photo</Text>
+									</TouchableOpacity>
 								</View>
-
-								{/* RIGHT: Name + Brand */}
-								<View style={currStyles.nameBrandSection}>
-									<TextInput placeholder="Product Name" style={currStyles.input} />
-									<TextInput placeholder="Brand" style={currStyles.input} />
-								</View>
-
+								
 							</View>
-
-							{/* Other Fields */}
-							{/* <TextInput placeholder="Product ID (e.g. sk-001)" style={currStyles.input} />
-							<TextInput placeholder="Category (Cleanser, Serum...)" style={currStyles.input} />
-							<TextInput placeholder="Image URL" style={currStyles.input} />
-							<TextInput placeholder="Routines (morning, evening)" style={currStyles.input} />
-							<TextInput placeholder="Opened At (YYYY-MM-DD)" style={currStyles.input} />
-
-							<TextInput
-								placeholder="Expires After (months)"
-								keyboardType="numeric"
-								style={currStyles.input}
-							/>
-
-							<TextInput
-								placeholder="Notes"
-								style={[currStyles.input, currStyles.textArea]}
-								multiline
-							/> */}
+							
+							<View style={{paddingTop: 20, width: '48%'}}>
+								<View style={currStyles.inputCont}>
+									<Text style={currStyles.label}>Product Name:</Text>
+									<TextInput placeholder="Hydrating Cleanser" style={currStyles.input} />
+								</View>
+								
+								<View style={currStyles.inputCont}>
+									<Text style={currStyles.label}>Product Brand:</Text>
+									<TextInput placeholder="CeraVe" style={currStyles.input} />
+								</View>
+								
+							</View>
+						
 						</View>
 
-
-						{/* <View style={currStyles.buttonRow}>
+						<View>
+							<View style={{paddingTop: 20, width: '100%'}}>
+								<View style={currStyles.inputCont}>
+									<Text style={currStyles.label}>Category:</Text>
+									<TextInput placeholder="Hydrating Cleanser" style={currStyles.input} />
+								</View>
+								
+								<View style={currStyles.inputCont}>
+									<Text style={currStyles.label}>Routine:</Text>
+									<TextInput placeholder="CeraVe" style={currStyles.input} />
+								</View>
+								<View style={currStyles.inputCont}>
+									<Text style={currStyles.label}>Opened on:</Text>
+									<TextInput placeholder="CeraVe" style={currStyles.input} />
+								</View>
+								<View style={currStyles.inputCont}>
+									<Text style={currStyles.label}>Expire in (months):</Text>
+									<TextInput placeholder="CeraVe" style={currStyles.input} />
+								</View>
+								<View style={currStyles.inputCont}>
+									<Text style={currStyles.label}>Notes:</Text>
+									<TextInput placeholder="CeraVe" style={currStyles.input} />
+								</View>
+								
+							</View>
+						</View>
+						
+						<View style={currStyles.buttonRow}>
 							<TouchableOpacity style={currStyles.cancelBtn}>
-								<Text style={currStyles.cancelText}>Cancel</Text>
+								<Text style={currStyles.endBtnText}>Cancel</Text>
 							</TouchableOpacity>
 
 							<TouchableOpacity style={currStyles.saveBtn}>
-								<Text style={currStyles.saveText}>Save</Text>
+								<Text style={currStyles.endBtnText}>Save</Text>
 							</TouchableOpacity>
-						</View> */}
+						</View> 
 					</View>
-				</View>
-
+			</ScrollView>
 			</SafeAreaView>
 		</SafeAreaProvider>
 
@@ -94,122 +106,79 @@ export default function AddProductScreen() {
 }
 
 const currStyles = StyleSheet.create({
-
-
-	card: {
-		flex: 1,
-
-		borderRadius: 24,
-		padding: 10,
-
-		// iOS shadow
-		shadowColor: "#000",
-		shadowOpacity: 0.08,
-		shadowRadius: 10,
-		shadowOffset: { width: 0, height: 4 },
-
-		// Android shadow
-		elevation: 5,
-	},
-
-	title: {
-		fontSize: 22,
-		fontWeight: "700",
-		textAlign: "center",
-		marginBottom: 16,
-		color: "#2D2D2D",
-	},
-
-	input: {
-		backgroundColor: "#F4F4F6",
-		borderRadius: 12,
-		padding: 14,
-		marginBottom: 12,
-		fontSize: 15,
-		borderWidth: 1,
-		borderColor: "#E5E5E5",
-	},
-
-	textArea: {
-		height: 90,
-		textAlignVertical: "top",
-	},
-
-	buttonRow: {
-		flexDirection: "row",
-		gap: 12,
-		marginTop: 12,
-	},
-
-	cancelBtn: {
-		flex: 1,
-		backgroundColor: "#EFEFEF",
-		paddingVertical: 14,
-		borderRadius: 14,
-		alignItems: "center",
-	},
-
-	saveBtn: {
-		flex: 1,
-		backgroundColor: "#F39EB6",
-		paddingVertical: 14,
-		borderRadius: 14,
-		alignItems: "center",
-	},
-
-	cancelText: {
-		fontWeight: "600",
-		color: "#555",
-	},
-
-	saveText: {
-		fontWeight: "700",
-		color: "#fff",
-	},
 	container: {
-		flexDirection: 'column',
-		padding: 16,
+		padding: 10
 	},
+	photo: {
+		width: 180,
+		height: 180,
+		borderRadius: 30,
 
-	topRow: {
-		flexDirection: "row",
-		gap: 12,
-		marginBottom: 12,
 	},
-
-	imageSection: {
-		alignItems: "center",
+	photoBtns: {
+		flexDirection: 'row',
+		gap: 5,
+		marginTop: 5,
 	},
-
-	productImage: {
-		width: 120,
-		height: 120,
+	uploadPhotoBtn: {
+		padding: 10,
+		backgroundColor: 'pink',
 		borderRadius: 10,
-		backgroundColor: "#eee",
+		
 	},
-
-	imageButtons: {
-		marginTop: 8,
-		width: 120,
-		gap: 6,
+	takePhotoBtn: {
+		padding: 10,
+		backgroundColor: 'pink',
+		borderRadius: 10,
 	},
-
-	nameBrandSection: {
-		flex: 1,
-		justifyContent: "center",
+	btnText: {
+		color: '#ffff'
 	},
-
+	topRow: {
+		flexDirection: 'row',
+		gap: 8
+	},
+	inputCont: {
+		marginBottom: 15,
+	},
+	label: {
+		color: '#FF69B4',
+		fontSize: 18,
+		marginBottom: 10,
+	},
 	input: {
 		borderWidth: 1,
 		borderColor: "#ccc",
 		padding: 10,
 		borderRadius: 8,
-		marginBottom: 10,
+		marginBottom: 5,
 	},
+	buttonRow: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		gap: 10,
+		marginBottom: 10
 
-	textArea: {
-		height: 80,
-		textAlignVertical: "top",
 	},
+	cancelBtn: {
+		padding: 10,
+		width:'40%',
+		backgroundColor: '#F2BED1',
+		borderRadius: 10,
+	
+
+	},
+	saveBtn: {
+		padding: 10,
+		width:'40%',
+		backgroundColor: '#F39EB6',
+		borderRadius: 10,
+	},
+	endBtnText: {
+		color: 'white',
+		fontSize: 22,
+		textAlign: 'center'
+	}
+	
 
 });
