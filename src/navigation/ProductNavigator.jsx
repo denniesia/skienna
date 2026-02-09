@@ -4,6 +4,7 @@ import ProductDetailsScreen from "../screens/ProductDetailsScreen";
 import { Ionicons } from "@expo/vector-icons";
 
 import { Pressable } from "react-native";
+import AddProductScreen from "../screens/AddProductScreen";
 
 export default function ProductNavigator({ navigation }) {
     const Stack = createNativeStackNavigator();
@@ -21,6 +22,17 @@ export default function ProductNavigator({ navigation }) {
             <Stack.Screen
                 name="Product Details"
                 component={ProductDetailsScreen}
+                options={{
+                    headerShown: true,
+                    headerTintColor: '#F39EB6',
+                    headerTitleStyle: {fontSize: 20},
+                    headerBackVisible: true,
+                    headerBackButtonDisplayMode: 'minimal'
+                }}
+            />
+            <Stack.Screen
+                name="Add Product"
+                component={AddProductScreen}
                 options={{
                     headerShown: true,
                     headerTintColor: '#F39EB6',
