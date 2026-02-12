@@ -14,7 +14,7 @@ import {
 	Platform,
 	ActivityIndicator
 } from "react-native";
-import { styles } from "../../styles";
+import { styles } from "../../../styles";
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";

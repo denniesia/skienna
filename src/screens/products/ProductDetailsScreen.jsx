@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { products } from "../../data/products";
+import { products } from "../../../data/products";
 
 export default function ProductDetailsScreen({ route }) {
     const product = products.find(p => p.id === route.params.id);

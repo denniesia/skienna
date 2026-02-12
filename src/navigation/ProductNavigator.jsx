@@ -1,10 +1,11 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import ProductsScreen from "../screens/ProductsScreen";
-import ProductDetailsScreen from "../screens/ProductDetailsScreen";
+
+import ProductDetailsScreen from "../screens/products/ProductDetailsScreen";
 import { Ionicons } from "@expo/vector-icons";
 
 import { Pressable } from "react-native";
-import AddProductScreen from "../screens/AddProductScreen";
+import AddProductScreen from "../screens/products/AddProductScreen";
+import ProductsScreen from "../screens/products/ProductsScreen";
 
 export default function ProductNavigator({ navigation }) {
     const Stack = createNativeStackNavigator();

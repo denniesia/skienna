@@ -1,7 +1,7 @@
 import { Text, View, StyleSheet, TextInput, ScrollView, Pressable, TouchableOpacity } from "react-native";
-import { styles } from "../../styles";
-import { products } from "../../data/products";
-import ProductCard from "../components/ProductCard";
+import { styles } from "../../../styles";
+import { products } from "../../../data/products";
+import ProductCard from "../../components/ProductCard";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons';
