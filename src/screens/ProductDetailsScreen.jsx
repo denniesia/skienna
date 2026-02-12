@@ -1,124 +1,218 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
-
-
-
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { products } from "../../data/products";
 
-
-
 export default function ProductDetailsScreen({ route }) {
-    const product = products.find(p => p.id === route.params.id)
+    const product = products.find(p => p.id === route.params.id);
 
     return (
         <SafeAreaProvider>
-            <SafeAreaView>          
-                
-                   <Image
-                        source={{ uri: product.imageUrl }}
-                        style={styles.image}
-                        resizeMode="cover"
-                    />
+            <SafeAreaView style={styles.container}>
+                <ScrollView>
 
-                  
-                   <View style={styles.infoContainer}>
-                        <Text style={styles.name}>{product.name}</Text>
-                        <Text style={styles.brand}>{product.brand}</Text>
-                        <Text style={styles.category}>{product.category}</Text> 
+                    <Image source={{ uri: product.imageUrl }} style={styles.heroImage} />
 
-                       
-                        <View style={styles.routineContainer}>
-                            {product.routines.map((routine) => (
-                                <Text key={routine} style={styles.routineBadge}>
-                                    {routine.toUpperCase()}
-                                </Text>
+                    <View style={styles.overlayCard}>
+                        <Text style={styles.title}>{product.name}</Text>
+                        <Text style={styles.subtitle}>{product.brand} • {product.category}</Text>
+
+                        <View style={styles.tags}>
+                            {product.routines.map(r => (
+                                <Text key={r} style={styles.tag}>{r}</Text>
                             ))}
                         </View>
 
-                     
-                       <Text style={styles.sectionTitle}>Notes</Text>
-                        <Text style={styles.notes}>{product.notes}</Text>  
+                        <Text style={styles.notes}>{product.notes}</Text>
 
-                    
-                  <Text style={styles.sectionTitle}>Dates</Text>
-                        <Text style={styles.dates}>
-                            Opened At: {product.openedAt}
-                        </Text>
-                        <Text style={styles.dates}>
-                            Expires After: {product.expiresAfterMonths} months
-                        </Text>
-                        <Text style={styles.dates}>
-                            Created At: {product.createdAt}
-                        </Text> 
-                    </View> 
-               
-           
-              
-              
+                        <View style={styles.dateGrid}>
+                            <View style={styles.dateBox}>
+                                <Text style={styles.dateLabel}>Opened</Text>
+                                <Text style={styles.dateValue}>{product.openedAt}</Text>
+                            </View>
+
+                            <View style={styles.dateBox}>
+                                <Text style={styles.dateLabel}>Expires</Text>
+                                <Text style={styles.dateValue}>{product.expiresAfterMonths}m</Text>
+                            </View>
+
+                            <View style={styles.dateBox}>
+                                <Text style={styles.dateLabel}>Created</Text>
+                                <Text style={styles.dateValue}>{product.createdAt}</Text>
+                            </View>
+                        </View>
+                    </View>
+
+
+                </ScrollView>
             </SafeAreaView>
         </SafeAreaProvider>
     );
-};
-
+}
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: "#f8fafc",
     },
+
     image: {
         width: "100%",
-        height: 300,
+        height: 280,
+        borderBottomLeftRadius: 24,
+        borderBottomRightRadius: 24,
     },
-    infoContainer: {
-        padding: 16,
+
+    infoCard: {
+        backgroundColor: "#fff",
+        margin: 16,
+        padding: 18,
+        borderRadius: 20,
+        shadowColor: "#000",
+        shadowOpacity: 0.05,
+        shadowRadius: 12,
+        elevation: 4,
     },
+
     name: {
-        fontSize: 24,
+        fontSize: 22,
         fontWeight: "700",
-        marginBottom: 4,
-        color: "#111",
+        color: '#FF69B4',
     },
+
     brand: {
-        fontSize: 16,
+        fontSize: 15,
         fontWeight: "500",
-        color: "#555",
+        color: "#475569",
+        marginTop: 2,
     },
+
     category: {
-        fontSize: 14,
-        color: "#888",
+        fontSize: 13,
+        color: "#94a3b8",
         marginBottom: 12,
     },
+
     routineContainer: {
         flexDirection: "row",
+        flexWrap: "wrap",
         gap: 8,
         marginBottom: 16,
     },
+
     routineBadge: {
-        backgroundColor: "#ffe4e1",
-        color: "#d6336c",
-        paddingVertical: 4,
-        paddingHorizontal: 8,
-        borderRadius: 12,
+        backgroundColor: "#f1f5f9",
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        borderRadius: 999,
+        borderWidth: 1,
+        borderColor: "#e2e8f0",
+    },
+
+    routineText: {
         fontSize: 12,
         fontWeight: "600",
+        color: "#0f172a",
     },
+
+    section: {
+        marginTop: 12,
+    },
+
     sectionTitle: {
         fontSize: 16,
         fontWeight: "600",
-        marginTop: 12,
-        marginBottom: 4,
-        color: "#111",
+        color: "#0f172a",
+        marginBottom: 6,
     },
+
     notes: {
         fontSize: 14,
-        lineHeight: 20,
-        color: "#333",
+        lineHeight: 22,
+        color: "#334155",
+    },
+
+    dateRow: {
+        fontSize: 13,
+        color: "#64748b",
+        marginBottom: 3,
+    },
+    heroImage: {
+        width: "100%",
+        height: 340,
+        borderBottomLeftRadius: 40,
+        borderBottomRightRadius: 40,
+    },
+
+    overlayCard: {
+        marginTop: -60,
+        backgroundColor: "#ffffffee",
+        marginHorizontal: 16,
+        padding: 20,
+        borderRadius: 28,
+        shadowColor: "#000",
+        shadowOpacity: 0.15,
+        shadowRadius: 20,
+        elevation: 10,
+    },
+
+    title: {
+        fontSize: 26,
+        fontWeight: "800",
+        color: '#f376b4',
+    },
+
+    subtitle: {
+        fontSize: 14,
+        color: "#64748b",
         marginBottom: 12,
     },
-    dates: {
-        fontSize: 13,
-        color: "#666",
-        marginBottom: 2,
+
+    tags: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        gap: 8,
+        marginBottom: 12,
     },
+
+    tag: {
+        backgroundColor: '#f376b4',
+        color: "white",
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderRadius: 20,
+        fontSize: 12,
+        fontWeight: "600",
+    },
+
+    notes: {
+        fontSize: 14,
+        color: "#334155",
+        lineHeight: 22,
+        marginBottom: 16,
+    },
+
+    dateGrid: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+    },
+
+    dateBox: {
+        backgroundColor: "#f1f5f9",
+        padding: 12,
+        borderRadius: 16,
+        alignItems: "center",
+        width: "30%",
+    },
+
+    dateLabel: {
+        fontSize: 12,
+        color: "#64748b",
+    },
+
+    dateValue: {
+        fontSize: 13,
+        fontWeight: "700",
+        color: '#F2BED1',
+    },
+
 });

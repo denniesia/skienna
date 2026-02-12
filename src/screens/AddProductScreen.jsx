@@ -15,10 +15,10 @@ import {
 	ActivityIndicator
 } from "react-native";
 import { styles } from "../../styles";
-
+import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
-import { useCameraPermissions, launchCameraAsync, useMediaLibraryPermissions, launchImageLibraryAsync } from "expo-image-picker";
+import { useCameraPermissions, launchCameraAsync, useMediaLibraryPermissions, launchImageLibraryAsync, ImagePicker } from "expo-image-picker";
 
 
 export default function AddProductScreen() {
@@ -27,7 +27,7 @@ export default function AddProductScreen() {
 
 	const [name, setName] = useState("");
 	const [brand, setBrand] = useState("")
-	const [image, setImage] = useState(null);
+	const [imageUri, setImageUri] = useState(null);
 	const [expiresInMonths, setExpiresInMonths] = useState("")
 	const [notes, setNotes] = useState("")
 
@@ -53,6 +53,15 @@ export default function AddProductScreen() {
 		)
 	}
 
+	const pickImageHandler = async () => {
+		const result = await launchImageLibraryAsync({});
+
+			if (!result.canceled) {
+				setImageUri(result.assets[0].uri)
+			}
+		
+	}
+	
 	return (
 	
 		<SafeAreaProvider>
@@ -61,12 +70,26 @@ export default function AddProductScreen() {
 				<ScrollView>
 					<View style={currStyles.container}>
 						<View style={currStyles.topRow}>
-							<View>
-								<Image 
+							<View>	
+								 <TouchableOpacity style={currStyles.picker} onPress={pickImageHandler}>
+									{imageUri
+										? <Image source={{ uri: imageUri }} style={currStyles.image} />
+										: (
+											<View style={currStyles.placeholder}>
+												<Ionicons name="images-outline" size={48} color="#94a3b8" />
+												<Text style={currStyles.placeholderText}>Tap to select from gallery</Text>
+											</View>
+										)}
+								</TouchableOpacity>
+
+
+
+
+								{/* <Image 
 									source={image ? { uri : image} : require('../../assets/photo_placeholder.jpg')}
 									style={currStyles.photo}
 							
-								/>
+								/> */}
 								<View style={currStyles.photoBtns}>
 									<TouchableOpacity 
 										style={currStyles.uploadPhotoBtn}
@@ -74,7 +97,7 @@ export default function AddProductScreen() {
 											const result = await launchImageLibraryAsync({});
 
 											if (!result.canceled) {
-												setImage(result.assets[0].uri)
+												setImageUri(result.assets[0].uri)
 											}
 										}}
 									>
@@ -84,9 +107,11 @@ export default function AddProductScreen() {
 									<TouchableOpacity 
 										style={currStyles.takePhotoBtn} 
 										onPress={async() => {
-											const result = await launchCameraAsync({quality: 0.5});
+											const result = await launchCameraAsync({
+												quality: 0.5, 
+											});
 											if (!result.canceled) {
-												setImage(result.assets[0].uri);
+												setImageUri(result.assets[0].uri);
 											}
 										}}>
 										<Text style={currStyles.btnText}>Take Photo</Text>
@@ -95,7 +120,7 @@ export default function AddProductScreen() {
 								
 							</View>
 							
-							<View style={{paddingTop: 20, width: '48%'}}>
+							<View style={{paddingTop: 20, width: '45%'}}>
 								<View style={currStyles.inputCont}>
 									<Text style={currStyles.label}>Product Name:</Text>
 									<TextInput 
@@ -252,7 +277,32 @@ const currStyles = StyleSheet.create({
 		color: 'white',
 		fontSize: 22,
 		textAlign: 'center'
-	}
+	},
+	image: {
+        width: '100%',
+        height: '100%',
+    },
+	placeholder: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 8,
+    },
+	 placeholderText: {
+        fontSize: 14,
+        color: '#94a3b8',
+        fontWeight: '500',
+    },
+	 picker: {
+        width: '100%',
+        height: 200,
+        borderRadius: 16,
+        overflow: 'hidden',
+        backgroundColor: '#f1f5f9',
+        borderWidth: 2,
+        borderColor: '#e2e8f0',
+        borderStyle: 'dashed',
+    },
 	
 
 });

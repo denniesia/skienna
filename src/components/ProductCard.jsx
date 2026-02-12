@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 18,
         fontWeight: "600",
-        color: "#FFAAB8",
+        color: '#f376b4',
     },
     meta: {
         fontSize: 14,

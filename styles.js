@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
      title: {
-        color: '#F39EB6',
+        color: '#f376b4',
         fontSize: 24,
         fontWeight: '700',
     },
