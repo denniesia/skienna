@@ -21,4 +21,49 @@ export const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: '700',
     },
+     search: {
+        height: 40,
+        borderRadius: 20,
+        backgroundColor: "#fff",
+        paddingHorizontal: 12,
+        color: "#FFAAB8",
+        fontSize: 18,
+        width: '95%',
+        borderWidth: 1,
+        borderColor: '#F39EB6',
+        marginBottom: 12,
+
+    },
+    searchBar: {
+        alignItems: 'center',
+    },
+    divider: {
+        height: 1,
+        backgroundColor: "#EDEDED",
+        marginVertical: 10,
+    },
+    iconContainer: {
+        flexDirection: "row",
+        gap: 28, 
+    },
+    noItemContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 50,
+  },
+  noItemText: {
+    fontSize: 22,
+    color: '#555',
+    fontWeight: '600',
+    marginTop: 10,
+  },
+  suggestionText: {
+    fontSize: 18,
+    color: '#F39EB6',
+    marginTop: 10,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    paddingHorizontal: 20,
+  },
+
 })

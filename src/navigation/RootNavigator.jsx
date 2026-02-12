@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import TodayNavigator from "./TodayNavigator";
 
-import RoutinesScreen from "../screens/RoutinesScreen";
+import RoutinesScreen from "../screens/routines/RoutinesScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -16,6 +16,7 @@ export default function RootNavigator() {
             screenOptions={{
                 tabBarActiveTintColor: '#E68BBE',
                 tabBarInactiveTintColor: '#aaa',
+                headerShown: false
             }}
         >
             <Tabs.Screen 
@@ -23,8 +24,7 @@ export default function RootNavigator() {
                 component={TodayNavigator}
                 options={{
                     tabBarIcon: ({ color, size }) => <Ionicons name="today-outline" size={size} color={color} />,
-                    headerShown: false 
-                    
+                   
                 }}
                
             />
@@ -33,7 +33,7 @@ export default function RootNavigator() {
                 component={ProductNavigator}
                 options={{
                     tabBarIcon: ({ color, size }) => <Ionicons name="cube-outline" size={size} color={color} />,
-                    headerShown: false
+
                 }}
             />
             <Tabs.Screen 
