@@ -5,13 +5,13 @@ export default function ProductCard({ product }) {
     const navigation = useNavigation();
 
     const productPressHandler = () => {
-        navigation.navigate('Product Details', { id: product.id })
+        navigation.navigate('Product Details', { product })
     }
 
     return (
         <Pressable style={styles.card} onPress={productPressHandler}>
             <Image
-                source={{ uri: product.imageUrl }}
+                source={{ uri: product.imageUri }}
                 style={styles.image}
                 resizeMode="cover"   
             />

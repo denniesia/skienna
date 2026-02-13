@@ -12,13 +12,18 @@ import {
 	Button,
 	KeyboardAvoidingView,
 	Platform,
-	ActivityIndicator
+	ActivityIndicator,
+	Alert
 } from "react-native";
 import { styles } from "../../../styles";
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import { useCameraPermissions, launchCameraAsync, useMediaLibraryPermissions, launchImageLibraryAsync, ImagePicker } from "expo-image-picker";
+
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../../FirebaseConfig";
+
 
 
 export default function AddProductScreen() {
@@ -30,6 +35,8 @@ export default function AddProductScreen() {
 	const [imageUri, setImageUri] = useState(null);
 	const [expiresInMonths, setExpiresInMonths] = useState("")
 	const [notes, setNotes] = useState("")
+
+	const productsCollection = collection(db, "products")
 
  	if (!status || !libraryStatus) {
       return <ActivityIndicator/>
@@ -60,6 +67,39 @@ export default function AddProductScreen() {
 				setImageUri(result.assets[0].uri)
 			}
 		
+	}
+	const addProductHandler = async() => {
+		if (!name || !brand || !imageUri) {
+			Alert.alert('Error', 'Please provide more info!');
+			return;
+		}
+
+		try {
+			const today = new Date();
+			
+			const formattedDate = today.toLocaleDateString('en-GB', {
+			day: 'numeric',
+			month: 'long',
+			year: 'numeric',
+			});
+			
+
+
+			await addDoc(productsCollection, {
+				name,
+				imageUri, 
+				brand,
+				createdAt: formattedDate,
+			});
+			setName('');
+			setBrand('');
+		} catch(error) {
+			console.error('Error adding product', error);
+			Alert.alert('Error', 'Failed to add new product')
+
+		}
+
+
 	}
 	
 	return (
@@ -191,7 +231,7 @@ export default function AddProductScreen() {
 								<Text style={currStyles.endBtnText}>Cancel</Text>
 							</TouchableOpacity>
 
-							<TouchableOpacity style={currStyles.saveBtn}>
+							<TouchableOpacity style={currStyles.saveBtn} onPress={addProductHandler}>
 								<Text style={currStyles.endBtnText}>Save</Text>
 							</TouchableOpacity>
 						</View> 
