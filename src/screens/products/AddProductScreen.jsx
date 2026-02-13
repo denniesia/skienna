@@ -19,16 +19,17 @@ import { styles } from "../../../styles";
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
-import { useCameraPermissions, launchCameraAsync, useMediaLibraryPermissions, launchImageLibraryAsync, ImagePicker } from "expo-image-picker";
+import { useCameraPermissions, launchCameraAsync, useMediaLibraryPermissions, launchImageLibraryAsync } from "expo-image-picker";
 
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../../FirebaseConfig";
+import CameraCapture from "../../components/CameraCapture";
 
 
 
 export default function AddProductScreen() {
 	const [status, requestPermission] = useCameraPermissions();
-	const [libraryStatus, requestLibraryPermission] = useMediaLibraryPermissions();
+	
 
 	const [name, setName] = useState("");
 	const [brand, setBrand] = useState("")
@@ -38,7 +39,7 @@ export default function AddProductScreen() {
 
 	const productsCollection = collection(db, "products")
 
- 	if (!status || !libraryStatus) {
+ 	if (!status ) {
       return <ActivityIndicator/>
     }
 
@@ -51,23 +52,8 @@ export default function AddProductScreen() {
 		)
 	}
 
-	if (!libraryStatus.granted) {
-		return (
-			<Button
-				title="Grant Photo Permission"
-				onPress={requestLibraryPermission}
-			/>
-		)
-	}
-
-	const pickImageHandler = async () => {
-		const result = await launchImageLibraryAsync({});
-
-			if (!result.canceled) {
-				setImageUri(result.assets[0].uri)
-			}
-		
-	}
+	
+	
 	const addProductHandler = async() => {
 		if (!name || !brand || !imageUri) {
 			Alert.alert('Error', 'Please provide more info!');
@@ -98,8 +84,6 @@ export default function AddProductScreen() {
 			Alert.alert('Error', 'Failed to add new product')
 
 		}
-
-
 	}
 	
 	return (
@@ -111,19 +95,8 @@ export default function AddProductScreen() {
 					<View style={currStyles.container}>
 						<View style={currStyles.topRow}>
 							<View>	
-								 <TouchableOpacity style={currStyles.picker} onPress={pickImageHandler}>
-									{imageUri
-										? <Image source={{ uri: imageUri }} style={currStyles.image} />
-										: (
-											<View style={currStyles.placeholder}>
-												<Ionicons name="images-outline" size={48} color="#94a3b8" />
-												<Text style={currStyles.placeholderText}>Tap to select from gallery</Text>
-											</View>
-										)}
-								</TouchableOpacity>
-
-
-
+					
+							{/* <ImagePicker onImagePicked={setImageUri} imageUri={imageUri}/> */}
 
 								{/* <Image 
 									source={image ? { uri : image} : require('../../assets/photo_placeholder.jpg')}
@@ -144,18 +117,7 @@ export default function AddProductScreen() {
 										<Text style={currStyles.btnText}>Upload Photo</Text>
 									</TouchableOpacity>
 
-									<TouchableOpacity 
-										style={currStyles.takePhotoBtn} 
-										onPress={async() => {
-											const result = await launchCameraAsync({
-												quality: 0.5, 
-											});
-											if (!result.canceled) {
-												setImageUri(result.assets[0].uri);
-											}
-										}}>
-										<Text style={currStyles.btnText}>Take Photo</Text>
-									</TouchableOpacity>
+									<CameraCapture onPhotoTaken={setImageUri} />
 								</View>
 								
 							</View>
@@ -265,11 +227,7 @@ const currStyles = StyleSheet.create({
 		borderRadius: 10,
 		
 	},
-	takePhotoBtn: {
-		padding: 7,
-		backgroundColor: 'pink',
-		borderRadius: 10,
-	},
+	
 	btnText: {
 		color: '#ffff'
 	},
