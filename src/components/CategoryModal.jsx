@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { Modal, View, Text, TouchableOpacity, StyleSheet, Image, Pressable } from 'react-native';
 
 export default function CategoryModal({ visible, onClose, onSelectCategory }) {
     return (
@@ -9,11 +9,10 @@ export default function CategoryModal({ visible, onClose, onSelectCategory }) {
             animationType="fade"
             onRequestClose={onClose}
         >
-            <View style={styles.overlay}>
-                <View style={styles.modalContainer}>
-                    <Text style={styles.title}>Select a Category</Text>
+            <Pressable style={styles.overlay} onPress={onClose}>
 
-                    {/* Category Options */}
+                <Pressable style={styles.modalContainer} onPress={() => { }}>
+                    <Text style={styles.title}>Select a Category</Text>
                     <TouchableOpacity
                         style={styles.categoryCont}
                         onPress={() => onSelectCategory('Morning Routine')}
@@ -38,7 +37,9 @@ export default function CategoryModal({ visible, onClose, onSelectCategory }) {
 
                     <TouchableOpacity
                         style={styles.categoryCont}
-                        onPress={() => onSelectCategory('Night Routine')}
+
+
+                        onPress={() => onSelectCategory('Face Mask')}
                     >
                         <Image
                             source={require('../../assets/face_mask.png')}
@@ -46,9 +47,11 @@ export default function CategoryModal({ visible, onClose, onSelectCategory }) {
                         />
                         <Text style={styles.categoryText}>Face Mask</Text>
                     </TouchableOpacity>
+
                     <TouchableOpacity
                         style={styles.categoryCont}
-                        onPress={() => onSelectCategory('Night Routine')}
+
+                        onPress={() => onSelectCategory('Special')}
                     >
                         <Image
                             source={require('../../assets/special.png')}
@@ -56,15 +59,12 @@ export default function CategoryModal({ visible, onClose, onSelectCategory }) {
                         />
                         <Text style={styles.categoryText}>Special</Text>
                     </TouchableOpacity>
-                   
 
-                    {/* Close Button */}
-                    <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-                        <Text style={styles.closeText}>Cancel</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
+                </Pressable>
+
+            </Pressable>
         </Modal>
+
     );
 };
 
@@ -77,11 +77,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     modalContainer: {
-        width: '100%',
+        width: '95%',
         backgroundColor: '#fff', // clean white background
         borderRadius: 15,
         paddingVertical: 20,
-        paddingHorizontal: 15,
+        paddingHorizontal: 25,
         alignItems: 'center',
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 4 },
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         fontWeight: 'bold',
-        marginBottom: 20,
+        marginBottom: 10,
         color: '#FF69B4',
     },
     categoryCont: {
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     categoryText: {
         fontSize: 16,
         fontWeight: '500',
-        color: '#333',
+        color: '#575757',
     },
     closeButton: {
         marginTop: 20,
