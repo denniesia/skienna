@@ -54,7 +54,7 @@ export default function ProductsScreen({ navigation }) {
                             <ProductCard key={product.id} product={product} />
                             ))
                         ) : (
-                            <TouchableOpacity style={styles.noItemContainer}>
+                            <TouchableOpacity style={styles.noItemContainer} onPress={() => navigation.navigate('Add Product')}>
                                 <MaterialCommunityIcons name="flower-tulip-outline" size={40} color="#eb8f9e" />
                                 <Text style={styles.noItemText}>No products yet</Text>
                                 <Text style={styles.suggestionText}>
