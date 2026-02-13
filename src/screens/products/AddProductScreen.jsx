@@ -24,6 +24,7 @@ import { useCameraPermissions, launchCameraAsync, useMediaLibraryPermissions, la
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../../FirebaseConfig";
 import CameraCapture from "../../components/CameraCapture";
+import ImagePicker from "../../components/ImagePicker";
 
 
 
@@ -98,24 +99,12 @@ export default function AddProductScreen() {
 					
 							{/* <ImagePicker onImagePicked={setImageUri} imageUri={imageUri}/> */}
 
-								{/* <Image 
-									source={image ? { uri : image} : require('../../assets/photo_placeholder.jpg')}
+								<Image
+									source={imageUri ? { uri: imageUri } : require('../../../assets/photo_placeholder.jpg')}
 									style={currStyles.photo}
-							
-								/> */}
+								/>
 								<View style={currStyles.photoBtns}>
-									<TouchableOpacity 
-										style={currStyles.uploadPhotoBtn}
-										onPress={async() => {
-											const result = await launchImageLibraryAsync({});
-
-											if (!result.canceled) {
-												setImageUri(result.assets[0].uri)
-											}
-										}}
-									>
-										<Text style={currStyles.btnText}>Upload Photo</Text>
-									</TouchableOpacity>
+									<ImagePicker onImagePicked={setImageUri} />
 
 									<CameraCapture onPhotoTaken={setImageUri} />
 								</View>
