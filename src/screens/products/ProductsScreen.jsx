@@ -1,12 +1,38 @@
-import { Text, View, StyleSheet, TextInput, ScrollView, Pressable, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, TextInput, ScrollView, Pressable, TouchableOpacity, Alert } from "react-native";
 import { styles } from "../../../styles";
-import { products } from "../../../data/products";
+
 import ProductCard from "../../components/ProductCard";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useEffect, useState } from "react";
+import { collection, doc, onSnapshot, orderBy, query, snapshot } from "firebase/firestore";
+import { db } from "../../../FirebaseConfig";
 
 export default function ProductsScreen({ navigation }) {
+    const [products, setProducts] = useState([]);
+    const productsCollection = collection(db, 'products')
+
+    useEffect(() => {
+        const q = query(productsCollection, orderBy('name', 'asc'));
+        const unsubscribe = onSnapshot(
+            q,
+            (snapshot) => {
+                const productsData = snapshot.docs.map((doc) => ({
+                    id: doc.id, 
+                    ...doc.data(), 
+                }));
+                setProducts(productsData);
+            },
+            (error) => {
+                console.error("Error fetching todo:", error);
+                Alert.alert("ERROR", "Failed to load products")
+            }
+        );
+        
+        return () => unsubscribe();
+    }, [])
+
 
     return (
         <SafeAreaProvider>

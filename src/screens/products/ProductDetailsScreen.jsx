@@ -4,23 +4,23 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { products } from "../../../data/products";
 
 export default function ProductDetailsScreen({ route }) {
-    const product = products.find(p => p.id === route.params.id);
+    const { product } = route.params;
 
     return (
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
                 <ScrollView>
 
-                    <Image source={{ uri: product.imageUrl }} style={styles.heroImage} />
+                    <Image source={{ uri: product.imageUri }} style={styles.heroImage} />
 
                     <View style={styles.overlayCard}>
                         <Text style={styles.title}>{product.name}</Text>
                         <Text style={styles.subtitle}>{product.brand} • {product.category}</Text>
 
                         <View style={styles.tags}>
-                            {product.routines.map(r => (
+                            {/* {product.routines.map(r => (
                                 <Text key={r} style={styles.tag}>{r}</Text>
-                            ))}
+                            ))} */}
                         </View>
 
                         <Text style={styles.notes}>{product.notes}</Text>
