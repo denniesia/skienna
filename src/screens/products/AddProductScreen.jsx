@@ -25,24 +25,25 @@ import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../../FirebaseConfig";
 import CameraCapture from "../../components/CameraCapture";
 import ImagePicker from "../../components/ImagePicker";
-
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 
 export default function AddProductScreen() {
 	const [status, requestPermission] = useCameraPermissions();
-	
 
 	const [name, setName] = useState("");
 	const [brand, setBrand] = useState("")
 	const [imageUri, setImageUri] = useState(null);
+	const [openedOnDate, setOpenedOnDate] = useState(new Date());
+	const [showCalender, setShowCalender] = useState(false);
 	const [expiresInMonths, setExpiresInMonths] = useState("")
 	const [notes, setNotes] = useState("")
 
 	const productsCollection = collection(db, "products")
 
- 	if (!status ) {
-      return <ActivityIndicator/>
-    }
+	if (!status) {
+		return <ActivityIndicator />
+	}
 
 	if (!status.granted) {
 		return (
@@ -53,9 +54,9 @@ export default function AddProductScreen() {
 		)
 	}
 
-	
-	
-	const addProductHandler = async() => {
+
+
+	const addProductHandler = async () => {
 		if (!name || !brand || !imageUri) {
 			Alert.alert('Error', 'Please provide more info!');
 			return;
@@ -63,136 +64,163 @@ export default function AddProductScreen() {
 
 		try {
 			const today = new Date();
-			
+
 			const formattedDate = today.toLocaleDateString('en-GB', {
-			day: 'numeric',
-			month: 'long',
-			year: 'numeric',
+				day: 'numeric',
+				month: 'long',
+				year: 'numeric',
 			});
-			
+
 
 
 			await addDoc(productsCollection, {
 				name,
-				imageUri, 
+				imageUri,
 				brand,
 				createdAt: formattedDate,
 			});
 			setName('');
 			setBrand('');
-		} catch(error) {
+		} catch (error) {
 			console.error('Error adding product', error);
 			Alert.alert('Error', 'Failed to add new product')
 
 		}
 	}
-	
+
+	const onDateChange = (event, selectedDate) => {
+		setShowCalender(false); // close picker after selection (Android)
+		if (selectedDate) {
+			setOpenedOnDate(selectedDate);
+		}
+	};
+
 	return (
-	
+
 		<SafeAreaProvider>
 			<SafeAreaView style={styles.container}>
-				
-				<ScrollView>
-					<View style={currStyles.container}>
-						<View style={currStyles.topRow}>
-							<View>	
-					
-							{/* <ImagePicker onImagePicked={setImageUri} imageUri={imageUri}/> */}
+				<KeyboardAvoidingView
+					style={{ flex: 1 }}
+					behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+					keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
+				>
+					<ScrollView
+						contentContainerStyle={{ flexGrow: 1, padding: 2 }}
+						keyboardShouldPersistTaps="handled"
+					>
 
-								<Image
-									source={imageUri ? { uri: imageUri } : require('../../../assets/photo_placeholder.jpg')}
-									style={currStyles.photo}
-								/>
-								<View style={currStyles.photoBtns}>
-									<ImagePicker onImagePicked={setImageUri} />
+						<View style={currStyles.container}>
+							<View style={currStyles.topRow}>
+								<View>
+									<Image
+										source={imageUri ? { uri: imageUri } : require('../../../assets/photo_placeholder.jpg')}
+										style={currStyles.photo}
+									/>
+									<View style={currStyles.photoBtns}>
+										<ImagePicker onImagePicked={setImageUri} />
 
-									<CameraCapture onPhotoTaken={setImageUri} />
+										<CameraCapture onPhotoTaken={setImageUri} />
+									</View>
+
 								</View>
-								
+
+								<View style={{ paddingTop: 20, width: '45%' }}>
+									<View style={currStyles.inputCont}>
+										<Text style={currStyles.label}>Product Name:</Text>
+										<TextInput
+											placeholder="Hydrating Cleanser"
+											style={currStyles.input}
+											value={name}
+											onChangeText={setName}
+										/>
+									</View>
+
+									<View style={currStyles.inputCont}>
+										<Text style={currStyles.label}>Product Brand:</Text>
+										<TextInput
+											placeholder="CeraVe"
+											style={currStyles.input}
+											value={brand}
+											onChangeText={setBrand}
+										/>
+									</View>
+
+								</View>
+
 							</View>
-							
-							<View style={{paddingTop: 20, width: '45%'}}>
-								<View style={currStyles.inputCont}>
-									<Text style={currStyles.label}>Product Name:</Text>
-									<TextInput 
-										placeholder="Hydrating Cleanser" 
-										style={currStyles.input} 
-										value={name}
-										onChangeText={setName}
-									/>
+
+							<View>
+								<View style={{ paddingTop: 20, width: '100%' }}>
+									<View style={currStyles.inputCont}>
+										<Text style={currStyles.label}>Category:</Text>
+										<TextInput placeholder="Cleanser" style={currStyles.input} />
+									</View>
+
+									<View style={currStyles.inputCont}>
+										<Text style={currStyles.label}>Routine:</Text>
+										<TextInput placeholder="CeraVe" style={currStyles.input} />
+									</View>
+									<TouchableOpacity style={currStyles.inputCont} onPress={() => setShowCalender(true)}>
+										<Text style={currStyles.label}>Opened on:</Text>
+										<Text style={currStyles.input}>
+											{openedOnDate.toLocaleDateString()}
+										</Text>
+										{showCalender &&
+											<DateTimePicker
+												value={openedOnDate}
+												mode="date" // "time" for time picker, "datetime" for both
+												display="default"
+												onChange={onDateChange}
+												color='#F39EB6'
+											/>
+										}
+
+
+									</TouchableOpacity>
+									<View style={currStyles.inputCont}>
+										<Text style={currStyles.label}>Expire in (months):</Text>
+
+										<TextInput
+											placeholder="12"
+											style={currStyles.input}
+											keyboardType="numeric"
+											value={expiresInMonths}
+											onChangeText={setExpiresInMonths}
+										/>
+
+
+									</View>
+									<View style={currStyles.inputCont}>
+										<Text style={currStyles.label}>Notes:</Text>
+										<TextInput
+											placeholder="Very good after sunbathing"
+											style={currStyles.input}
+											value={notes}
+											multiline={true}
+											numberOfLines={4}
+											onChangeText={setNotes}
+										/>
+									</View>
+
 								</View>
-								
-								<View style={currStyles.inputCont}>
-									<Text style={currStyles.label}>Product Brand:</Text>
-									<TextInput 
-										placeholder="CeraVe" 
-										style={currStyles.input} 
-										value={brand}
-										onChangeText={setBrand}
-									/>
-								</View>
-								
 							</View>
-						
+
+							<View style={currStyles.buttonRow}>
+								<TouchableOpacity style={currStyles.cancelBtn}>
+									<Text style={currStyles.endBtnText}>Cancel</Text>
+								</TouchableOpacity>
+
+								<TouchableOpacity style={currStyles.saveBtn} onPress={addProductHandler}>
+									<Text style={currStyles.endBtnText}>Save</Text>
+								</TouchableOpacity>
+							</View>
 						</View>
 
-						<View>
-							<View style={{paddingTop: 20, width: '100%'}}>
-								<View style={currStyles.inputCont}>
-									<Text style={currStyles.label}>Category:</Text>
-									<TextInput placeholder="Cleanser" style={currStyles.input} />
-								</View>
-								
-								<View style={currStyles.inputCont}>
-									<Text style={currStyles.label}>Routine:</Text>
-									<TextInput placeholder="CeraVe" style={currStyles.input} />
-								</View>
-								<View style={currStyles.inputCont}>
-									<Text style={currStyles.label}>Opened on:</Text>
-									<TextInput placeholder="CeraVe" style={currStyles.input} />
-								</View>
-								<View style={currStyles.inputCont}>
-									<Text style={currStyles.label}>Expire in (months):</Text>
-									
-									<TextInput 
-										placeholder="12" 
-										style={currStyles.input} 
-										keyboardType="numeric"
-										value={expiresInMonths}
-										onChangeText={setExpiresInMonths}
-									/>
-									
-									
-								</View>
-								<View style={currStyles.inputCont}>
-									<Text style={currStyles.label}>Notes:</Text>
-									<TextInput 
-										placeholder="CeraVe" 
-										style={currStyles.input} 
-										value={notes}
-										onChangeText={setNotes}
-									/>
-								</View>
-								
-							</View>
-						</View>
-						
-						<View style={currStyles.buttonRow}>
-							<TouchableOpacity style={currStyles.cancelBtn}>
-								<Text style={currStyles.endBtnText}>Cancel</Text>
-							</TouchableOpacity>
-
-							<TouchableOpacity style={currStyles.saveBtn} onPress={addProductHandler}>
-								<Text style={currStyles.endBtnText}>Save</Text>
-							</TouchableOpacity>
-						</View> 
-					</View>
-					
-			</ScrollView>
-			
+					</ScrollView>
+				</KeyboardAvoidingView>
 			</SafeAreaView>
 		</SafeAreaProvider>
-	
+
 	);
 }
 
@@ -214,9 +242,9 @@ const currStyles = StyleSheet.create({
 		padding: 7,
 		backgroundColor: 'pink',
 		borderRadius: 10,
-		
+
 	},
-	
+
 	btnText: {
 		color: '#ffff'
 	},
@@ -248,15 +276,15 @@ const currStyles = StyleSheet.create({
 	},
 	cancelBtn: {
 		padding: 10,
-		width:'40%',
+		width: '40%',
 		backgroundColor: '#F2BED1',
 		borderRadius: 10,
-	
+
 
 	},
 	saveBtn: {
 		padding: 10,
-		width:'40%',
+		width: '40%',
 		backgroundColor: '#F39EB6',
 		borderRadius: 10,
 	},
@@ -266,30 +294,30 @@ const currStyles = StyleSheet.create({
 		textAlign: 'center'
 	},
 	image: {
-        width: '100%',
-        height: '100%',
-    },
+		width: '100%',
+		height: '100%',
+	},
 	placeholder: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: 8,
-    },
-	 placeholderText: {
-        fontSize: 14,
-        color: '#94a3b8',
-        fontWeight: '500',
-    },
-	 picker: {
-        width: '100%',
-        height: 200,
-        borderRadius: 16,
-        overflow: 'hidden',
-        backgroundColor: '#f1f5f9',
-        borderWidth: 2,
-        borderColor: '#e2e8f0',
-        borderStyle: 'dashed',
-    },
-	
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		gap: 8,
+	},
+	placeholderText: {
+		fontSize: 14,
+		color: '#94a3b8',
+		fontWeight: '500',
+	},
+	picker: {
+		width: '100%',
+		height: 200,
+		borderRadius: 16,
+		overflow: 'hidden',
+		backgroundColor: '#f1f5f9',
+		borderWidth: 2,
+		borderColor: '#e2e8f0',
+		borderStyle: 'dashed',
+	},
+
 
 });

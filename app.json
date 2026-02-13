@@ -25,14 +25,15 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins" : [
+    "plugins": [
       [
         "expo-image-picker",
         {
           "cameraPermission": "Allow Skienna to access your camera",
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
-      ]
+      ],
+      "@react-native-community/datetimepicker"
     ]
   }
 }
