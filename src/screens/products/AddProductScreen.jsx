@@ -28,7 +28,7 @@ import ImagePicker from "../../components/ImagePicker";
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 
-export default function AddProductScreen() {
+export default function AddProductScreen({ navigation }) {
 	const [status, requestPermission] = useCameraPermissions();
 
 	const [name, setName] = useState("");
@@ -81,6 +81,8 @@ export default function AddProductScreen() {
 			});
 			setName('');
 			setBrand('');
+
+			navigation.goBack();
 		} catch (error) {
 			console.error('Error adding product', error);
 			Alert.alert('Error', 'Failed to add new product')

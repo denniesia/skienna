@@ -12,26 +12,26 @@ import {
     Button,
     KeyboardAvoidingView,
     Platform,
-    ActivityIndicator,
+    FlatList,
     Alert
 } from "react-native";
 import { styles } from "../../../styles";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, Feather } from '@expo/vector-icons';
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
-import { useCameraPermissions, launchCameraAsync, useMediaLibraryPermissions, launchImageLibraryAsync } from "expo-image-picker";
 
-import { addDoc, collection } from "firebase/firestore";
+import { collection, doc, onSnapshot, orderBy, query, snapshot } from "firebase/firestore";
 import { db } from "../../../FirebaseConfig";
 import CameraCapture from "../../components/CameraCapture";
 import ImagePicker from "../../components/ImagePicker";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import CategoryModal from "../../components/CategoryModal";
+import ProductCard from "../../components/ProductCard";
 
 
 
 export default function AddRoutineScreen({ route }) {
-    
+    const [products, setProducts] = useState([]);
     const { category, imageUri } = route.params;
 
     const [notes, setNotes] = useState('');
@@ -40,8 +40,28 @@ export default function AddRoutineScreen({ route }) {
     const [showCategoryModal, setShowCategoryModal] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(category || '');
     const [selectedImage, setSelectedImage] = useState(imageUri || null);
-    
-    
+    const productsCollection = collection(db, "products")
+
+    useEffect(() => {
+            const q = query(productsCollection, orderBy('name', 'asc'));
+            const unsubscribe = onSnapshot(
+                q,
+                (snapshot) => {
+                    const productsData = snapshot.docs.map((doc) => ({
+                        id: doc.id, 
+                        ...doc.data(), 
+                    }));
+                    setProducts(productsData);
+                },
+                (error) => {
+                    console.error("Error fetching todo:", error);
+                    Alert.alert("ERROR", "Failed to load products")
+                }
+            );
+            
+            return () => unsubscribe();
+        }, [])
+
 
     useEffect(() => {
         if (category) {
@@ -70,7 +90,7 @@ export default function AddRoutineScreen({ route }) {
                     behavior={Platform.OS === 'ios' ? 'padding' : undefined}
                     keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
                 >
-                    <ScrollView
+                    <View
                         contentContainerStyle={{ flexGrow: 1, padding: 2 }}
                         keyboardShouldPersistTaps="handled"
                     >
@@ -79,7 +99,7 @@ export default function AddRoutineScreen({ route }) {
                             <View style={styles.topRow}>
 
                                 <Image
-                                   source={selectedImage}
+                                    source={selectedImage}
                                     style={styles.photo}
                                 />
 
@@ -146,6 +166,13 @@ export default function AddRoutineScreen({ route }) {
 
                                     <View style={styles.inputCont}>
                                         <Text style={styles.label}>Products:</Text>
+                                        <FlatList
+                                            data={products}
+                                            keyExtractor={(item) => item.id}
+                                            renderItem={({ item }) => <ProductCard product={item} mode='display'/>}
+                                            ItemSeparatorComponent={() => <View style={styles.separator} />}
+                                            
+                                        />
 
                                     </View>
 
@@ -163,7 +190,7 @@ export default function AddRoutineScreen({ route }) {
                         </View>
 
 
-                    </ScrollView>
+                    </View>
                 </KeyboardAvoidingView>
             </SafeAreaView>
         </SafeAreaProvider>
