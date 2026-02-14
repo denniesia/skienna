@@ -1,9 +1,15 @@
-import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import { useNavigation} from '@react-navigation/native';
+import React, { useState } from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet, Image, Pressable } from 'react-native';
 
-export default function CategoryModal({ visible, onClose, onSelectCategory }) {
+export default function CategoryModal({ 
+    visible, 
+    onClose, 
+    onSelectCategory,
+    mode='select'
+}) {
     const navigation = useNavigation();
+    const [selected, setSelected] = useState({category:null , imageUri: null});
 
     const routineGallery = {
         sun: require('../../assets/sun.png'),
@@ -12,6 +18,20 @@ export default function CategoryModal({ visible, onClose, onSelectCategory }) {
         underEyeMask: require('../../assets/face_mask.png'),
         special: require('../../assets/special.png')
     }
+
+    const handlePressHandler = (category, imageUri) => {
+        setSelected({ category, imageUri });
+        if (mode === 'navigate') {
+            navigation.navigate('Add Routine', { 
+                    category,
+                    imageUri
+                });
+        } else {
+             onSelectCategory?.(category, imageUri);
+        }
+        onClose();
+    }
+
     return (
         <Modal
             visible={visible}
@@ -25,7 +45,7 @@ export default function CategoryModal({ visible, onClose, onSelectCategory }) {
                     <Text style={styles.title}>Select a Category</Text>
                     <TouchableOpacity
                         style={styles.categoryCont}
-                        onPress={() => navigation.navigate('Add Routine')}
+                        onPress={() => handlePressHandler('Morning Routine', routineGallery.sun)}
                     >
                         <Image
                             source={routineGallery.sun}
@@ -36,7 +56,7 @@ export default function CategoryModal({ visible, onClose, onSelectCategory }) {
 
                     <TouchableOpacity
                         style={styles.categoryCont}
-                        onPress={() => onSelectCategory('Night Routine')}
+                        onPress={() => handlePressHandler('Night Routine', routineGallery.moon)}
                     >
                         <Image
                             source={routineGallery.moon}
@@ -47,9 +67,7 @@ export default function CategoryModal({ visible, onClose, onSelectCategory }) {
 
                     <TouchableOpacity
                         style={styles.categoryCont}
-
-
-                        onPress={() => onSelectCategory('Face Mask')}
+                        onPress={() => handlePressHandler('Face Mask', routineGallery.faceMask)}
                     >
                         <Image
                             source={routineGallery.faceMask}
@@ -61,7 +79,7 @@ export default function CategoryModal({ visible, onClose, onSelectCategory }) {
                     <TouchableOpacity
                         style={styles.categoryCont}
 
-                        onPress={() => onSelectCategory('Special')}
+                        onPress={() => handlePressHandler('Under Eye Mask', routineGallery.underEyeMask)}
                     >
                         <Image
                             source={routineGallery.underEyeMask}
@@ -72,7 +90,7 @@ export default function CategoryModal({ visible, onClose, onSelectCategory }) {
                     <TouchableOpacity
                         style={styles.categoryCont}
 
-                        onPress={() => onSelectCategory('Special')}
+                        onPress={() => handlePressHandler('Special', routineGallery.special)}
                     >
                         <Image
                             source={routineGallery.special}

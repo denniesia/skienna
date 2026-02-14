@@ -11,8 +11,9 @@ import CategoryModal from "../../components/CategoryModal";
 
 
 export default function RoutinesScreen({ navigation }) {
-    const [showModal, setShowModal] = useState(false);
-    const [routineCategory, setRoutineCategory] = useState(null);
+    const [showCategoryModal, setShowCategoryModal] = useState(false);
+   const [selectedCategory, setSelectedCategory] = useState('');
+const [selectedImage, setSelectedImage] = useState(null);
 
     return (
         <SafeAreaProvider>
@@ -31,7 +32,7 @@ export default function RoutinesScreen({ navigation }) {
                             </TouchableOpacity>
 
         
-                            <TouchableOpacity onPress={() => setShowModal(true)} style={styles.iconButton}>
+                            <TouchableOpacity onPress={() => setShowCategoryModal(true)} style={styles.iconButton}>
                                 <AntDesign name="plus" size={28} color="#F39EB6" />
                             </TouchableOpacity>
                              
@@ -53,11 +54,15 @@ export default function RoutinesScreen({ navigation }) {
                  {/* #TODO FLAT LIST */}
                 <ScrollView>
 
-                    {showModal && 
+                    {showCategoryModal && 
                         <CategoryModal 
-                            visible={showModal} 
-                            onClose={() => setShowModal(false)}  
-                            onSelectCategory={setRoutineCategory}
+                            visible={showCategoryModal} 
+                            onClose={() => setShowCategoryModal(false)}  
+                            onSelectCategory={(category, image) => {
+                                    setSelectedCategory(category);
+                                    setSelectedImage(image);
+                                }}
+                            mode="navigate"
                         /> 
                     }
                     {
@@ -66,7 +71,7 @@ export default function RoutinesScreen({ navigation }) {
                                                 :  (
 
                             <TouchableOpacity style={styles.noItemContainer}
-                                onPress={() => setShowModal(true)}
+                                onPress={() => setShowCategoryModal(true)}
                             >
                                 <MaterialCommunityIcons name="sprout-outline" size={40} color="#eb8f9e" />
                                 <Text style={styles.noItemText}>No routines yet</Text>
