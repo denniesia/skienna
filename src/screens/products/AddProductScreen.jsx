@@ -88,8 +88,8 @@ export default function AddProductScreen() {
 		}
 	}
 
-	const onDateChange = (event, selectedDate) => {
-		setShowCalender(false); // close picker after selection (Android)
+	const onOpenedOnDateChange = (event, selectedDate) => {
+		setShowCalender(false); 
 		if (selectedDate) {
 			setOpenedOnDate(selectedDate);
 		}
@@ -109,14 +109,14 @@ export default function AddProductScreen() {
 						keyboardShouldPersistTaps="handled"
 					>
 
-						<View style={currStyles.container}>
-							<View style={currStyles.topRow}>
+						<View style={styles.containerAdd}>
+							<View style={styles.topRow}>
 								<View>
 									<Image
 										source={imageUri ? { uri: imageUri } : require('../../../assets/photo_placeholder.jpg')}
-										style={currStyles.photo}
+										style={styles.photo}
 									/>
-									<View style={currStyles.photoBtns}>
+									<View style={styles.photoBtns}>
 										<ImagePicker onImagePicked={setImageUri} />
 
 										<CameraCapture onPhotoTaken={setImageUri} />
@@ -125,21 +125,21 @@ export default function AddProductScreen() {
 								</View>
 
 								<View style={{ paddingTop: 20, width: '45%' }}>
-									<View style={currStyles.inputCont}>
-										<Text style={currStyles.label}>Product Name:</Text>
+									<View style={styles.inputCont}>
+										<Text style={styles.label}>Product Name:</Text>
 										<TextInput
 											placeholder="Hydrating Cleanser"
-											style={currStyles.input}
+											style={styles.input}
 											value={name}
 											onChangeText={setName}
 										/>
 									</View>
 
-									<View style={currStyles.inputCont}>
-										<Text style={currStyles.label}>Product Brand:</Text>
+									<View style={styles.inputCont}>
+										<Text style={styles.label}>Product Brand:</Text>
 										<TextInput
 											placeholder="CeraVe"
-											style={currStyles.input}
+											style={styles.input}
 											value={brand}
 											onChangeText={setBrand}
 										/>
@@ -151,18 +151,18 @@ export default function AddProductScreen() {
 
 							<View>
 								<View style={{ paddingTop: 20, width: '100%' }}>
-									<View style={currStyles.inputCont}>
-										<Text style={currStyles.label}>Category:</Text>
-										<TextInput placeholder="Cleanser" style={currStyles.input} />
+									<View style={styles.inputCont}>
+										<Text style={styles.label}>Category:</Text>
+										<TextInput placeholder="Cleanser" style={styles.input} />
 									</View>
 
-									<View style={currStyles.inputCont}>
-										<Text style={currStyles.label}>Routine:</Text>
-										<TextInput placeholder="CeraVe" style={currStyles.input} />
+									<View style={styles.inputCont}>
+										<Text style={styles.label}>Routine:</Text>
+										<TextInput placeholder="CeraVe" style={styles.input} />
 									</View>
-									<TouchableOpacity style={currStyles.inputCont} onPress={() => setShowCalender(true)}>
-										<Text style={currStyles.label}>Opened on:</Text>
-										<Text style={currStyles.input}>
+									<TouchableOpacity style={styles.inputCont} onPress={() => setShowCalender(true)}>
+										<Text style={styles.label}>Opened on:</Text>
+										<Text style={styles.input}>
 											{openedOnDate.toLocaleDateString()}
 										</Text>
 										{showCalender &&
@@ -170,19 +170,19 @@ export default function AddProductScreen() {
 												value={openedOnDate}
 												mode="date" // "time" for time picker, "datetime" for both
 												display="default"
-												onChange={onDateChange}
+												onChange={onOpenedOnDateChange}
 												color='#F39EB6'
 											/>
 										}
 
 
 									</TouchableOpacity>
-									<View style={currStyles.inputCont}>
-										<Text style={currStyles.label}>Expire in (months):</Text>
+									<View style={styles.inputCont}>
+										<Text style={styles.label}>Expires in (months):</Text>
 
 										<TextInput
 											placeholder="12"
-											style={currStyles.input}
+											style={styles.input}
 											keyboardType="numeric"
 											value={expiresInMonths}
 											onChangeText={setExpiresInMonths}
@@ -190,11 +190,11 @@ export default function AddProductScreen() {
 
 
 									</View>
-									<View style={currStyles.inputCont}>
-										<Text style={currStyles.label}>Notes:</Text>
+									<View style={styles.inputCont}>
+										<Text style={styles.label}>Notes:</Text>
 										<TextInput
 											placeholder="Very good after sunbathing"
-											style={currStyles.input}
+											style={styles.input}
 											value={notes}
 											multiline={true}
 											numberOfLines={4}
@@ -205,13 +205,13 @@ export default function AddProductScreen() {
 								</View>
 							</View>
 
-							<View style={currStyles.buttonRow}>
-								<TouchableOpacity style={currStyles.cancelBtn}>
-									<Text style={currStyles.endBtnText}>Cancel</Text>
+							<View style={styles.buttonRow}>
+								<TouchableOpacity style={styles.cancelBtn}>
+									<Text style={styles.endBtnText}>Cancel</Text>
 								</TouchableOpacity>
 
-								<TouchableOpacity style={currStyles.saveBtn} onPress={addProductHandler}>
-									<Text style={currStyles.endBtnText}>Save</Text>
+								<TouchableOpacity style={styles.saveBtn} onPress={addProductHandler}>
+									<Text style={styles.endBtnText}>Save</Text>
 								</TouchableOpacity>
 							</View>
 						</View>
@@ -224,100 +224,4 @@ export default function AddProductScreen() {
 	);
 }
 
-const currStyles = StyleSheet.create({
-	container: {
-		padding: 10
-	},
-	photo: {
-		width: 180,
-		height: 180,
-		borderRadius: 20,
-	},
-	photoBtns: {
-		flexDirection: 'row',
-		gap: 5,
-		marginTop: 5,
-	},
-	uploadPhotoBtn: {
-		padding: 7,
-		backgroundColor: 'pink',
-		borderRadius: 10,
 
-	},
-
-	btnText: {
-		color: '#ffff'
-	},
-	topRow: {
-		flexDirection: 'row',
-		gap: 10
-	},
-	inputCont: {
-		marginBottom: 15,
-	},
-	label: {
-		color: '#FF69B4',
-		fontSize: 18,
-		marginBottom: 10,
-	},
-	input: {
-		borderWidth: 1,
-		borderColor: "#ccc",
-		padding: 10,
-		borderRadius: 8,
-		marginBottom: 5,
-	},
-	buttonRow: {
-		flexDirection: 'row',
-		justifyContent: 'center',
-		gap: 10,
-		marginBottom: 10
-
-	},
-	cancelBtn: {
-		padding: 10,
-		width: '40%',
-		backgroundColor: '#F2BED1',
-		borderRadius: 10,
-
-
-	},
-	saveBtn: {
-		padding: 10,
-		width: '40%',
-		backgroundColor: '#F39EB6',
-		borderRadius: 10,
-	},
-	endBtnText: {
-		color: 'white',
-		fontSize: 22,
-		textAlign: 'center'
-	},
-	image: {
-		width: '100%',
-		height: '100%',
-	},
-	placeholder: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		gap: 8,
-	},
-	placeholderText: {
-		fontSize: 14,
-		color: '#94a3b8',
-		fontWeight: '500',
-	},
-	picker: {
-		width: '100%',
-		height: 200,
-		borderRadius: 16,
-		overflow: 'hidden',
-		backgroundColor: '#f1f5f9',
-		borderWidth: 2,
-		borderColor: '#e2e8f0',
-		borderStyle: 'dashed',
-	},
-
-
-});

@@ -21,17 +21,6 @@ export default function ProductNavigator({ navigation }) {
                 component={ProductsScreen}
             />
             <Stack.Screen
-                name="Product Details"
-                component={ProductDetailsScreen}
-                options={{
-                    headerShown: true,
-                    headerTintColor: '#F39EB6',
-                    headerTitleStyle: {fontSize: 20},
-                    headerBackVisible: true,
-                    headerBackButtonDisplayMode: 'minimal'
-                }}
-            />
-            <Stack.Screen
                 name="Add Product"
                 component={AddProductScreen}
                 options={{
@@ -42,6 +31,18 @@ export default function ProductNavigator({ navigation }) {
                     headerBackButtonDisplayMode: 'minimal'
                 }}
             />
+            <Stack.Screen
+                name="Product Details"
+                component={ProductDetailsScreen}
+                options={{
+                    headerShown: true,
+                    headerTintColor: '#F39EB6',
+                    headerTitleStyle: {fontSize: 20},
+                    headerBackVisible: true,
+                    headerBackButtonDisplayMode: 'minimal'
+                }}
+            />
+            
         </Stack.Navigator>
     );
 };

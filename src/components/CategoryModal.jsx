@@ -1,7 +1,11 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet, Image, Pressable } from 'react-native';
 
 export default function CategoryModal({ visible, onClose, onSelectCategory }) {
+    const navigation = useNavigation();
+
+
     return (
         <Modal
             visible={visible}
@@ -15,7 +19,7 @@ export default function CategoryModal({ visible, onClose, onSelectCategory }) {
                     <Text style={styles.title}>Select a Category</Text>
                     <TouchableOpacity
                         style={styles.categoryCont}
-                        onPress={() => onSelectCategory('Morning Routine')}
+                        onPress={() => navigation.navigate('Add Routine')}
                     >
                         <Image
                             source={require('../../assets/sun.png')}
@@ -48,6 +52,17 @@ export default function CategoryModal({ visible, onClose, onSelectCategory }) {
                         <Text style={styles.categoryText}>Face Mask</Text>
                     </TouchableOpacity>
 
+                    <TouchableOpacity
+                        style={styles.categoryCont}
+
+                        onPress={() => onSelectCategory('Special')}
+                    >
+                        <Image
+                            source={require('../../assets/special.png')}
+                            style={styles.photo}
+                        />
+                        <Text style={styles.categoryText}>Under Eye Mask</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.categoryCont}
 
