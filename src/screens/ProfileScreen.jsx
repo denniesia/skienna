@@ -1,5 +1,7 @@
 import { View, Text, StyleSheet, Image } from "react-native";
 import ProfileStat from "../components/ProfileStat";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { styles } from "../../styles";
 
 export default function ProfileScreen() {
     // Later these can come from state / backend
@@ -14,28 +16,44 @@ export default function ProfileScreen() {
     };
 
     return (
-        <View style={currStyles.container}>
-            {/* Avatar */}
-            <View style={currStyles.avatarSection}>
-                <Image source={{ uri: user.avatar }} style={currStyles.avatar} />
-                <Text style={currStyles.name}>{user.name}</Text>
-                <Text style={currStyles.meta}>
-                    {user.gender} 
-                </Text>
-                <Text style={currStyles.meta}>
-                     Member since {user.memberSince}
-                </Text>
-            </View>
+        <SafeAreaProvider>
+             <SafeAreaView style={[styles.container]}>
+                    {/* Header */}
+                    <View style={styles.header}>
+                        <View style={[styles.headerContent, { justifyContent: 'space-between' }]}>
+                            {/* Title */}
+                            <Text style={styles.title}>My Profile</Text>
+    
+                           
+                            
+                        </View>
+                    </View>
+                     <View style={styles.divider} />
 
-            {/* Stats */}
-            <View style={currStyles.statsCard}>
-                <ProfileStat label="Products" value={user.productsCount} />
+                     <View style={currStyles.container}>
+                        {/* Avatar */}
+                        <View style={currStyles.avatarSection}>
+                            <Image source={{ uri: user.avatar }} style={currStyles.avatar} />
+                            <Text style={currStyles.name}>{user.name}</Text>
+                            <Text style={currStyles.meta}>
+                                {user.gender}
+                            </Text>
+                            <Text style={currStyles.meta}>
+                                Member since {user.memberSince}
+                            </Text>
+                        </View>
 
-                <ProfileStat label="Routines" value={user.routinesCount} />
+                        {/* Stats */}
+                        <View style={currStyles.statsCard}>
+                            <ProfileStat label="Products" value={user.productsCount} />
 
-                <ProfileStat label="Done" value={user.routinesDone} />
-            </View>
-        </View>
+                            <ProfileStat label="Routines" value={user.routinesCount} />
+
+                            <ProfileStat label="Done" value={user.routinesDone} />
+                        </View>
+                    </View>
+            </SafeAreaView>
+        </SafeAreaProvider>
     );
 }
 const currStyles = StyleSheet.create({
