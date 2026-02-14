@@ -5,7 +5,13 @@ import { Modal, View, Text, TouchableOpacity, StyleSheet, Image, Pressable } fro
 export default function CategoryModal({ visible, onClose, onSelectCategory }) {
     const navigation = useNavigation();
 
-
+    const routineGallery = {
+        sun: require('../../assets/sun.png'),
+        moon: require('../../assets/moon.png'),
+        faceMask: require('../../assets/face_mask.png'),
+        underEyeMask: require('../../assets/face_mask.png'),
+        special: require('../../assets/special.png')
+    }
     return (
         <Modal
             visible={visible}
@@ -22,7 +28,7 @@ export default function CategoryModal({ visible, onClose, onSelectCategory }) {
                         onPress={() => navigation.navigate('Add Routine')}
                     >
                         <Image
-                            source={require('../../assets/sun.png')}
+                            source={routineGallery.sun}
                             style={styles.photo}
                         />
                         <Text style={styles.categoryText}>Morning Routine</Text>
@@ -33,7 +39,7 @@ export default function CategoryModal({ visible, onClose, onSelectCategory }) {
                         onPress={() => onSelectCategory('Night Routine')}
                     >
                         <Image
-                            source={require('../../assets/moon.png')}
+                            source={routineGallery.moon}
                             style={styles.photo}
                         />
                         <Text style={styles.categoryText}>Night Routine</Text>
@@ -46,7 +52,7 @@ export default function CategoryModal({ visible, onClose, onSelectCategory }) {
                         onPress={() => onSelectCategory('Face Mask')}
                     >
                         <Image
-                            source={require('../../assets/face_mask.png')}
+                            source={routineGallery.faceMask}
                             style={styles.photo}
                         />
                         <Text style={styles.categoryText}>Face Mask</Text>
@@ -58,7 +64,7 @@ export default function CategoryModal({ visible, onClose, onSelectCategory }) {
                         onPress={() => onSelectCategory('Special')}
                     >
                         <Image
-                            source={require('../../assets/special.png')}
+                            source={routineGallery.underEyeMask}
                             style={styles.photo}
                         />
                         <Text style={styles.categoryText}>Under Eye Mask</Text>
@@ -69,7 +75,7 @@ export default function CategoryModal({ visible, onClose, onSelectCategory }) {
                         onPress={() => onSelectCategory('Special')}
                     >
                         <Image
-                            source={require('../../assets/special.png')}
+                            source={routineGallery.special}
                             style={styles.photo}
                         />
                         <Text style={styles.categoryText}>Special</Text>
