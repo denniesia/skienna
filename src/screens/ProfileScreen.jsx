@@ -23,9 +23,6 @@ export default function ProfileScreen() {
                         <View style={[styles.headerContent, { justifyContent: 'space-between' }]}>
                             {/* Title */}
                             <Text style={styles.title}>My Profile</Text>
-    
-                           
-                            
                         </View>
                     </View>
                      <View style={styles.divider} />
