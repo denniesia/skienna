@@ -6,6 +6,7 @@ import ProfileScreen from "../screens/ProfileScreen";
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import ProductNavigator from "./ProductNavigator";
+import RoutineNavigator from "./RoutineNavigator";
 
 export default function RootNavigator() {
     const Tabs = createBottomTabNavigator();
@@ -38,7 +39,7 @@ export default function RootNavigator() {
             />
             <Tabs.Screen 
                 name="Routines" 
-                component={RoutinesScreen}
+                component={RoutineNavigator}
                 options={{
                     tabBarIcon: ({ color, size }) => <Ionicons name="list-outline" size={size} color={color} />,
                 }}
