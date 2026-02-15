@@ -44,8 +44,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         backgroundColor: "#FFFFFF",
         borderRadius: 16,
-        padding: 12,
-        marginBottom: 12,
+        paddingHorizontal: 12,
+        marginBottom: 15 ,
 
         // iOS shadow
         shadowColor: "#000",

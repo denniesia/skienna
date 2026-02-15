@@ -15,7 +15,7 @@ export default function CategoryModal({
         sun: require('../../assets/sun.png'),
         moon: require('../../assets/moon.png'),
         faceMask: require('../../assets/face_mask.png'),
-        underEyeMask: require('../../assets/face_mask.png'),
+        underEyeMask: require('../../assets/under_eye.png'),
         special: require('../../assets/special.png')
     }
 
