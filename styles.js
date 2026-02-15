@@ -106,6 +106,16 @@ export const styles = StyleSheet.create({
 		borderRadius: 8,
 		marginBottom: 5,
 	},
+	inputArea: {
+		borderWidth: 1,
+		borderColor: "#ccc",
+		padding: 10,
+		borderRadius: 8,
+		marginBottom: 5,
+		borderWidth: 1,
+		minHeight: 70,   
+		textAlignVertical: 'top',
+	},
 	buttonRow: {
 		flexDirection: 'row',
 		justifyContent: 'center',

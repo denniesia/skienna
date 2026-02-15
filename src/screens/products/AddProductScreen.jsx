@@ -196,7 +196,7 @@ export default function AddProductScreen({ navigation }) {
 										<Text style={styles.label}>Notes:</Text>
 										<TextInput
 											placeholder="Very good after sunbathing"
-											style={styles.input}
+											style={styles.inputArea}
 											value={notes}
 											multiline={true}
 											numberOfLines={4}

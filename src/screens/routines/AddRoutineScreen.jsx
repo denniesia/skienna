@@ -18,9 +18,9 @@ import {
 import { styles } from "../../../styles";
 import { Ionicons, Feather } from '@expo/vector-icons';
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { useEffect, useState } from "react";
+import { cloneElement, useEffect, useState } from "react";
 
-import { collection, doc, onSnapshot, orderBy, query, snapshot } from "firebase/firestore";
+import { addDoc, collection, doc, onSnapshot, orderBy, query, snapshot } from "firebase/firestore";
 import { db } from "../../../FirebaseConfig";
 import CameraCapture from "../../components/CameraCapture";
 import ImagePicker from "../../components/ImagePicker";
@@ -30,47 +30,80 @@ import ProductCard from "../../components/ProductCard";
 
 
 
-export default function AddRoutineScreen({ route }) {
+export default function AddRoutineScreen({ navigation, route }) {
     const [products, setProducts] = useState([]);
     const { category, imageUri } = route.params;
 
     const [notes, setNotes] = useState('');
     const [startedOn, setStartedOn] = useState(new Date());
+    const [name, setName] = useState('');
     const [showCalender, setShowCalender] = useState(false);
     const [showCategoryModal, setShowCategoryModal] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(category || '');
     const [selectedImage, setSelectedImage] = useState(imageUri || null);
-    const productsCollection = collection(db, "products")
+    const productsCollection = collection(db, "products");
+
+    const routinesCollection = collection(db, 'routines');
+
+    const addRoutineHandler = async() => {
+        if (!selectedCategory || !startedOn) {
+            return;
+        };
+
+        if (selectedCategory === 'Special' && !name) {
+            return;
+        };
+        if (selectedCategory === 'Special' && name.length > 5) {
+            return;
+        }; 
+
+        try {
+            await addDoc(routinesCollection, {
+                selectedCategory, 
+                selectedImage,
+                startedOn,
+                notes,
+                createdAt: new Date(),
+            })
+
+            setNotes('');
+            navigation.navigate('Routine Stack Screen')
+        } catch(error) {
+            console.error('Error adding routine', error);
+            Alert.alert('Error', 'Failed to add new routine')
+        }
+        
+    }
 
     useEffect(() => {
-            const q = query(productsCollection, orderBy('name', 'asc'));
-            const unsubscribe = onSnapshot(
-                q,
-                (snapshot) => {
-                    const productsData = snapshot.docs.map((doc) => ({
-                        id: doc.id, 
-                        ...doc.data(), 
-                    }));
-                    setProducts(productsData);
-                },
-                (error) => {
-                    console.error("Error fetching todo:", error);
-                    Alert.alert("ERROR", "Failed to load products")
-                }
-            );
-            
-            return () => unsubscribe();
-        }, [])
+        const q = query(productsCollection, orderBy('name', 'asc'));
+        const unsubscribe = onSnapshot(
+            q,
+            (snapshot) => {
+                const productsData = snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
+                setProducts(productsData);
+            },
+            (error) => {
+                console.error("Error fetching todo:", error);
+                Alert.alert("ERROR", "Failed to load products")
+            }
+        );
+
+        return () => unsubscribe();
+    }, [])
 
 
-    useEffect(() => {
-        if (category) {
-            setSelectedCategory(category);
-        }
-        if (imageUri) {
-            setSelectedImage(imageUri);
-        }
-    }, [category, imageUri]);
+    // useEffect(() => {
+    //     if (selectedCategory) {
+    //         setSelectedCategory(category);
+    //     }
+    //     if (imageUri) {
+    //         setSelectedImage(imageUri);
+    //     }
+    // }, [selectedCategory, imageUri]);
 
 
     const onStartedOnDateChange = (event, selectedDate) => {
@@ -90,7 +123,7 @@ export default function AddRoutineScreen({ route }) {
                     behavior={Platform.OS === 'ios' ? 'padding' : undefined}
                     keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
                 >
-                    <View
+                    <ScrollView
                         contentContainerStyle={{ flexGrow: 1, padding: 2 }}
                         keyboardShouldPersistTaps="handled"
                     >
@@ -145,18 +178,32 @@ export default function AddRoutineScreen({ route }) {
                                         }
                                     </View>
 
+
                                 </View>
 
                             </View>
 
                             <View>
+
                                 <View style={{ paddingTop: 20, width: '100%' }}>
+                                    {selectedCategory === 'Special' &&
+                                        <View style={styles.inputCont} >
+                                            <Text style={styles.label}>Name: </Text>
+
+                                            <TextInput
+                                                placeholder="Retinol Treatment"
+                                                style={styles.input}
+                                                value={name}
+                                                onChangeText={setName}
+                                            />
+                                        </View>
+                                    }
 
                                     <View style={styles.inputCont}>
                                         <Text style={styles.label}>Notes:</Text>
                                         <TextInput
-                                            placeholder="Very good after sunbathing"
-                                            style={styles.input}
+                                            placeholder="Use after shower, focus on dry areas, avoid eye area.."
+                                            style={styles.inputArea}
                                             value={notes}
                                             multiline={true}
                                             numberOfLines={4}
@@ -169,9 +216,9 @@ export default function AddRoutineScreen({ route }) {
                                         <FlatList
                                             data={products}
                                             keyExtractor={(item) => item.id}
-                                            renderItem={({ item }) => <ProductCard product={item} mode='display'/>}
+                                            renderItem={({ item }) => <ProductCard product={item} mode='display' />}
                                             ItemSeparatorComponent={() => <View style={styles.separator} />}
-                                            
+
                                         />
 
                                     </View>
@@ -184,13 +231,13 @@ export default function AddRoutineScreen({ route }) {
                                 <Text style={styles.endBtnText}>Cancel</Text>
                             </TouchableOpacity>
 
-                            <TouchableOpacity style={styles.saveBtn} onPress={() => console.log('save')}>
+                            <TouchableOpacity style={styles.saveBtn} onPress={addRoutineHandler}>
                                 <Text style={styles.endBtnText}>Save</Text>
                             </TouchableOpacity>
                         </View>
 
 
-                    </View>
+                    </ScrollView>
                 </KeyboardAvoidingView>
             </SafeAreaView>
         </SafeAreaProvider>
