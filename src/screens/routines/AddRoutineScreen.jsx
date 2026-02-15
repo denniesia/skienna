@@ -59,8 +59,8 @@ export default function AddRoutineScreen({ navigation, route }) {
 
         try {
             await addDoc(routinesCollection, {
-                selectedCategory, 
-                selectedImage,
+                category: selectedCategory, 
+                imageUri: selectedImage,
                 startedOn,
                 notes,
                 createdAt: new Date(),

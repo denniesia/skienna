@@ -167,4 +167,39 @@ export const styles = StyleSheet.create({
 		borderColor: '#e2e8f0',
 		borderStyle: 'dashed',
 	},
+
+	card: {
+        flexDirection: "row",
+        backgroundColor: "#FFFFFF",
+        borderRadius: 16,
+        paddingHorizontal: 12,
+        marginBottom: 15 ,
+
+        // iOS shadow
+        shadowColor: "#000",
+        shadowOpacity: 0.06,
+        shadowRadius: 8,
+        shadowOffset: { width: 0, height: 4 },
+    },
+    image: {
+        width: 100,
+        height: 100,
+        borderRadius: 12,
+        backgroundColor: "#F4F4F4",
+    },
+    info: {
+        flex: 1,
+        marginLeft: 12,
+        justifyContent: "center",
+    },
+    name: {
+        fontSize: 18,
+        fontWeight: "600",
+        color: '#f376b4',
+    },
+    meta: {
+        fontSize: 14,
+        color: "#7A7A7A",
+        marginTop: 2,
+    },
 });

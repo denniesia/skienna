@@ -33,7 +33,7 @@ export default function ProductsScreen({ navigation }) {
         return () => unsubscribe();
     }, [])
 
-	console.log(products)
+
     return (
         <SafeAreaProvider>
             <SafeAreaView style={[styles.container]}>
