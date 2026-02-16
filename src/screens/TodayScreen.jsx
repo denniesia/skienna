@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import CalendarStrip from 'react-native-calendar-strip';
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { styles } from '../../styles';
@@ -16,7 +16,7 @@ export default function TodayScreen() {
                     style={styles.header}
                 >
                     <View style={styles.headerContent}>
-                        <View style={currStyles.avatar}></View>
+                        <Image source={require('../../assets/profile_pic.jpg')} style={currStyles.avatar} />
                         <View>
                             <Text style={styles.title}>Hey you!</Text>
                             <Text style={currStyles.dateText}>January 27, Tuesday</Text>
@@ -29,7 +29,7 @@ export default function TodayScreen() {
                     scrollable
                     style={currStyles.calendar}
                     calendarColor="transparent"
-                    calendarHeaderStyle={{color: '#F39EB6', fontSize: 20}}
+                    calendarHeaderStyle={{color: "#f376b4", fontSize: 20}}
                     highlightDateNumberStyle={currStyles.highlightDateNumber}
                     highlightDateNameStyle={currStyles.highlightDateName}
                     dateNumberStyle={currStyles.dateNumber}
@@ -65,17 +65,16 @@ export default function TodayScreen() {
 }
 
 const currStyles = StyleSheet.create({
-
     avatar: {
-        width: 50,
-        height: 50,
+        width: 90,
+        height: 90,
         borderRadius: 25,
-        marginRight: 15,
+        marginRight: 10,
         backgroundColor: '#F8F6DF',
     },
    
     dateText: {
-        color: '#B8DB80',
+        color: '#8a8a8acc',
         fontSize: 16,
         marginTop: 2,
     },
@@ -86,22 +85,22 @@ const currStyles = StyleSheet.create({
         marginHorizontal: 15,
     },
     dateNumber: {
-        color: '#A8DF8E',
+        color: '#8a8a8acc',
         fontSize: 18,
         fontWeight: '600',
     },
     dateName: {
-        color: '#A8DF8E',
+        color: '#8a8a8acc',
         fontSize: 12,
         fontWeight: '500',
     },
     highlightDateNumber: {
-        color: '#FFAAB8',
+        color: "#f376b4",
         fontSize: 18,
         fontWeight: '700',
     },
     highlightDateName: {
-        color: '#FFAAB8',
+        color: "#f376b4",
         fontSize: 12,
         fontWeight: '600',
     },

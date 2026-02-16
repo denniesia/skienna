@@ -169,11 +169,16 @@ export const styles = StyleSheet.create({
 	},
 
 	card: {
+		
+		alignSelf: 'center',
         flexDirection: "row",
         backgroundColor: "#FFFFFF",
         borderRadius: 16,
+		borderWidth: 1,
+		borderColor: '#F2BED1',
         paddingHorizontal: 12,
-        marginBottom: 15 ,
+        marginBottom: 10,
+		marginHorizontal: 10,
 
         // iOS shadow
         shadowColor: "#000",
@@ -184,6 +189,7 @@ export const styles = StyleSheet.create({
     image: {
         width: 100,
         height: 100,
+		marginVertical: 5,
         borderRadius: 12,
         backgroundColor: "#F4F4F4",
     },

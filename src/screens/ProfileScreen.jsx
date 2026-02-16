@@ -30,7 +30,7 @@ export default function ProfileScreen() {
                      <View style={currStyles.container}>
                         {/* Avatar */}
                         <View style={currStyles.avatarSection}>
-                            <Image source={{ uri: user.avatar }} style={currStyles.avatar} />
+                            <Image source={require('../../assets/profile_pic.jpg')} style={currStyles.avatar} />
                             <Text style={currStyles.name}>{user.name}</Text>
                             <Text style={currStyles.meta}>
                                 {user.gender}
@@ -64,8 +64,8 @@ const currStyles = StyleSheet.create({
         marginBottom: 32,
     },
     avatar: {
-        width: 96,
-        height: 96,
+        width:150,
+        height: 150,
         borderRadius: 48,
         marginBottom: 12,
     },
