@@ -26,9 +26,6 @@ export default function RoutineNavigator({navigation}) {
                     headerBackButtonDisplayMode: 'minimal'
                 }}
             />
-
-           
-
         </Stack.Navigator>
     );
 };

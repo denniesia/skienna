@@ -56,7 +56,7 @@ export default function TodayScreen() {
                 {/* Routine Section */}
                 <View style={currStyles.routineContainer}>
                     <View style={currStyles.routineHeader}>
-                        <Text style={currStyles.routineTitle}>Your daily routine</Text>
+                        <Text style={currStyles.routineTitle}>Your daily routines</Text>
                     </View>
                     <Text style={currStyles.routineSubtitle}>
                         Tap on a routine to complete
