@@ -1,37 +1,28 @@
 import {
-    Keyboard,
-    Modal,
-    StyleSheet,
     Text,
     TextInput,
     View,
-    Pressable,
     ScrollView,
     TouchableOpacity,
     Image,
-    Button,
     KeyboardAvoidingView,
     Platform,
     FlatList,
     Alert
 } from "react-native";
 import { styles } from "../../../styles";
-import { Ionicons, Feather } from '@expo/vector-icons';
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { cloneElement, useEffect, useState } from "react";
+import {  useState } from "react";
 
 import { addDoc, collection, doc, onSnapshot, orderBy, query, snapshot } from "firebase/firestore";
 import { db } from "../../../FirebaseConfig";
-import CameraCapture from "../../components/CameraCapture";
-import ImagePicker from "../../components/ImagePicker";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import CategoryModal from "../../components/CategoryModal";
 import ProductCard from "../../components/ProductCard";
-
+import { useProducts } from "../../hooks/useProducts";
 
 
 export default function AddRoutineScreen({ navigation, route }) {
-    const [products, setProducts] = useState([]);
     const { category, imageUri } = route.params;
 
     const [notes, setNotes] = useState('');
@@ -41,7 +32,7 @@ export default function AddRoutineScreen({ navigation, route }) {
     const [showCategoryModal, setShowCategoryModal] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(category || '');
     const [selectedImage, setSelectedImage] = useState(imageUri || null);
-    const productsCollection = collection(db, "products");
+   const { products, loading, error } = useProducts();
 
     const routinesCollection = collection(db, 'routines');
 
@@ -75,36 +66,6 @@ export default function AddRoutineScreen({ navigation, route }) {
         
     }
 
-    useEffect(() => {
-        const q = query(productsCollection, orderBy('name', 'asc'));
-        const unsubscribe = onSnapshot(
-            q,
-            (snapshot) => {
-                const productsData = snapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    ...doc.data(),
-                }));
-                setProducts(productsData);
-            },
-            (error) => {
-                console.error("Error fetching todo:", error);
-                Alert.alert("ERROR", "Failed to load products")
-            }
-        );
-
-        return () => unsubscribe();
-    }, [])
-
-
-    // useEffect(() => {
-    //     if (selectedCategory) {
-    //         setSelectedCategory(category);
-    //     }
-    //     if (imageUri) {
-    //         setSelectedImage(imageUri);
-    //     }
-    // }, [selectedCategory, imageUri]);
-
 
     const onStartedOnDateChange = (event, selectedDate) => {
         setShowCalender(false);
@@ -112,7 +73,6 @@ export default function AddRoutineScreen({ navigation, route }) {
             setStartedOn(selectedDate);
         }
     };
-
 
     return (
 
@@ -127,15 +87,12 @@ export default function AddRoutineScreen({ navigation, route }) {
                         contentContainerStyle={{ flexGrow: 1, padding: 2 }}
                         keyboardShouldPersistTaps="handled"
                     >
-
                         <View style={styles.containerAdd}>
                             <View style={styles.topRow}>
-
                                 <Image
                                     source={selectedImage}
                                     style={styles.photo}
                                 />
-
                                 <View style={{ paddingTop: 5, width: '45%' }}>
                                     <View style={styles.inputCont}>
                                         <Text style={styles.label}>Category:</Text>
@@ -157,8 +114,6 @@ export default function AddRoutineScreen({ navigation, route }) {
 
                                         }
                                     </View>
-
-
                                     <View style={styles.inputCont} >
                                         <Text style={styles.label}>Started on:</Text>
                                         <TouchableOpacity onPress={() => setShowCalender(true)}>
@@ -177,12 +132,8 @@ export default function AddRoutineScreen({ navigation, route }) {
                                             />
                                         }
                                     </View>
-
-
                                 </View>
-
                             </View>
-
                             <View>
 
                                 <View style={{ paddingTop: 20, width: '100%' }}>
@@ -198,7 +149,6 @@ export default function AddRoutineScreen({ navigation, route }) {
                                             />
                                         </View>
                                     }
-
                                     <View style={styles.inputCont}>
                                         <Text style={styles.label}>Notes:</Text>
                                         <TextInput
@@ -211,6 +161,8 @@ export default function AddRoutineScreen({ navigation, route }) {
                                         />
                                     </View>
 
+                                    {loading &&  <Text style={styles.loadingText}>Loading...</Text>}
+                                    
                                     <View style={styles.inputCont}>
                                         <Text style={styles.label}>Products:</Text>
                                         <FlatList
@@ -218,8 +170,9 @@ export default function AddRoutineScreen({ navigation, route }) {
                                             keyExtractor={(item) => item.id}
                                             renderItem={({ item }) => <ProductCard product={item} mode='display' />}
                                             ItemSeparatorComponent={() => <View style={styles.separator} />}
-
-                                        />
+                                            contentContainerStyle={{ flexGrow: 1 }}
+                                            scrollEnabled={false} 
+                                            />
 
                                     </View>
 

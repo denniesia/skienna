@@ -92,7 +92,7 @@ export const styles = StyleSheet.create({
 		gap: 10
 	},
 	inputCont: {
-		marginBottom: 15,
+		marginBottom: 10,
 	},
 	label: {
 		color: '#FF69B4',
@@ -207,5 +207,13 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         color: "#7A7A7A",
         marginTop: 2,
+    },
+	loadingText: {
+        marginTop: 12,
+        alignSelf: 'center',
+        fontSize: 18,
+        color: "#F39EB6",
+        fontWeight: "600",
+        letterSpacing: 0.5,
     },
 });

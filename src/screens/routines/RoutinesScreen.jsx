@@ -68,7 +68,7 @@ export default function RoutinesScreen({ navigation }) {
                     />
                 }
 
-                {loading &&  <Text style={currStyles.loadingText}>Loading...</Text>}
+                {loading &&  <Text style={styles.loadingText}>Loading...</Text>}
                 {routines.length > 0
                     ? <FlatList
                         data={routines}
@@ -93,13 +93,3 @@ export default function RoutinesScreen({ navigation }) {
     );
 }
 
-const currStyles = StyleSheet.create({
-    loadingText: {
-        marginTop: 12,
-        alignSelf: 'center',
-        fontSize: 18,
-        color: "#F39EB6",
-        fontWeight: "600",
-        letterSpacing: 0.5,
-    },
-})
