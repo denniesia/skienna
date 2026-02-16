@@ -3,13 +3,19 @@ import CalendarStrip from 'react-native-calendar-strip';
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { styles } from '../../styles';
 import { routines } from '../../data/routines';
+import { useCurrentDate } from '../hooks/useCurrentDate';
 
 
 export default function TodayScreen() {
+    const today = useCurrentDate();
+
+    const day = today.getDate();
+    const month = today.toLocaleString("en-US", { month: "long" });
+    const weekday = today.toLocaleString("en-US", { weekday: "long" });
     return (
         <SafeAreaProvider>
 
-        
+
             <SafeAreaView style={styles.container}>
                 {/* Header */}
                 <View
@@ -19,17 +25,21 @@ export default function TodayScreen() {
                         <Image source={require('../../assets/profile_pic.jpg')} style={currStyles.avatar} />
                         <View>
                             <Text style={styles.title}>Hey you!</Text>
-                            <Text style={currStyles.dateText}>January 27, Tuesday</Text>
+                            <Text style={currStyles.dateText}>{day} {month}, {weekday}</Text>
                         </View>
                     </View>
                 </View>
-
+                <View
+                    style={styles.divider}
+                    accessible={false}
+                    importantForAccessibility="no"
+                />
                 {/* Calendar */}
                 <CalendarStrip
                     scrollable
                     style={currStyles.calendar}
                     calendarColor="transparent"
-                    calendarHeaderStyle={{color: "#f376b4", fontSize: 20}}
+                    calendarHeaderStyle={{ color: "#f376b4", fontSize: 20 }}
                     highlightDateNumberStyle={currStyles.highlightDateNumber}
                     highlightDateNameStyle={currStyles.highlightDateName}
                     dateNumberStyle={currStyles.dateNumber}
@@ -37,21 +47,23 @@ export default function TodayScreen() {
                     iconContainer={{ flex: 0.1 }}
                     selectedDate={new Date()}
                 />
+                <View
+                    style={styles.divider}
+                    accessible={false}
+                    importantForAccessibility="no"
+                />
 
                 {/* Routine Section */}
                 <View style={currStyles.routineContainer}>
                     <View style={currStyles.routineHeader}>
                         <Text style={currStyles.routineTitle}>Your daily routine</Text>
-                        <TouchableOpacity>
-                            <Text style={currStyles.editButton}>Edit routines </Text>
-                        </TouchableOpacity>
                     </View>
                     <Text style={currStyles.routineSubtitle}>
                         Tap on a routine to complete
                     </Text>
 
                     <View>
-                        { routines 
+                        {routines
                             ?
                             <Text>there are some routines</Text>
                             :
@@ -72,11 +84,12 @@ const currStyles = StyleSheet.create({
         marginRight: 10,
         backgroundColor: '#F8F6DF',
     },
-   
+
     dateText: {
         color: '#8a8a8acc',
-        fontSize: 16,
+        fontSize: 15,
         marginTop: 2,
+        fontStyle: 'italic'
     },
     calendar: {
         height: 100,
@@ -105,7 +118,8 @@ const currStyles = StyleSheet.create({
         fontWeight: '600',
     },
     routineContainer: {
-        padding: 20,
+        marginHorizontal: 25,
+        marginTop: 10,
     },
     routineHeader: {
         flexDirection: 'row',
@@ -113,9 +127,9 @@ const currStyles = StyleSheet.create({
         alignItems: 'center',
     },
     routineTitle: {
-        fontSize: 18,
+        fontSize: 22,
         fontWeight: '700',
-        color: '#FF1493',
+        color: '#f376b4',
     },
     editButton: {
         color: '#FF69B4',
