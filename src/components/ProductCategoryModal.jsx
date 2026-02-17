@@ -1,35 +1,28 @@
-import { useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet, Image, Pressable } from 'react-native';
 
-export default function CategoryModal({ 
-    visible, 
-    onClose, 
-    onSelectCategory,
-    mode='select'
+export default function ProductCategoryModal({
+    visible,
+    onClose,
+    // onSelectCategory,
 }) {
     const navigation = useNavigation();
-    const [selected, setSelected] = useState({category:null , imageUri: null});
+    const [selected, setSelected] = useState({ category: null, imageUri: null });
 
-    const routineGallery = {
-        sun: require('../../assets/sun.png'),
-        moon: require('../../assets/moon.png'),
-        faceMask: require('../../assets/face_mask.png'),
-        underEyeMask: require('../../assets/under_eye.png'),
-        special: require('../../assets/special.png')
-    }
+
 
     const handlePressHandler = (category, imageUri) => {
-        setSelected({ category, imageUri });
-        if (mode === 'navigate') {
-            navigation.navigate('Add Routine', { 
-                    category,
-                    imageUri
-                });
-        } else {
-             onSelectCategory?.(category, imageUri);
-        }
-        onClose();
+        // setSelected({ category, imageUri });
+        // if (mode === 'navigate') {
+        //     navigation.navigate('Add Routine', { 
+        //             category,
+        //             imageUri
+        //         });
+        // } else {
+        //      onSelectCategory?.(category, imageUri);
+        // }
+        // onClose();
     }
 
     return (
@@ -45,60 +38,58 @@ export default function CategoryModal({
                     <Text style={styles.title}>Select a Category</Text>
                     <TouchableOpacity
                         style={styles.categoryCont}
-                        onPress={() => handlePressHandler('Morning Routine', routineGallery.sun)}
                     >
-                        <Image
-                            source={routineGallery.sun}
-                            style={styles.photo}
-                        />
-                        <Text style={styles.categoryText}>Morning Routine</Text>
+                        <Text style={styles.categoryText}>Cleanser</Text>
                     </TouchableOpacity>
-
+                    
                     <TouchableOpacity
                         style={styles.categoryCont}
-                        onPress={() => handlePressHandler('Night Routine', routineGallery.moon)}
                     >
-                        <Image
-                            source={routineGallery.moon}
-                            style={styles.photo}
-                        />
-                        <Text style={styles.categoryText}>Night Routine</Text>
+                        <Text style={styles.categoryText}>Exfoliator (Scrub / Chemical Peel)</Text>
                     </TouchableOpacity>
-
                     <TouchableOpacity
                         style={styles.categoryCont}
-                        onPress={() => handlePressHandler('Face Mask', routineGallery.faceMask)}
                     >
-                        <Image
-                            source={routineGallery.faceMask}
-                            style={styles.photo}
-                        />
+                        <Text style={styles.categoryText}>Eye Cream</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.categoryCont}
+                    >
                         <Text style={styles.categoryText}>Face Mask</Text>
                     </TouchableOpacity>
-
                     <TouchableOpacity
                         style={styles.categoryCont}
-
-                        onPress={() => handlePressHandler('Under Eye Mask', routineGallery.underEyeMask)}
                     >
-                        <Image
-                            source={routineGallery.underEyeMask}
-                            style={styles.photo}
-                        />
-                        <Text style={styles.categoryText}>Under Eye Mask</Text>
+                        <Text style={styles.categoryText}>Face Oil</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.categoryCont}
-
-                        onPress={() => handlePressHandler('Special', routineGallery.special)}
                     >
-                        <Image
-                            source={routineGallery.special}
-                            style={styles.photo}
-                        />
-                        <Text style={styles.categoryText}>Special</Text>
+                        <Text style={styles.categoryText}>Moisturizer</Text>
                     </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.categoryCont}
+                    >
+                        <Text style={styles.categoryText}>Serum</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.categoryCont}
+                    >
+                        <Text style={styles.categoryText}>Retinol</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.categoryCont}
+                    >
+                        <Text style={styles.categoryText}>Sunscreen</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.categoryCont}
+                    >
+                        <Text style={styles.categoryText}>Toner</Text>
+                    </TouchableOpacity>
+                    
 
+                    
                 </Pressable>
 
             </Pressable>
@@ -116,7 +107,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     modalContainer: {
-        width: '95%',
+        width: '90%',
         backgroundColor: '#fff', // clean white background
         borderRadius: 15,
         paddingVertical: 20,
@@ -131,17 +122,17 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         fontWeight: 'bold',
-        marginBottom: 10,
+        marginBottom: 2,
         color: '#FF69B4',
     },
     categoryCont: {
         flexDirection: 'row',
         alignItems: 'center',
         width: '100%',
-        padding: 8,
-        backgroundColor: '#f9f9f9',
+        padding: 10,
+        backgroundColor: 'white',
         borderRadius: 10,
-        marginVertical: 8,
+        marginVertical: 6,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,

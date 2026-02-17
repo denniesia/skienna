@@ -4,9 +4,9 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useEffect, useState } from "react";
-import CategoryModal from "../../components/CategoryModal";
 import RoutineCard from "../../components/RoutineCard";
 import { useRoutines } from "../../hooks/useRoutines";
+import RoutineCategoryModal from "../../components/RoutineCategoryModal";
 
 
 
@@ -57,7 +57,7 @@ export default function RoutinesScreen({ navigation }) {
                 <View style={styles.divider} />
 
                 {showCategoryModal &&
-                    <CategoryModal
+                    <RoutineCategoryModal
                         visible={showCategoryModal}
                         onClose={() => setShowCategoryModal(false)}
                         onSelectCategory={(category, image) => {

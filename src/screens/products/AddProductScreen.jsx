@@ -27,6 +27,7 @@ import CameraCapture from "../../components/CameraCapture";
 import ImagePicker from "../../components/ImagePicker";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { validateProduct } from "../../utils/validateProduct";
+import ProductCategoryModal from "../../components/ProductCategoryModal";
 
 
 export default function AddProductScreen({ navigation }) {
@@ -39,6 +40,8 @@ export default function AddProductScreen({ navigation }) {
 	const [showCalender, setShowCalender] = useState(false);
 	const [expiresInMonths, setExpiresInMonths] = useState("")
 	const [notes, setNotes] = useState("")
+
+	const [showCategoryModal, setShowCategoryModal] = useState(false);
 
 	const productsCollection = collection(db, "products")
 
@@ -55,14 +58,13 @@ export default function AddProductScreen({ navigation }) {
 		)
 	}
 
-
 	const addProductHandler = async () => {
-		const [valid, message] = validateProduct({name, brand, category, openedOnDate, expiresInMonths, notes})
-		
+		const [valid, message] = validateProduct({ name, brand, category, openedOnDate, expiresInMonths, notes })
+
 		if (!valid) {
-            Alert.alert("Error", message);
-            return;
-        }
+			Alert.alert("Error", message);
+			return;
+		}
 
 		try {
 			const today = new Date();
@@ -91,7 +93,7 @@ export default function AddProductScreen({ navigation }) {
 	}
 
 	const onOpenedOnDateChange = (event, selectedDate) => {
-		setShowCalender(false); 
+		setShowCalender(false);
 		if (selectedDate) {
 			setOpenedOnDate(selectedDate);
 		}
@@ -146,17 +148,26 @@ export default function AddProductScreen({ navigation }) {
 											onChangeText={setBrand}
 										/>
 									</View>
-
 								</View>
-
 							</View>
 
 							<View>
 								<View style={{ paddingTop: 20, width: '100%' }}>
-									<View style={styles.inputCont}>
+									<View style={styles.inputCont} >
 										<Text style={styles.label}>Category:</Text>
-										<TextInput placeholder="Cleanser" style={styles.input} />
+										<TouchableOpacity onPress={() => setShowCategoryModal(true)}>
+											<Text placeholder="Cleanser" style={styles.input} />
+										</TouchableOpacity>
 									</View>
+
+									{
+										showCategoryModal &&
+										<ProductCategoryModal
+											visible={showCategoryModal}
+											onClose={() => setShowCategoryModal(false)}
+										/>
+									}
+
 
 									<View style={styles.inputCont}>
 										<Text style={styles.label}>Routine:</Text>

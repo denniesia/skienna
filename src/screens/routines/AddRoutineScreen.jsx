@@ -17,10 +17,11 @@ import {  useState } from "react";
 import { addDoc, collection, doc, onSnapshot, orderBy, query, snapshot } from "firebase/firestore";
 import { db } from "../../../FirebaseConfig";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import CategoryModal from "../../components/CategoryModal";
+
 import ProductCard from "../../components/ProductCard";
 import { useProducts } from "../../hooks/useProducts";
 import { validateRoutine } from '../../utils/validateRoutine'
+import RoutineCategoryModal from "../../components/RoutineCategoryModal";
 
 export default function AddRoutineScreen({ navigation, route }) {
     const { category, imageUri } = route.params;
@@ -98,7 +99,7 @@ export default function AddRoutineScreen({ navigation, route }) {
                                             </Text>
                                         </TouchableOpacity>
                                         {showCategoryModal &&
-                                            <CategoryModal
+                                            <RoutineCategoryModal
                                                 visible={showCategoryModal}
                                                 onClose={() => setShowCategoryModal(false)}
                                                 onSelectCategory={(category, image) => {
