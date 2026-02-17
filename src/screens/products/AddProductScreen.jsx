@@ -35,6 +35,7 @@ export default function AddProductScreen({ navigation }) {
 
 	const [name, setName] = useState("");
 	const [brand, setBrand] = useState("")
+	const [category, setCategory] = useState("")
 	const [imageUri, setImageUri] = useState(null);
 	const [openedOnDate, setOpenedOnDate] = useState(new Date());
 	const [showCalender, setShowCalender] = useState(false);
@@ -59,7 +60,7 @@ export default function AddProductScreen({ navigation }) {
 	}
 
 	const addProductHandler = async () => {
-		const [valid, message] = validateProduct({ name, brand, category, openedOnDate, expiresInMonths, notes })
+		const {valid, message} = validateProduct({ name, brand, category, openedOnDate, expiresInMonths, notes })
 
 		if (!valid) {
 			Alert.alert("Error", message);
@@ -79,7 +80,7 @@ export default function AddProductScreen({ navigation }) {
 				name,
 				imageUri,
 				brand,
-				createdAt: formattedDate,
+				addedOn: new Date(),
 			});
 			setName('');
 			setBrand('');
@@ -156,18 +157,25 @@ export default function AddProductScreen({ navigation }) {
 									<View style={styles.inputCont} >
 										<Text style={styles.label}>Category:</Text>
 										<TouchableOpacity onPress={() => setShowCategoryModal(true)}>
-											<Text placeholder="Cleanser" style={styles.input} />
+											{category
+												? <Text placeholder="" style={[styles.input]} >{category}</Text>
+												:<Text placeholder="" style={[styles.input, {color: '#848282'}]} >Please choose category</Text>
+											}
+											
 										</TouchableOpacity>
 									</View>
-
 									{
 										showCategoryModal &&
 										<ProductCategoryModal
 											visible={showCategoryModal}
 											onClose={() => setShowCategoryModal(false)}
+											onSelectCategory={(category) => {
+                                                    setCategory(category);
+													setShowCategoryModal(false);
+                                                   
+                                                }}
 										/>
 									}
-
 
 									<View style={styles.inputCont}>
 										<Text style={styles.label}>Routine:</Text>
@@ -181,7 +189,7 @@ export default function AddProductScreen({ navigation }) {
 										{showCalender &&
 											<DateTimePicker
 												value={openedOnDate}
-												mode="date" // "time" for time picker, "datetime" for both
+												mode="date" 
 												display="default"
 												onChange={onOpenedOnDateChange}
 												color='#F39EB6'

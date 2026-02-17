@@ -1,4 +1,4 @@
-export const validateProduct = ({ name, brand, category, openedOn, expiresInMonths=null, notes=''}) => {
+export const validateProduct = ({ name, brand, category, openedOn='', expiresInMonths=null, notes=''}) => {
 
     if (!name) {
         return { valid: false, message: "Name is required." };
@@ -21,7 +21,7 @@ export const validateProduct = ({ name, brand, category, openedOn, expiresInMont
     }
     
     if (notes && notes.length < 10) {
-        return { valid: false, message: "Notes must be at most 10 characters" };
+        return { valid: false, message: "Notes must be at least 10 characters" };
     }
     return { valid: true };
 };

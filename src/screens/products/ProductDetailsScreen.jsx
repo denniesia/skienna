@@ -11,7 +11,12 @@ export default function ProductDetailsScreen({ route }) {
             <SafeAreaView style={styles.container}>
                 <ScrollView>
 
-                    <Image source={{ uri: product.imageUri }} style={styles.heroImage} />
+                    {product.imageUri
+                        ?   <Image source={{ uri: product.imageUri }} style={styles.heroImage} />
+                        :  <Image source={require('../../../assets/product_img.png')} style={styles.heroImage} />
+                    }
+
+                    
 
                     <View style={styles.overlayCard}>
                         <Text style={styles.title}>{product.name}</Text>

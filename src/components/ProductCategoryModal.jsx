@@ -5,24 +5,15 @@ import { Modal, View, Text, TouchableOpacity, StyleSheet, Image, Pressable } fro
 export default function ProductCategoryModal({
     visible,
     onClose,
-    // onSelectCategory,
+    onSelectCategory,
 }) {
     const navigation = useNavigation();
-    const [selected, setSelected] = useState({ category: null, imageUri: null });
+    const [selectedCategory, setSelectedCategory] = useState();
 
-
-
-    const handlePressHandler = (category, imageUri) => {
-        // setSelected({ category, imageUri });
-        // if (mode === 'navigate') {
-        //     navigation.navigate('Add Routine', { 
-        //             category,
-        //             imageUri
-        //         });
-        // } else {
-        //      onSelectCategory?.(category, imageUri);
-        // }
-        // onClose();
+    const handlePressHandler = (category) => {
+        setSelectedCategory(category);
+        onSelectCategory?.(category);
+        onClose();
     }
 
     return (
@@ -38,52 +29,62 @@ export default function ProductCategoryModal({
                     <Text style={styles.title}>Select a Category</Text>
                     <TouchableOpacity
                         style={styles.categoryCont}
+                        onPress={() => handlePressHandler('Cleanser')}
                     >
                         <Text style={styles.categoryText}>Cleanser</Text>
                     </TouchableOpacity>
                     
                     <TouchableOpacity
                         style={styles.categoryCont}
+                        onPress={() => handlePressHandler('Exfoliator')}
                     >
-                        <Text style={styles.categoryText}>Exfoliator (Scrub / Chemical Peel)</Text>
+                        <Text style={styles.categoryText}>Exfoliator</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.categoryCont}
+                        onPress={() => handlePressHandler('Eye Cream')}
                     >
                         <Text style={styles.categoryText}>Eye Cream</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.categoryCont}
+                        onPress={() => handlePressHandler('Face Mask')}
                     >
                         <Text style={styles.categoryText}>Face Mask</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.categoryCont}
+                        onPress={() => handlePressHandler('Face Oil')}
                     >
                         <Text style={styles.categoryText}>Face Oil</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.categoryCont}
+                        onPress={() => handlePressHandler('Moisturizer')}
                     >
                         <Text style={styles.categoryText}>Moisturizer</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.categoryCont}
+                        onPress={() => handlePressHandler('Serum')}
                     >
                         <Text style={styles.categoryText}>Serum</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.categoryCont}
+                        onPress={() => handlePressHandler('Retinol')}
                     >
                         <Text style={styles.categoryText}>Retinol</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.categoryCont}
+                        onPress={() => handlePressHandler('Sunscreen')}
                     >
                         <Text style={styles.categoryText}>Sunscreen</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.categoryCont}
+                        onPress={() => handlePressHandler('Toner')}
                     >
                         <Text style={styles.categoryText}>Toner</Text>
                     </TouchableOpacity>
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     modalContainer: {
-        width: '90%',
+        width: '75%',
         backgroundColor: '#fff', // clean white background
         borderRadius: 15,
         paddingVertical: 20,

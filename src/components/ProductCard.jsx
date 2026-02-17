@@ -19,11 +19,19 @@ export default function ProductCard({
             style={styles.card} 
             onPress={isPressable ? productPressHandler : undefined}
         >
-            <Image
-                source={{ uri: product.imageUri }}
-                style={styles.image}
-                resizeMode="cover"   
-            />
+            {product.imageUri
+                ? (<Image
+                    source={{ uri: product.imageUri }}
+                    style={styles.image}
+                    resizeMode="cover"   
+                />)
+                : (<Image
+                    source={require('../../assets/product_img.png')}
+                    style={styles.image}
+                    resizeMode="cover"   
+                />)
+            }
+            
 
             <View style={styles.info}>
                 <Text style={styles.name} >
