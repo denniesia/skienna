@@ -17,7 +17,7 @@ export const validateRoutine = ({ category, startedOn, name = '', notes = '' }) 
     }
 
     if (notes.length < 10) {
-        return { valid: false, message: "Notes must be at most 5 characters" };
+        return { valid: false, message: "Notes must be at least 10 characters" };
     }
     return { valid: true };
 };

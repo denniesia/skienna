@@ -26,6 +26,7 @@ import { db } from "../../../FirebaseConfig";
 import CameraCapture from "../../components/CameraCapture";
 import ImagePicker from "../../components/ImagePicker";
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { validateProduct } from "../../utils/validateProduct";
 
 
 export default function AddProductScreen({ navigation }) {
@@ -55,12 +56,13 @@ export default function AddProductScreen({ navigation }) {
 	}
 
 
-
 	const addProductHandler = async () => {
-		if (!name || !brand || !imageUri) {
-			Alert.alert('Error', 'Please provide more info!');
-			return;
-		}
+		const [valid, message] = validateProduct({name, brand, category, openedOnDate, expiresInMonths, notes})
+		
+		if (!valid) {
+            Alert.alert("Error", message);
+            return;
+        }
 
 		try {
 			const today = new Date();
@@ -70,8 +72,6 @@ export default function AddProductScreen({ navigation }) {
 				month: 'long',
 				year: 'numeric',
 			});
-
-
 
 			await addDoc(productsCollection, {
 				name,
@@ -189,7 +189,6 @@ export default function AddProductScreen({ navigation }) {
 											value={expiresInMonths}
 											onChangeText={setExpiresInMonths}
 										/>
-
 
 									</View>
 									<View style={styles.inputCont}>
