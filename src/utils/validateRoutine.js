@@ -12,7 +12,7 @@ export const validateRoutine = ({ category, startedOn, name = '', notes = '' }) 
         return { valid: false, message: "Name is required for Special routines" };
     }
 
-    if (category === "Special" && name.length > 5) {
+    if (category === "Special" && name.length < 5) {
         return { valid: false, message: "Name must be at most 5 characters" };
     }
 

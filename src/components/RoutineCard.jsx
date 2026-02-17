@@ -30,13 +30,38 @@ export default function RoutineCard({
                 <Text style={styles.name} >
                     {routine.category}
                 </Text>
+                {routine.name && 
+                    <Text style={currStyles.routineName} >
+                        {routine.name}
+                    </Text>
+                }
 
-                <Text style={styles.meta}>
-                      {date.toLocaleString()}
-                </Text>
-
+                {routine.notes &&    
+                    <Text style={currStyles.routineNotes}>
+                        {
+                            routine.notes.length > 50 
+                            ? `${routine.notes?.slice(0, 50)}...`
+                            : routine.notes
+                        }
+                    </Text>         
+                }
 
             </View>
         </TouchableOpacity>
     );
 };
+
+const currStyles = StyleSheet.create({
+    routineName: {
+        fontSize: 14,
+        color: '#F2BED1',
+        marginTop: 2,
+        fontStyle: 'italic'
+    },
+    routineNotes: {
+        fontSize: 12,
+        marginTop: 2,
+        color: '#8d8b8bcc',
+        
+    }
+})

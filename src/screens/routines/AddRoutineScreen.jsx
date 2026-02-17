@@ -20,7 +20,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import CategoryModal from "../../components/CategoryModal";
 import ProductCard from "../../components/ProductCard";
 import { useProducts } from "../../hooks/useProducts";
-
+import { validateRoutine } from '../../utils/validateRoutine'
 
 export default function AddRoutineScreen({ navigation, route }) {
     const { category, imageUri } = route.params;
@@ -37,21 +37,18 @@ export default function AddRoutineScreen({ navigation, route }) {
     const routinesCollection = collection(db, 'routines');
 
     const addRoutineHandler = async() => {
-        if (!selectedCategory || !startedOn) {
-            return;
-        };
+       const { valid, message } = validateRoutine({category, startedOn, name, notes});
 
-        if (selectedCategory === 'Special' && !name) {
+        if (!valid) {
+            Alert.alert("Error", message);
             return;
-        };
-        if (selectedCategory === 'Special' && name.length > 5) {
-            return;
-        }; 
+        }
 
         try {
             await addDoc(routinesCollection, {
                 category: selectedCategory, 
                 imageUri: selectedImage,
+                name: name || null,
                 startedOn,
                 notes,
                 createdAt: new Date(),
@@ -65,7 +62,6 @@ export default function AddRoutineScreen({ navigation, route }) {
         }
         
     }
-
 
     const onStartedOnDateChange = (event, selectedDate) => {
         setShowCalender(false);
@@ -162,7 +158,7 @@ export default function AddRoutineScreen({ navigation, route }) {
                                     </View>
 
                                     {loading &&  <Text style={styles.loadingText}>Loading...</Text>}
-                                    
+
                                     <View style={styles.inputCont}>
                                         <Text style={styles.label}>Products:</Text>
                                         <FlatList
