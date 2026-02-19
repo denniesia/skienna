@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import CalendarStrip from 'react-native-calendar-strip';
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { styles } from '../../styles';
-import { routines } from '../../data/routines';
+
 import { useCurrentDate } from '../hooks/useCurrentDate';
 
 
@@ -62,14 +62,14 @@ export default function TodayScreen() {
                         Tap on a routine to complete
                     </Text>
 
-                    <View>
+                    {/* <View>
                         {routines
                             ?
                             <Text>there are some routines</Text>
                             :
                             <Text>No routines</Text>
                         }
-                    </View>
+                    </View> */}
                 </View>
             </SafeAreaView>
         </SafeAreaProvider>

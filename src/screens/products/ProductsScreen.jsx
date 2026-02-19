@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, TextInput, ScrollView, Pressable, TouchableOpacity, Alert } from "react-native";
+import { Text, View, StyleSheet, TextInput, ScrollView, Pressable, TouchableOpacity, Alert, FlatList } from "react-native";
 import { styles } from "../../../styles";
 
 import ProductCard from "../../components/ProductCard";
@@ -8,31 +8,13 @@ import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useEffect, useState } from "react";
 import { collection, doc, onSnapshot, orderBy, query, snapshot } from "firebase/firestore";
 import { db } from "../../../FirebaseConfig";
+import { useProducts } from "../../hooks/useProducts";
 
 export default function ProductsScreen({ navigation }) {
-    const [products, setProducts] = useState([]);
-    const productsCollection = collection(db, 'products')
+    const { products, loading, error } = useProducts();
 
-    useEffect(() => {
-        const q = query(productsCollection, orderBy('name', 'asc'));
-        const unsubscribe = onSnapshot(
-            q,
-            (snapshot) => {
-                const productsData = snapshot.docs.map((doc) => ({
-                    id: doc.id, 
-                    ...doc.data(), 
-                }));
-                setProducts(productsData);
-            },
-            (error) => {
-                console.error("Error fetching todo:", error);
-                Alert.alert("ERROR", "Failed to load products")
-            }
-        );
-        
-        return () => unsubscribe();
-    }, [])
 
+    console.log(products)
 
     return (
         <SafeAreaProvider>
@@ -71,15 +53,17 @@ export default function ProductsScreen({ navigation }) {
 
                 <View style={styles.divider} />
 
-
-                {/* TODO FLATLIST */}
+            
                
-                    <ScrollView contentContainerStyle={styles.container}>
-                        {products.length > 0 ? (
-                            products.map((product) => (
-                            <ProductCard key={product.id} product={product} />
-                            ))
-                        ) : (
+                   {products.length > 0
+                        ? <FlatList
+                            data={products}
+                            keyExtractor={(item) => item.id}
+                            renderItem={({ item }) => <ProductCard product={item} />}
+                            ItemSeparatorComponent={() => <View style={styles.separator} />}
+                            contentContainerStyle={{ flexGrow: 1 }}
+                        />
+                        : (
                             <TouchableOpacity style={styles.noItemContainer} onPress={() => navigation.navigate('Add Product')}>
                                 <MaterialCommunityIcons name="flower-tulip-outline" size={40} color="#eb8f9e" />
                                 <Text style={styles.noItemText}>No products yet</Text>
@@ -88,7 +72,7 @@ export default function ProductsScreen({ navigation }) {
                                 </Text>
                             </TouchableOpacity>
                         )}
-                    </ScrollView>   
+        
 
             </SafeAreaView>
         </SafeAreaProvider>
