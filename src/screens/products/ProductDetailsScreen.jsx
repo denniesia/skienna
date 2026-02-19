@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { formatDate } from "../../utils/formatDate";
 
 
 export default function ProductDetailsScreen({ route }) {
@@ -12,38 +13,52 @@ export default function ProductDetailsScreen({ route }) {
                 <ScrollView>
 
                     {product.imageUri
-                        ?   <Image source={{ uri: product.imageUri }} style={styles.heroImage} />
-                        :  <Image source={require('../../../assets/product_img.png')} style={styles.heroImage} />
+                        ? <Image source={{ uri: product.imageUri }} style={styles.heroImage} />
+                        : <Image source={require('../../../assets/product_img.png')} style={styles.heroImage} />
                     }
 
-                    
+
 
                     <View style={styles.overlayCard}>
                         <Text style={styles.title}>{product.name}</Text>
                         <Text style={styles.subtitle}>{product.brand} • {product.category}</Text>
 
-                        <View style={styles.tags}>
-                            {/* {product.routines.map(r => (
+                        {/* <View style={styles.tags}>
+                            {product.routines.map(r => (
                                 <Text key={r} style={styles.tag}>{r}</Text>
-                            ))} */}
+                            ))}
+
+                        </View> */}
+
+                        <View style={styles.tags}>
+                            
+                            <Text  style={styles.tag}>{product.category}</Text>
+                         
                         </View>
 
                         <Text style={styles.notes}>{product.notes}</Text>
 
                         <View style={styles.dateGrid}>
                             <View style={styles.dateBox}>
-                                <Text style={styles.dateLabel}>Opened</Text>
-                                <Text style={styles.dateValue}>{product.openedAt}</Text>
+                                <Text style={styles.dateLabel}>Opened on:</Text>
+                                <Text style={styles.dateValue}>
+                                    {formatDate(product.openedOnDate)}
+                                </Text>
+                            </View>
+
+
+                            <View style={styles.dateBox}>
+                                <Text style={styles.dateLabel}>Expires in: </Text>
+                                {product.expiresAfterMonths
+                                    ? <Text style={styles.dateValue}>{product.expiresAfterMonths}months</Text>
+                                    : <Text style={styles.dateValue}>N/A</Text>
+                                }
+                                
                             </View>
 
                             <View style={styles.dateBox}>
-                                <Text style={styles.dateLabel}>Expires</Text>
-                                <Text style={styles.dateValue}>{product.expiresAfterMonths}m</Text>
-                            </View>
-
-                            <View style={styles.dateBox}>
-                                <Text style={styles.dateLabel}>Created</Text>
-                                <Text style={styles.dateValue}>{product.createdAt}</Text>
+                                <Text style={styles.dateLabel}>Added on:</Text>
+                                <Text style={styles.dateValue}>{formatDate(product.addedOn)}</Text>
                             </View>
                         </View>
                     </View>
@@ -177,6 +192,7 @@ const styles = StyleSheet.create({
         flexWrap: "wrap",
         gap: 8,
         marginBottom: 12,
+
     },
 
     tag: {
@@ -187,6 +203,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         fontSize: 12,
         fontWeight: "600",
+        fontStyle: 'italic'
     },
 
     notes: {
@@ -216,8 +233,9 @@ const styles = StyleSheet.create({
 
     dateValue: {
         fontSize: 13,
-        fontWeight: "700",
+        fontWeight: "400",
         color: '#F2BED1',
+        textAlign: 'center',
     },
 
 });

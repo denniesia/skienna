@@ -204,8 +204,6 @@ export default function AddProductScreen({ navigation }) {
 												color='#F39EB6'
 											/>
 										}
-
-
 									</TouchableOpacity>
 									<View style={styles.inputCont}>
 										<Text style={styles.label}>Expires in (months):</Text>

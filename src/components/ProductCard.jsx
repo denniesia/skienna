@@ -41,8 +41,7 @@ export default function ProductCard({
                 <Text style={styles.meta}>
                     {product.brand} · {product.category}
                 </Text>
-
-
+          
             </View>
         </TouchableOpacity>
     );
