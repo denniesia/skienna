@@ -1,12 +1,14 @@
 
 import { View, Text, StyleSheet, Image, Pressable, TouchableOpacity } from "react-native";
 import { styles } from "../../styles";
+import { useNavigation } from "@react-navigation/native";
 
 
 export default function RoutineCard({
-    routine
+    routine, 
+    
 }) {
-
+    const navigation = useNavigation();
     const routineGallery = {
         'Morning Routine': require('../../assets/sun.png'),
         'Night Routine': require('../../assets/moon.png'),
@@ -14,10 +16,11 @@ export default function RoutineCard({
         'Under Eye Mask': require('../../assets/under_eye.png'),
         'Special': require('../../assets/special.png')
     }
-    const date = routine.startedOn.toDate();
+
  return (
-         <TouchableOpacity 
+        <TouchableOpacity 
             style={styles.card} 
+            onPress={() => navigation.navigate('Routine Details', { routine })}
             
         >
             <Image

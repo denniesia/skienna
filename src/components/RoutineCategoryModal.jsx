@@ -9,7 +9,7 @@ export default function RoutineCategoryModal({
     mode='select'
 }) {
     const navigation = useNavigation();
-    const [selected, setSelected] = useState({category:null , imageUri: null});
+    const [selected, setSelected] = useState({category:null , imageKey: null});
 
     const routineGallery = {
         sun: require('../../assets/sun.png'),
@@ -19,15 +19,16 @@ export default function RoutineCategoryModal({
         special: require('../../assets/special.png')
     }
 
-    const handlePressHandler = (category, imageUri) => {
-        setSelected({ category, imageUri });
+    const handlePressHandler = (category, imageKey) => {
+
+        setSelected({ category, imageKey });
         if (mode === 'navigate') {
             navigation.navigate('Add Routine', { 
                     category,
-                    imageUri
+                    imageKey
                 });
         } else {
-             onSelectCategory?.(category, imageUri);
+             onSelectCategory?.(category, imageKey);
         }
         onClose();
     }
@@ -41,11 +42,11 @@ export default function RoutineCategoryModal({
         >
             <Pressable style={styles.overlay} onPress={onClose}>
 
-                <Pressable style={styles.modalContainer} onPress={() => { }}>
+                <View style={styles.modalContainer}>
                     <Text style={styles.title}>Select a Category</Text>
                     <TouchableOpacity
                         style={styles.categoryCont}
-                        onPress={() => handlePressHandler('Morning Routine', routineGallery.sun)}
+                        onPress={() => handlePressHandler('Morning Routine', 'sun')}
                     >
                         <Image
                             source={routineGallery.sun}
@@ -56,7 +57,7 @@ export default function RoutineCategoryModal({
 
                     <TouchableOpacity
                         style={styles.categoryCont}
-                        onPress={() => handlePressHandler('Night Routine', routineGallery.moon)}
+                        onPress={() => handlePressHandler('Night Routine', 'moon')}
                     >
                         <Image
                             source={routineGallery.moon}
@@ -67,7 +68,7 @@ export default function RoutineCategoryModal({
 
                     <TouchableOpacity
                         style={styles.categoryCont}
-                        onPress={() => handlePressHandler('Face Mask', routineGallery.faceMask)}
+                        onPress={() => handlePressHandler('Face Mask', 'faceMask')}
                     >
                         <Image
                             source={routineGallery.faceMask}
@@ -79,7 +80,7 @@ export default function RoutineCategoryModal({
                     <TouchableOpacity
                         style={styles.categoryCont}
 
-                        onPress={() => handlePressHandler('Under Eye Mask', routineGallery.underEyeMask)}
+                        onPress={() => handlePressHandler('Under Eye Mask', 'underEyeMask')}
                     >
                         <Image
                             source={routineGallery.underEyeMask}
@@ -90,7 +91,7 @@ export default function RoutineCategoryModal({
                     <TouchableOpacity
                         style={styles.categoryCont}
 
-                        onPress={() => handlePressHandler('Special', routineGallery.special)}
+                        onPress={() => handlePressHandler('Special', 'special')}
                     >
                         <Image
                             source={routineGallery.special}
@@ -99,7 +100,7 @@ export default function RoutineCategoryModal({
                         <Text style={styles.categoryText}>Special</Text>
                     </TouchableOpacity>
 
-                </Pressable>
+                </View>
 
             </Pressable>
         </Modal>

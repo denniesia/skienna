@@ -16,7 +16,6 @@ export default function RoutinesScreen({ navigation }) {
     const [selectedImage, setSelectedImage] = useState(null);
     const { routines, loading, error } = useRoutines();
 
-
     if (loading) {
        
     }

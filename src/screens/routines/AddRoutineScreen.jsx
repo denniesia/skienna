@@ -24,7 +24,7 @@ import { validateRoutine } from '../../utils/validateRoutine'
 import RoutineCategoryModal from "../../components/RoutineCategoryModal";
 
 export default function AddRoutineScreen({ navigation, route }) {
-    const { category, imageUri } = route.params;
+    const { category, imageKey } = route.params;
 
     const [notes, setNotes] = useState('');
     const [startedOn, setStartedOn] = useState(new Date());
@@ -32,10 +32,19 @@ export default function AddRoutineScreen({ navigation, route }) {
     const [showCalender, setShowCalender] = useState(false);
     const [showCategoryModal, setShowCategoryModal] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(category || '');
-    const [selectedImage, setSelectedImage] = useState(imageUri || null);
+    const [selectedImageKey, setSelectedImageKey] = useState(imageKey );
    const { products, loading, error } = useProducts();
 
     const routinesCollection = collection(db, 'routines');
+
+
+    const routineGallery = {
+        sun: require('../../../assets/sun.png'),
+        moon: require('../../../assets/moon.png'),
+        faceMask: require('../../../assets/face_mask.png'),
+        underEyeMask: require('../../../assets/under_eye.png'),
+        special: require('../../../assets/special.png')
+    }
 
     const addRoutineHandler = async() => {
        const { valid, message } = validateRoutine({category, startedOn, name, notes});
@@ -48,7 +57,7 @@ export default function AddRoutineScreen({ navigation, route }) {
         try {
             await addDoc(routinesCollection, {
                 category: selectedCategory, 
-                imageUri: selectedImage,
+                imageKey: selectedImageKey,
                 name: name || null,
                 startedOn,
                 notes,
@@ -87,7 +96,7 @@ export default function AddRoutineScreen({ navigation, route }) {
                         <View style={styles.containerAdd}>
                             <View style={styles.topRow}>
                                 <Image
-                                    source={selectedImage}
+                                    source={routineGallery[selectedImageKey] }
                                     style={styles.photo}
                                 />
                                 <View style={{ paddingTop: 5, width: '45%' }}>
@@ -102,9 +111,9 @@ export default function AddRoutineScreen({ navigation, route }) {
                                             <RoutineCategoryModal
                                                 visible={showCategoryModal}
                                                 onClose={() => setShowCategoryModal(false)}
-                                                onSelectCategory={(category, image) => {
+                                                onSelectCategory={(category, imageKey) => {
                                                     setSelectedCategory(category);
-                                                    setSelectedImage(image);
+                                                    setSelectedImageKey(imageKey);    
                                                 }}
                                                 mode="select"
                                             />
