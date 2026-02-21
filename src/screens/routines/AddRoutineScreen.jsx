@@ -61,7 +61,7 @@ export default function AddRoutineScreen({ navigation, route }) {
                 name: name || null,
                 startedOn,
                 notes,
-                createdAt: new Date(),
+                createdOn: new Date(),
             })
 
             setNotes('');
