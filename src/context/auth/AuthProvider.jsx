@@ -30,6 +30,7 @@ export function AuthProvider({ children }) {
         } finally {
             setIsLoading(false);
         }
+        console.log(loggedInUser)
     };
 
     const logout = async () => {
