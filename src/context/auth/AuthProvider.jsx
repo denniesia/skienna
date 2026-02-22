@@ -1,42 +1,56 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { authService } from "../../services";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../../FirebaseConfig";
 
 export const AuthContext = createContext();
 
-export  function AuthProvider({ children }) {
-    const [auth, setAuth] = useState({
-        user: null,
-    });
-    const [isLoading, setIsLoading] = useState(false);
+export function AuthProvider({ children }) {
+    const [user, setUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const login = async (email, password) => {
+     useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+            setUser(firebaseUser);
+            setIsLoading(false);
+        });
+
+        return unsubscribe;
+    }, []);
+
+
+   const login = async (email, password) => {
         try {
             setIsLoading(true);
-            const user = await authService.login(email, password);
-            setAuth({
-                id: user.uid,
-                email: user.email,
-            });
+            const loggedInUser = await authService.login(email, password);
+            setUser(loggedInUser);
         } catch (err) {
-            setError(err.message || 'An error occurred during login');
+            setError(err.message || "Login failed");
         } finally {
             setIsLoading(false);
         }
-    }
+    };
 
-    const contextValue = {
-        isAuthenticated: !!auth.user,
-        isLoading,
-        error,
-        login,
-        logout: () => setUser(null),
+    const logout = async () => {
+        await auth.signOut();
+        setUser(null);
     };
 
 
- return (
-    <AuthContext.Provider value={{}}>
-        {children}
-    </AuthContext.Provider>
+    const contextValue = {
+        user,
+        isAuthenticated: !!user,
+        isLoading,
+        error,
+        login,
+        logout,
+    };
+
+
+    return (
+        <AuthContext.Provider value={contextValue}>
+            {children}
+        </AuthContext.Provider>
     );
 };

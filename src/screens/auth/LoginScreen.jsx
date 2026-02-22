@@ -14,18 +14,23 @@ import {
 } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
+import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../../context/auth/useAuth';
+
 const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const { login, error, isLoading } = useAuth();
+    const navigation = useNavigation();
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
         if (!email || !password) {
             Alert.alert('Error', 'Please enter email and password');
             return;
         }
 
-        // Replace with real authentication logic
-        Alert.alert('Success', `Email: ${email}`);
+        await login(email, password)
+       
     };
 
     return (
@@ -37,14 +42,12 @@ const LoginScreen = () => {
       >
         <ScrollView contentContainerStyle={styles.scroll}>
           
-          {/* Top Image */}
           <Image
             source={require("../../../assets/skienna_logo.png")} 
             style={styles.image}
             resizeMode="cover"
           />
 
-          {/* Card */}
           <View style={styles.card}>
             <Text style={styles.title}>Welcome Back </Text>
 
@@ -71,7 +74,7 @@ const LoginScreen = () => {
               />
             </View>
 
-            <TouchableOpacity style={styles.loginBtn} onPress={() => console.log('login')}>
+            <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
               <Text style={styles.loginText}>Login</Text>
             </TouchableOpacity>
 
@@ -91,7 +94,6 @@ const LoginScreen = () => {
     );
 };
 
-export default LoginScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -160,3 +162,6 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
 });
+
+
+export default LoginScreen;
