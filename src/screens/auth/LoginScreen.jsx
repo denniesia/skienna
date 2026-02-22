@@ -30,7 +30,7 @@ const LoginScreen = () => {
 
     return (
         <SafeAreaProvider>
-            r<SafeAreaView style={styles.container}>
+            <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -38,11 +38,11 @@ const LoginScreen = () => {
         <ScrollView contentContainerStyle={styles.scroll}>
           
           {/* Top Image */}
-          {/* <Image
-            source={require("../../../assets/moon.png")} 
+          <Image
+            source={require("../../../assets/skienna_logo.png")} 
             style={styles.image}
-            resizeMode="contain"
-          /> */}
+            resizeMode="cover"
+          />
 
           {/* Card */}
           <View style={styles.card}>
@@ -103,9 +103,10 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   image: {
-    width: "100%",
-    height: 220,
-    marginBottom: 20,
+    width: "160%",
+    height: '140',
+    alignSelf: "center",
+    marginLeft: -20,
   },
   card: {
     backgroundColor: "#fff",
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 26,
     fontWeight: "700",
-    color: "#f376b4",
+    color: "#FE71A4",
     textAlign: "center",
     marginBottom: 25,
   },

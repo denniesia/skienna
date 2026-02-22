@@ -1,59 +1,23 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import TodayNavigator from "./TodayNavigator";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { NavigationContainer } from '@react-navigation/native';
-import RoutinesScreen from "../screens/routines/RoutinesScreen";
-import ProfileScreen from "../screens/ProfileScreen";
+import AuthNavigator from "./AuthNavigator";
+import AppNavigator from "./AppNavigator";
+import { useAuth } from "../context/auth/useAuth";
 
-import Ionicons from '@expo/vector-icons/Ionicons';
-import ProductNavigator from "./ProductNavigator";
-import RoutineNavigator from "./RoutineNavigator";
+const Stack = createNativeStackNavigator();
 
 export default function RootNavigator() {
-    const Tabs = createBottomTabNavigator();
+    const { isAuthenticated, isLoading } = useAuth();
 
     return (
-        <NavigationContainer>
-            <Tabs.Navigator
-                screenOptions={{
-                    tabBarActiveTintColor: '#E68BBE',
-                    tabBarInactiveTintColor: '#aaa',
-                    headerShown: false
-                }}
-            >
-                <Tabs.Screen
-                    name="Today"
-                    component={TodayNavigator}
-                    options={{
-                        tabBarIcon: ({ color, size }) => <Ionicons name="today-outline" size={size} color={color} />,
+     
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+            {isAuthenticated 
+                ? (<Stack.Screen name="App" component={AppNavigator} />) 
+                : (<Stack.Screen name="Auth" component={AuthNavigator} />)
+            }
+        </Stack.Navigator>
 
-                    }}
-
-                />
-                <Tabs.Screen
-                    name="Products"
-                    component={ProductNavigator}
-                    options={{
-                        tabBarIcon: ({ color, size }) => <Ionicons name="cube-outline" size={size} color={color} />,
-
-                    }}
-                />
-                <Tabs.Screen
-                    name="Routines"
-                    component={RoutineNavigator}
-                    options={{
-                        tabBarIcon: ({ color, size }) => <Ionicons name="list-outline" size={size} color={color} />,
-                    }}
-                />
-                <Tabs.Screen
-                    name="Profile"
-                    component={ProfileScreen}
-                    options={{
-                        tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" size={size} color={color} />,
-                        
-                    }}
-                />
-            </Tabs.Navigator>
-        </NavigationContainer>
     );
-};
+}
