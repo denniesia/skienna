@@ -232,4 +232,9 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         lineHeight: 18,
     },
+	iconButton : {
+        alignSelf: 'flex-start',
+        marginLeft: 80,
+        paddingTop: 10
+    }
 });

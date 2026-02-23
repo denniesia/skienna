@@ -28,7 +28,7 @@ export default function TodayScreen() {
                             <Text style={styles.title}>Hey {user.displayName}!</Text>
                             <Text style={currStyles.dateText}>{day} {month}, {weekday}</Text>
                         </View>
-                         <TouchableOpacity onPress={logout} style={currStyles.iconButton}>
+                        <TouchableOpacity onPress={logout} style={styles.iconButton}>
                             <MaterialIcons  name="logout" size={28} color="#f376b4" />
                         </TouchableOpacity>
                     </View>
@@ -148,9 +148,5 @@ const currStyles = StyleSheet.create({
         color: '#FF69B4',
         fontSize: 14,
     },
-    iconButton : {
-        alignSelf: 'flex-start',
-        marginLeft: 80,
-        paddingTop: 10
-    }
+    
 });

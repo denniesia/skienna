@@ -1,10 +1,13 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import ProfileStat from "../components/ProfileStat";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "../../styles";
+import { useAuth } from "../context/auth/useAuth";
+import { MaterialIcons } from '@expo/vector-icons';
+
 
 export default function ProfileScreen() {
-    // Later these can come from state / backend
+    const { logout, user1 } = useAuth();
     const user = {
         name: "Jane Doe",
         gender: "Female",
@@ -17,38 +20,40 @@ export default function ProfileScreen() {
 
     return (
         <SafeAreaProvider>
-             <SafeAreaView style={[styles.container]}>
-                    {/* Header */}
-                    <View style={styles.header}>
-                        <View style={[styles.headerContent, { justifyContent: 'space-between' }]}>
-                            {/* Title */}
-                            <Text style={styles.title}>My Profile</Text>
-                        </View>
+            <SafeAreaView style={[styles.container]}>
+                <View style={styles.header}>
+                    <View style={[styles.headerContent, { justifyContent: 'space-between' }]}>
+                        <Text style={styles.title}>My Profile</Text>
+                        <TouchableOpacity onPress={logout} style={styles.iconButton}>
+                            <MaterialIcons name="logout" size={28} color="#f376b4" />
+                        </TouchableOpacity>
                     </View>
-                     <View style={styles.divider} />
+                </View>
+                <View style={styles.divider} />
 
-                     <View style={currStyles.container}>
-                        {/* Avatar */}
-                        <View style={currStyles.avatarSection}>
-                            <Image source={require('../../assets/profile_pic.jpg')} style={currStyles.avatar} />
-                            <Text style={currStyles.name}>{user.name}</Text>
-                            <Text style={currStyles.meta}>
-                                {user.gender}
-                            </Text>
-                            <Text style={currStyles.meta}>
-                                Member since {user.memberSince}
-                            </Text>
-                        </View>
+                <View style={currStyles.container}>
 
-                        {/* Stats */}
-                        <View style={currStyles.statsCard}>
-                            <ProfileStat label="Products" value={user.productsCount} />
 
-                            <ProfileStat label="Routines" value={user.routinesCount} />
 
-                            <ProfileStat label="Done" value={user.routinesDone} />
-                        </View>
+                    <View style={currStyles.avatarSection}>
+                        <Image source={require('../../assets/profile_pic.jpg')} style={currStyles.avatar} />
+                        <Text style={currStyles.name}>{user.name}</Text>
+                        <Text style={currStyles.meta}>
+                            {user.gender}
+                        </Text>
+                        <Text style={currStyles.meta}>
+                            Member since {user.memberSince}
+                        </Text>
                     </View>
+
+                    <View style={currStyles.statsCard}>
+                        <ProfileStat label="Products" value={user.productsCount} />
+
+                        <ProfileStat label="Routines" value={user.routinesCount} />
+
+                        <ProfileStat label="Done" value={user.routinesDone} />
+                    </View>
+                </View>
             </SafeAreaView>
         </SafeAreaProvider>
     );
@@ -64,7 +69,7 @@ const currStyles = StyleSheet.create({
         marginBottom: 32,
     },
     avatar: {
-        width:150,
+        width: 150,
         height: 150,
         borderRadius: 48,
         marginBottom: 12,
@@ -108,4 +113,5 @@ const currStyles = StyleSheet.create({
         width: 1,
         backgroundColor: "#EEEEEE",
     },
+    
 });
