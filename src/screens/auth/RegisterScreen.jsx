@@ -11,99 +11,142 @@ import {
 } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useNavigation } from '@react-navigation/native';
+
 import { useAuth } from '../../context/auth/useAuth';
+import { validateRegisterCredentials } from '../../utils/validateRegisterCredentials';
+import { styles } from '../../../styles';
+import { Ionicons } from '@expo/vector-icons';
+
 
 const RegisterScreen = ({ navigation }) => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [errors, setErrors] = useState({});
     const { register, isLoading, error, clearError } = useAuth();
 
     const handleRegister = async () => {
-        if (!email || !password) {
-            Alert.alert('Error', 'Please enter email and password');
+        setErrors({});
+        clearError();
+        const { isValid, errors } = validateRegisterCredentials({ name, email, password, confirmPassword });
+        
+        if (!isValid) {
+            setErrors(errors);
             return;
-        }
+        } 
 
         await register(email, password, name)
-        navigation.navigate('Today')
     };
 
     return (
         <SafeAreaProvider>
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView style={currStyles.container}>
                 <KeyboardAwareScrollView
-                    contentContainerStyle={styles.scroll}
+                    contentContainerStyle={currStyles.scroll}
                     enableOnAndroid
                     extraScrollHeight={20}
                 >
 
                     <Image
                         source={require("../../../assets/skienna_logo.png")}
-                        style={styles.image}
+                        style={currStyles.image}
                         resizeMode="cover"
                     />
 
-                    <View style={styles.card}>
-                        <Text style={styles.title}>Create Account</Text>
+                    <View style={currStyles.card}>
+                        <Text style={currStyles.title}>Create Account</Text>
 
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Name</Text>
+                        {error && (
+                            <View style={styles.errorBanner}>
+                                <Ionicons name="alert-circle" size={18} color="#DC2626" />
+                                <Text style={styles.errorBannerText}>
+                                    {error}
+                                </Text>
+                            </View>
+                        )}
+
+                        <View style={currStyles.inputContainer}>
+                            <Text style={currStyles.label}>Name</Text>
                             <TextInput
                                 placeholder="Rebecca"
                                 placeholderTextColor="#aaa"
-                                style={styles.input}
+                                style={currStyles.input}
                                 value={name}
                                 onChangeText={setName}
                             />
+
+                            {errors.name &&
+                                <View style={styles.errorBanner}>
+                                    <Ionicons name="alert-circle" size={20} color="#ef4444" />
+                                    <Text style={styles.errorBannerText}>{errors.name}</Text>
+                                </View>
+                            }
                         </View>
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Email</Text>
+                        <View style={currStyles.inputContainer}>
+                            <Text style={currStyles.label}>Email</Text>
                             <TextInput
                                 placeholder="you@email.com"
                                 placeholderTextColor="#aaa"
-                                style={styles.input}
+                                style={currStyles.input}
                                 value={email}
                                 onChangeText={setEmail}
                                 keyboardType="email-address"
                                 autoCapitalize="none"
                             />
+
+                            {errors.email &&
+                                <View style={styles.errorBanner}>
+                                    <Ionicons name="alert-circle" size={20} color="#ef4444" />
+                                    <Text style={styles.errorBannerText}>{errors.email}</Text>
+                                </View>
+                            }
                         </View>
 
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Password</Text>
+                        <View style={currStyles.inputContainer}>
+                            <Text style={currStyles.label}>Password</Text>
                             <TextInput
                                 placeholder="••••••••"
                                 placeholderTextColor="#aaa"
                                 secureTextEntry
-                                style={styles.input}
+                                style={currStyles.input}
                                 value={password}
                                 onChangeText={setPassword}
                             />
+                            {errors.password &&
+                                <View style={styles.errorBanner}>
+                                    <Ionicons name="alert-circle" size={20} color="#ef4444" />
+                                    <Text style={styles.errorBannerText}>{errors.password}</Text>
+                                </View>
+                            }
                         </View>
 
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Confirm Password</Text>
+                        <View style={currStyles.inputContainer}>
+                            <Text style={currStyles.label}>Confirm Password</Text>
                             <TextInput
                                 placeholder="••••••••"
                                 placeholderTextColor="#aaa"
                                 secureTextEntry
-                                style={styles.input}
+                                style={currStyles.input}
                                 value={confirmPassword}
                                 onChangeText={setConfirmPassword}
                             />
+                            {errors.confirmPassword &&
+                                <View style={styles.errorBanner}>
+                                    <Ionicons name="alert-circle" size={20} color="#ef4444" />
+                                    <Text style={styles.errorBannerText}>{errors.confirmPassword}</Text>
+                                </View>
+                            }
                         </View>
 
-                        <TouchableOpacity style={styles.loginBtn} onPress={handleRegister}>
-                            <Text style={styles.loginText}>Register</Text>
+                        <TouchableOpacity style={currStyles.registerBtn} onPress={handleRegister}>
+                            <Text style={currStyles.registerText1}>Register</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
                             onPress={() => navigation.navigate("Login")}
                         >
-                            <Text style={styles.registerText}>
+                            <Text style={currStyles.registerText}>
                                 Already have an account? Login
                             </Text>
                         </TouchableOpacity>
@@ -114,7 +157,7 @@ const RegisterScreen = ({ navigation }) => {
     );
 };
 
-const styles = StyleSheet.create({
+const currStyles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#fff",
@@ -163,13 +206,13 @@ const styles = StyleSheet.create({
         padding: 12,
         fontSize: 16,
     },
-    loginBtn: {
+    registerBtn: {
         backgroundColor: "#F39EB6",
         padding: 14,
         borderRadius: 12,
         marginTop: 10,
     },
-    loginText: {
+    registerText1: {
         color: "white",
         fontSize: 18,
         fontWeight: "600",

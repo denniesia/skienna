@@ -21,11 +21,12 @@ const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
-    const { login, error, isLoading } = useAuth();
+    const { login, error, isLoading, clearError } = useAuth();
     const navigation = useNavigation();
 
     const handleLogin = async () => {
         setErrors({});
+        clearError();
         const { isValid, errors } = validateLoginCredentials({ password, email })
 
         if (!isValid) {
