@@ -3,7 +3,9 @@ import { authService } from "../../services";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../../FirebaseConfig";
 
-export const AuthContext = createContext();
+export const AuthContext = createContext(
+
+);
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
@@ -30,7 +32,6 @@ export function AuthProvider({ children }) {
         } finally {
             setIsLoading(false);
         }
-        console.log(loggedInUser)
     };
 
     const logout = async () => {
