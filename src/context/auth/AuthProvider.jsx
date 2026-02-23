@@ -20,7 +20,7 @@ export function AuthProvider({ children }) {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-     useEffect(() => {
+    useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
             setUser(firebaseUser);
             setIsLoading(false);
