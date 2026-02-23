@@ -37,7 +37,7 @@ export default function RoutinesScreen({ navigation }) {
                                 <Ionicons name="archive" size={28} color="#F39EB6" />
                             </TouchableOpacity>
 
-                            <TouchableOpacity onPress={() => setShowCategoryModal(true)} style={styles.iconButton}>
+                            <TouchableOpacity onPress={() => setShowCategoryModal(true)} style={styles.iconButtonAdd}>
                                 <AntDesign name="plus" size={28} color="#F39EB6" />
                             </TouchableOpacity>
 

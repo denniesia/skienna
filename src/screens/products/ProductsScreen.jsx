@@ -13,9 +13,6 @@ import { useProducts } from "../../hooks/useProducts";
 export default function ProductsScreen({ navigation }) {
     const { products, loading, error } = useProducts();
 
-
-    console.log(products)
-
     return (
         <SafeAreaProvider>
             <SafeAreaView style={[styles.container]}>
@@ -32,9 +29,7 @@ export default function ProductsScreen({ navigation }) {
                                 <Ionicons name="archive" size={28} color="#F39EB6" />
                             </TouchableOpacity>
 
-
-
-                            <TouchableOpacity onPress={() => navigation.navigate('Add Product')} style={styles.iconButton}>
+                            <TouchableOpacity onPress={() => navigation.navigate('Add Product')} style={styles.iconButtonAdd}>
                                 <AntDesign name="plus" size={28} color="#F39EB6" />
                             </TouchableOpacity>
 

@@ -236,5 +236,9 @@ export const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         marginLeft: 80,
         paddingTop: 10
-    }
+    },
+	iconButtonAdd : {
+		
+        paddingTop: 10
+	}
 });
