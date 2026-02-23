@@ -3,9 +3,17 @@ import { authService } from "../../services";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../../FirebaseConfig";
 
-export const AuthContext = createContext(
-
-);
+export const AuthContext = createContext({
+    isLoading: false,
+    isAuthenticated: false,
+    error: null,
+    user: null,
+    
+    login: async (email, password) => { },
+    register: async (email, password, name) => { },
+    
+    logout: () => { },
+});
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
@@ -39,6 +47,18 @@ export function AuthProvider({ children }) {
         setUser(null);
     };
 
+    const register = async(email, password, name) => {
+        try {
+            setIsLoading(true);
+            const user = await authService.register(email, password, name);
+            setUser(user);
+        } catch (err) {
+            setError(err.message || 'An error occurred during registration');
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
 
     const contextValue = {
         user,
@@ -47,6 +67,7 @@ export function AuthProvider({ children }) {
         error,
         login,
         logout,
+        register,
     };
 
 

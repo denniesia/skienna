@@ -25,7 +25,7 @@ export default function TodayScreen() {
                     <View style={styles.headerContent}>
                         <Image source={require('../../assets/profile_pic.jpg')} style={currStyles.avatar} />
                         <View>
-                            <Text style={styles.title}>Hey you!</Text>
+                            <Text style={styles.title}>Hey {user.displayName}!</Text>
                             <Text style={currStyles.dateText}>{day} {month}, {weekday}</Text>
                         </View>
                          <TouchableOpacity onPress={logout} style={currStyles.iconButton}>

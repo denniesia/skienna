@@ -14,12 +14,12 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../context/auth/useAuth';
 
-const RegisterScreen = () => {
+const RegisterScreen = ({ navigation }) => {
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const { login, error, isLoading } = useAuth();
-    const navigation = useNavigation();
+    const { register, isLoading, error, clearError } = useAuth();
 
     const handleRegister = async () => {
         if (!email || !password) {
@@ -27,8 +27,8 @@ const RegisterScreen = () => {
             return;
         }
 
-        await login(email, password)
-
+        await register(email, password, name)
+        navigation.navigate('Today')
     };
 
     return (
@@ -49,6 +49,16 @@ const RegisterScreen = () => {
                     <View style={styles.card}>
                         <Text style={styles.title}>Create Account</Text>
 
+                        <View style={styles.inputContainer}>
+                            <Text style={styles.label}>Name</Text>
+                            <TextInput
+                                placeholder="Rebecca"
+                                placeholderTextColor="#aaa"
+                                style={styles.input}
+                                value={name}
+                                onChangeText={setName}
+                            />
+                        </View>
                         <View style={styles.inputContainer}>
                             <Text style={styles.label}>Email</Text>
                             <TextInput

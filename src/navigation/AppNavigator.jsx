@@ -22,7 +22,7 @@ export default function RootNavigator() {
             }}
         >
             <Tabs.Screen
-                name="Today"
+                name="Today Navigator"
                 component={TodayNavigator}
                 options={{
                     tabBarIcon: ({ color, size }) => <Ionicons name="today-outline" size={size} color={color} />,
