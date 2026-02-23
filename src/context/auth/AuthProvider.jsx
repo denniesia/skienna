@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 import { authService } from "../../services";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../../FirebaseConfig";
@@ -8,10 +8,9 @@ export const AuthContext = createContext({
     isAuthenticated: false,
     error: null,
     user: null,
-    
     login: async (email, password) => { },
     register: async (email, password, name) => { },
-    
+    clearError: () => { },
     logout: () => { },
 });
 
@@ -32,6 +31,7 @@ export function AuthProvider({ children }) {
 
    const login = async (email, password) => {
         try {
+            setError(null);
             setIsLoading(true);
             const loggedInUser = await authService.login(email, password);
             setUser(loggedInUser);
@@ -60,15 +60,16 @@ export function AuthProvider({ children }) {
     }
 
 
-    const contextValue = {
+    const contextValue = useMemo(() => ({
         user,
         isAuthenticated: !!user,
         isLoading,
         error,
+        clearError: () => setError(null),
         login,
         logout,
         register,
-    };
+    }), [user, isLoading, error]);
 
 
     return (
