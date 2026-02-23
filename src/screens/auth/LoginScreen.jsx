@@ -11,74 +11,101 @@ import {
 } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../context/auth/useAuth';
+import { validateLoginCredentials } from '../../utils/validateLoginCredentials';
+import { styles } from '../../../styles';
 
 const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errors, setErrors] = useState({});
     const { login, error, isLoading } = useAuth();
     const navigation = useNavigation();
 
     const handleLogin = async () => {
-        if (!email || !password) {
-            Alert.alert('Error', 'Please enter email and password');
+        setErrors({});
+        const { isValid, errors } = validateLoginCredentials({ password, email })
+
+        if (!isValid) {
+            setErrors(errors);
             return;
-        }
-
-        await login(email, password)
-
+        }   
+        await login(email, password);
+          
     };
 
     return (
         <SafeAreaProvider>
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView style={curStyles.container}>
                 <KeyboardAwareScrollView
-                    contentContainerStyle={styles.scroll}
+                    contentContainerStyle={curStyles.scroll}
                     enableOnAndroid
                     extraScrollHeight={20}
                 >
                     <Image
                         source={require("../../../assets/skienna_logo.png")}
-                        style={styles.image}
+                        style={curStyles.image}
                         resizeMode="cover"
                     />
 
-                    <View style={styles.card}>
-                        <Text style={styles.title}>Welcome Back </Text>
+                    <View style={curStyles.card}>
+                        <Text style={curStyles.title}>Welcome Back </Text>
 
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Email</Text>
+                       {error && (
+                            <View style={styles.errorBanner}>
+                                <Ionicons name="alert-circle" size={18} color="#DC2626" />
+                                <Text style={styles.errorBannerText}>
+                                    {error}
+                                </Text>
+                            </View>
+                        )}
+
+                        <View style={curStyles.inputContainer}>
+                            <Text style={curStyles.label}>Email</Text>
                             <TextInput
                                 placeholder="you@email.com"
                                 placeholderTextColor="#aaa"
-                                style={styles.input}
+                                style={curStyles.input}
                                 value={email}
                                 onChangeText={setEmail}
                             />
+                            {errors.email &&
+                                <View style={styles.errorBanner}>
+                                    <Ionicons name="alert-circle" size={20} color="#ef4444" />
+                                    <Text style={styles.errorBannerText}>{errors.email}</Text>
+                                </View>
+                            }
                         </View>
 
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Password</Text>
+                        <View style={curStyles.inputContainer}>
+                            <Text style={curStyles.label}>Password</Text>
                             <TextInput
                                 placeholder="••••••••"
                                 placeholderTextColor="#aaa"
                                 secureTextEntry
-                                style={styles.input}
+                                style={curStyles.input}
                                 value={password}
                                 onChangeText={setPassword}
                             />
+                            {errors.password &&
+                                <View style={styles.errorBanner}>
+                                    <Ionicons name="alert-circle" size={20} color="#ef4444" />
+                                    <Text style={styles.errorBannerText}>{errors.password}</Text>
+                                </View>
+                            }
+
                         </View>
 
-                        <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
-                            <Text style={styles.loginText}>Login</Text>
+                        <TouchableOpacity style={curStyles.loginBtn} onPress={handleLogin}>
+                            <Text style={curStyles.loginText}>Login</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
                             onPress={() => navigation.navigate("Register")}
                         >
-                            <Text style={styles.registerText}>
+                            <Text style={curStyles.registerText}>
                                 Don't have an account? Sign up
                             </Text>
                         </TouchableOpacity>
@@ -91,7 +118,7 @@ const LoginScreen = () => {
     );
 };
 
-const styles = StyleSheet.create({
+const curStyles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#fff",
@@ -111,8 +138,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         borderRadius: 20,
         padding: 20,
-
-
         shadowColor: "#000",
         shadowOpacity: 0.08,
         shadowRadius: 10,
@@ -158,6 +183,7 @@ const styles = StyleSheet.create({
         color: "#f376b4",
         fontWeight: "600",
     },
+
 });
 
 
