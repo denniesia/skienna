@@ -60,9 +60,9 @@ export default function AddProductScreen({ navigation }) {
 	}
 
 	const addProductHandler = async () => {
-		const {valid, message} = validateProduct({ name, brand, category, openedOnDate, expiresInMonths, notes })
+		const {isValid, message} = validateProduct({ name, brand, category, openedOnDate, expiresInMonths, notes })
 
-		if (!valid) {
+		if (!isValid) {
 			Alert.alert("Error", message);
 			return;
 		}

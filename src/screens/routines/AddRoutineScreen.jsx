@@ -47,9 +47,9 @@ export default function AddRoutineScreen({ navigation, route }) {
     }
 
     const addRoutineHandler = async() => {
-       const { valid, message } = validateRoutine({category, startedOn, name, notes});
+       const { isValid, message } = validateRoutine({category, startedOn, name, notes});
 
-        if (!valid) {
+        if (!isValid) {
             Alert.alert("Error", message);
             return;
         }
