@@ -2,20 +2,21 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import CalendarStrip from 'react-native-calendar-strip';
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { styles } from '../../styles';
-
+import { MaterialIcons  } from '@expo/vector-icons';
 import { useCurrentDate } from '../hooks/useCurrentDate';
+import { useAuth } from '../context/auth/useAuth';
 
 
 export default function TodayScreen() {
     const today = useCurrentDate();
+    const { logout, user } = useAuth();
 
     const day = today.getDate();
     const month = today.toLocaleString("en-US", { month: "long" });
     const weekday = today.toLocaleString("en-US", { weekday: "long" });
+
     return (
         <SafeAreaProvider>
-
-
             <SafeAreaView style={styles.container}>
                 {/* Header */}
                 <View
@@ -27,6 +28,13 @@ export default function TodayScreen() {
                             <Text style={styles.title}>Hey you!</Text>
                             <Text style={currStyles.dateText}>{day} {month}, {weekday}</Text>
                         </View>
+                         <TouchableOpacity onPress={logout} style={currStyles.iconButton}>
+                            <MaterialIcons  name="logout" size={28} color="#f376b4" />
+                        </TouchableOpacity>
+                    </View>
+
+                    <View>
+                       
                     </View>
                 </View>
                 <View
@@ -140,4 +148,9 @@ const currStyles = StyleSheet.create({
         color: '#FF69B4',
         fontSize: 14,
     },
+    iconButton : {
+        alignSelf: 'flex-start',
+        marginLeft: 80,
+        paddingTop: 10
+    }
 });
