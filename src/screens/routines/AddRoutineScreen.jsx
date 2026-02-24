@@ -13,7 +13,7 @@ import {
 import { styles } from "../../../styles";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import {  useState } from "react";
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { addDoc, collection, doc, onSnapshot, orderBy, query, snapshot } from "firebase/firestore";
 import { db } from "../../../FirebaseConfig";
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -87,15 +87,11 @@ export default function AddRoutineScreen({ navigation, route }) {
 
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
-                <KeyboardAvoidingView
-                    style={{ flex: 1 }}
-                    behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-                    keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
-                >
-                    <ScrollView
-                        contentContainerStyle={{ flexGrow: 1, padding: 2 }}
-                        keyboardShouldPersistTaps="handled"
-                    >
+                <KeyboardAwareScrollView
+					style={{ flex: 1 }}
+					enableOnAndroid
+                    extraScrollHeight={20}
+				>
                         <View style={styles.containerAdd}>
                             <View style={styles.topRow}>
                                 <Image
@@ -198,9 +194,7 @@ export default function AddRoutineScreen({ navigation, route }) {
                             </TouchableOpacity>
                         </View>
 
-
-                    </ScrollView>
-                </KeyboardAvoidingView>
+                </KeyboardAwareScrollView>
             </SafeAreaView>
         </SafeAreaProvider>
     );
