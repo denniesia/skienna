@@ -55,6 +55,9 @@ export default function AddRoutineScreen({ navigation, route }) {
         }
 
         try {
+
+            const userId = auth.currentUser.uid; // get the logged-in user's UID
+            
             await addDoc(routinesCollection, {
                 category: selectedCategory, 
                 imageKey: selectedImageKey,

@@ -7,11 +7,26 @@ import { Ionicons } from '@expo/vector-icons';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useEffect, useState } from "react";
 import { collection, doc, onSnapshot, orderBy, query, snapshot } from "firebase/firestore";
-import { db } from "../../../FirebaseConfig";
+import { auth, db } from "../../../FirebaseConfig";
 import { useProducts } from "../../hooks/useProducts";
+import { getUserProducts } from "../../services/productService";
 
 export default function ProductsScreen({ navigation }) {
-    const { products, loading, error } = useProducts();
+    // const { products, loading, error } = useProducts();
+
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const loadProducts = async () => {
+            const data = await getUserProducts();
+            setProducts(data);
+            setLoading(false);
+        };
+        loadProducts();
+    }, [products]) 
+
+
 
     return (
         <SafeAreaProvider>

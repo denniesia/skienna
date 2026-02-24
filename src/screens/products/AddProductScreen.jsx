@@ -22,7 +22,7 @@ import { useState } from "react";
 import { useCameraPermissions, launchCameraAsync, useMediaLibraryPermissions, launchImageLibraryAsync } from "expo-image-picker";
 
 import { addDoc, collection } from "firebase/firestore";
-import { db } from "../../../FirebaseConfig";
+import { auth, db } from "../../../FirebaseConfig";
 import CameraCapture from "../../components/CameraCapture";
 import ImagePicker from "../../components/ImagePicker";
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -68,13 +68,7 @@ export default function AddProductScreen({ navigation }) {
 		}
 
 		try {
-			const today = new Date();
-
-			const formattedDate = today.toLocaleDateString('en-GB', {
-				day: 'numeric',
-				month: 'long',
-				year: 'numeric',
-			});
+			const userId = auth.currentUser.uid;
 
 			let finalImageUri = imageUri;
 			if (!imageUri) {
@@ -82,6 +76,7 @@ export default function AddProductScreen({ navigation }) {
 			}
 
 			await addDoc(productsCollection, {
+				userId,
 				name,
 				brand,
 				imageUri: finalImageUri,

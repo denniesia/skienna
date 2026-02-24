@@ -11,11 +11,11 @@ const Stack = createNativeStackNavigator();
 export default function RootNavigator() {
     const { isAuthenticated, isLoading } = useAuth();
 
-    // if (isLoading) {
-    //     return (
-    //          <ActivityIndicator size="large" style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} />
-    //     )
-    // }
+    if (isLoading) {
+        return (
+             <ActivityIndicator size="large" style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} />
+        )
+    }
 
     return (
      
