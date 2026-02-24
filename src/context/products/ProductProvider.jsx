@@ -7,6 +7,7 @@ import { auth } from "../../../FirebaseConfig";
 export const ProductContext = createContext({
     products: [],
     loading: true,
+    getUserProductById(productId) {},
 
 });
 
@@ -36,10 +37,14 @@ export function ProductProvider({children}) {
         return unsubscribe;
     } , []);
 
+    const getUserProductById = (productId) => {
+        return products.find(p => p.id === productId);
+    }
 
     const contextValue = {
         products,
         loading,
+        getUserProductById, 
     }
 
     return (

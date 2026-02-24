@@ -1,4 +1,4 @@
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { collection, getDoc, getDocs, orderBy, query, where } from "firebase/firestore";
 import { auth } from "../../FirebaseConfig"
 import { db } from "../../FirebaseConfig";
 
@@ -18,3 +18,10 @@ export const getUserProducts = async (uid) => {
         ...doc.data()
     }));
 };
+
+export async function getUserProductById(productId) {
+    const result = await getDoc(doc(db, 'products', productId));
+
+    return { id: result.id, ...result.data() }
+    
+}

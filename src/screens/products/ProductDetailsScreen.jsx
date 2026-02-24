@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { formatDate } from "../../utils/formatDate";
 
 
 export default function ProductDetailsScreen({ route }) {
-    const { product } = route.params;
-
+    const { product } = route.params ; 
+    
     return (
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
@@ -16,8 +16,6 @@ export default function ProductDetailsScreen({ route }) {
                         ? <Image source={{ uri: product.imageUri }} style={styles.heroImage} />
                         : <Image source={require('../../../assets/product_img.png')} style={styles.heroImage} />
                     }
-
-
 
                     <View style={styles.overlayCard}>
                         <Text style={styles.title}>{product.name}</Text>
@@ -45,7 +43,6 @@ export default function ProductDetailsScreen({ route }) {
                                     {formatDate(product.openedOnDate)}
                                 </Text>
                             </View>
-
 
                             <View style={styles.dateBox}>
                                 <Text style={styles.dateLabel}>Expires in: </Text>
