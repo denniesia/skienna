@@ -1,43 +1,25 @@
-import { Text, View, StyleSheet, TextInput, ScrollView, Pressable, TouchableOpacity, Alert, FlatList } from "react-native";
+import { Text, View, TextInput, TouchableOpacity, FlatList, ActivityIndicator } from "react-native";
 import { styles } from "../../../styles";
 
 import ProductCard from "../../components/ProductCard";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useEffect, useState } from "react";
-import { collection, doc, onSnapshot, orderBy, query, snapshot } from "firebase/firestore";
-import { auth, db } from "../../../FirebaseConfig";
-import { useProducts } from "../../hooks/useProducts";
-import { getUserProducts } from "../../services/productService";
+
+import { useProducts } from "../../context/products/useProducts";
 
 export default function ProductsScreen({ navigation }) {
-    // const { products, loading, error } = useProducts();
-
-    const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const loadProducts = async () => {
-            const data = await getUserProducts();
-            setProducts(data);
-            setLoading(false);
-        };
-        loadProducts();
-    }, [products]) 
-
-
+    const { products, loading } = useProducts();
 
     return (
         <SafeAreaProvider>
             <SafeAreaView style={[styles.container]}>
-                {/* Header */}
+
                 <View style={styles.header}>
                     <View style={[styles.headerContent, { justifyContent: 'space-between' }]}>
                         {/* Title */}
                         <Text style={styles.title}>My Products</Text>
 
-                        {/* Right Icons */}
                         <View style={styles.iconContainer}>
 
                             <TouchableOpacity onPress={() => console.log('press archived')} style={styles.iconButton}>
@@ -52,7 +34,6 @@ export default function ProductsScreen({ navigation }) {
                     </View>
                 </View>
 
-                {/* Search */}
                 <View style={styles.searchBar}>
                     <TextInput
                         placeholder="Search"
@@ -63,7 +44,9 @@ export default function ProductsScreen({ navigation }) {
 
                 <View style={styles.divider} />
 
-            
+                    {loading && 
+                        <ActivityIndicator size="large" style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} />
+                    }
                
                    {products.length > 0
                         ? <FlatList
@@ -82,8 +65,7 @@ export default function ProductsScreen({ navigation }) {
                                 </Text>
                             </TouchableOpacity>
                         )}
-        
-
+    
             </SafeAreaView>
         </SafeAreaProvider>
     );

@@ -1,17 +1,20 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { auth } from "../../FirebaseConfig"
 import { db } from "../../FirebaseConfig";
 
-export const getUserProducts= async () => {
-    const user = auth.currentUser;
+export const getUserProducts = async (uid) => {
+    if (!uid) throw new Error("User ID required");
+
     const q = query(
-        collection(db, "products"), 
-        where("userId", "==", user.uid)
+        collection(db, "products"),
+        where("userId", "==", uid),
+        orderBy("addedOn", "desc")
     );
 
-    const querySnapshot = await getDocs(q);
-    const products = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
+    const snapshot = await getDocs(q);
 
-    return products;
-
-}
+    return snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    }));
+};
