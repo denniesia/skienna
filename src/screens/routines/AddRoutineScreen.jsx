@@ -19,9 +19,10 @@ import { db } from "../../../FirebaseConfig";
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import ProductCard from "../../components/ProductCard";
-import { useProducts } from "../../hooks/useProducts";
+
 import { validateRoutine } from '../../utils/validateRoutine'
 import RoutineCategoryModal from "../../components/RoutineCategoryModal";
+import { useProducts } from "../../context/products/useProducts";
 
 export default function AddRoutineScreen({ navigation, route }) {
     const { category, imageKey } = route.params;
@@ -33,7 +34,7 @@ export default function AddRoutineScreen({ navigation, route }) {
     const [showCategoryModal, setShowCategoryModal] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(category || '');
     const [selectedImageKey, setSelectedImageKey] = useState(imageKey );
-   const { products, loading, error } = useProducts();
+    const { products, loading } = useProducts();
 
     const routinesCollection = collection(db, 'routines');
 

@@ -1,5 +1,4 @@
 import { addDoc, collection, getDoc, getDocs, orderBy, query, where } from "firebase/firestore";
-import { auth } from "../../FirebaseConfig"
 import { db } from "../../FirebaseConfig";
 
 const productsCollection = collection(db, "products");
@@ -8,7 +7,7 @@ export const getUserProducts = async (uid) => {
     if (!uid) throw new Error("User ID required");
 
     const q = query(
-        collection(db, "products"),
+        productsCollection,
         where("userId", "==", uid),
         orderBy("addedOn", "desc")
     );

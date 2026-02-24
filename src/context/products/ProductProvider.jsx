@@ -13,7 +13,7 @@ export const ProductContext = createContext({
 
 
 export function ProductProvider({children}) {
-    const [products, setProduct] = useState([]);
+    const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -26,7 +26,7 @@ export function ProductProvider({children}) {
 
             try {
                 const data = await productService.getUserProducts(user.uid);
-                setProduct(data);
+                setProducts(data);
             } catch (err) {
                 console.error("Error fetching products", err);
             } finally {
