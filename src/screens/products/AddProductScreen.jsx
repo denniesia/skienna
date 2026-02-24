@@ -29,6 +29,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { validateProduct } from "../../utils/validateProduct";
 import ProductCategoryModal from "../../components/ProductCategoryModal";
 import {defaultPhoto} from '../../../assets/product_img.png'
+import { productService } from "../../services";
 
 export default function AddProductScreen({ navigation }) {
 	const [status, requestPermission] = useCameraPermissions();
@@ -75,19 +76,21 @@ export default function AddProductScreen({ navigation }) {
 				finalImageUri = Image.resolveAssetSource(require('../../../assets/product_img.png')).uri;
 			}
 
-			await addDoc(productsCollection, {
-				userId,
+			 await productService.addProduct(userId, {
 				name,
 				brand,
 				imageUri: finalImageUri,
 				category,
 				openedOnDate,
 				expiresInMonths,
-				notes,
-				addedOn: new Date(),
+				notes
 			});
+
 			setName('');
 			setBrand('');
+			setCategory('');
+			setImageUri(null);
+			setExpiresInMonths('');
 
 			navigation.goBack();
 		} catch (error) {

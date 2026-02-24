@@ -1,6 +1,8 @@
-import { collection, getDoc, getDocs, orderBy, query, where } from "firebase/firestore";
+import { addDoc, collection, getDoc, getDocs, orderBy, query, where } from "firebase/firestore";
 import { auth } from "../../FirebaseConfig"
 import { db } from "../../FirebaseConfig";
+
+const productsCollection = collection(db, "products");
 
 export const getUserProducts = async (uid) => {
     if (!uid) throw new Error("User ID required");
@@ -24,4 +26,18 @@ export async function getUserProductById(productId) {
 
     return { id: result.id, ...result.data() }
     
+}
+
+export async function addProduct(userId, productData) {
+    if (!userId) throw new Error("User ID is required");
+
+    const docData = {
+        userId,
+        ...productData,
+        addedOn: new Date(),
+    }
+
+    const docRef = await addDoc(productsCollection, docData);
+
+    return { id: docRef.id, ...docData};
 }

@@ -35,7 +35,7 @@ export function ProductProvider({children}) {
         });
 
         return unsubscribe;
-    } , []);
+    } , [products]);
 
     const getUserProductById = (productId) => {
         return products.find(p => p.id === productId);

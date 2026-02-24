@@ -5,7 +5,7 @@ import { formatDate } from "../../utils/formatDate";
 
 
 export default function ProductDetailsScreen({ route }) {
-    const { product } = route.params ; 
+    const { product } = route.params; 
     
     return (
         <SafeAreaProvider>
