@@ -1,26 +1,20 @@
 import {
-	Keyboard,
-	Modal,
-	StyleSheet,
 	Text,
 	TextInput,
 	View,
-	Pressable,
 	ScrollView,
 	TouchableOpacity,
 	Image,
 	Button,
-	KeyboardAvoidingView,
-	Platform,
 	ActivityIndicator,
 	Alert
 } from "react-native";
 import { styles } from "../../../styles";
-import { Ionicons } from '@expo/vector-icons';
+
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import { useCameraPermissions, launchCameraAsync, useMediaLibraryPermissions, launchImageLibraryAsync } from "expo-image-picker";
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { addDoc, collection } from "firebase/firestore";
 import { auth, db } from "../../../FirebaseConfig";
 import CameraCapture from "../../components/CameraCapture";
@@ -28,7 +22,6 @@ import ImagePicker from "../../components/ImagePicker";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { validateProduct } from "../../utils/validateProduct";
 import ProductCategoryModal from "../../components/ProductCategoryModal";
-import {defaultPhoto} from '../../../assets/product_img.png'
 import { productService } from "../../services";
 
 export default function AddProductScreen({ navigation }) {
@@ -45,7 +38,6 @@ export default function AddProductScreen({ navigation }) {
 
 	const [showCategoryModal, setShowCategoryModal] = useState(false);
 
-	const productsCollection = collection(db, "products")
 
 	if (!status) {
 		return <ActivityIndicator />
@@ -111,16 +103,11 @@ export default function AddProductScreen({ navigation }) {
 
 		<SafeAreaProvider>
 			<SafeAreaView style={styles.container}>
-				<KeyboardAvoidingView
+				<KeyboardAwareScrollView
 					style={{ flex: 1 }}
-					behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-					keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
+					enableOnAndroid
+                    extraScrollHeight={20}
 				>
-					<ScrollView
-						contentContainerStyle={{ flexGrow: 1, padding: 2 }}
-						keyboardShouldPersistTaps="handled"
-					>
-
 						<View style={styles.containerAdd}>
 							<View style={styles.topRow}>
 								<View>
@@ -241,11 +228,9 @@ export default function AddProductScreen({ navigation }) {
 							</View>
 						</View>
 
-					</ScrollView>
-				</KeyboardAvoidingView>
+				</KeyboardAwareScrollView>
 			</SafeAreaView>
 		</SafeAreaProvider>
-
 	);
 }
 

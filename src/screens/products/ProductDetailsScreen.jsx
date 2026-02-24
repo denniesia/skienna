@@ -11,7 +11,6 @@ export default function ProductDetailsScreen({ route }) {
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
                 <ScrollView>
-
                     {product.imageUri
                         ? <Image source={{ uri: product.imageUri }} style={styles.heroImage} />
                         : <Image source={require('../../../assets/product_img.png')} style={styles.heroImage} />
