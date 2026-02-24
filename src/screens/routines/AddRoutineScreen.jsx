@@ -2,7 +2,7 @@ import {
     Text,
     TextInput,
     View,
-    ScrollView,
+    StyleSheet,
     TouchableOpacity,
     Image,
     KeyboardAvoidingView,
@@ -12,18 +12,19 @@ import {
 } from "react-native";
 import { styles } from "../../../styles";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import {  useState } from "react";
+import { useState } from "react";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { addDoc, collection, doc, onSnapshot, orderBy, query, snapshot } from "firebase/firestore";
 import { auth, db } from "../../../FirebaseConfig";
 import DateTimePicker from '@react-native-community/datetimepicker';
-
+import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import ProductCard from "../../components/ProductCard";
 
 import { validateRoutine } from '../../utils/validateRoutine'
 import RoutineCategoryModal from "../../components/RoutineCategoryModal";
 import { useProducts } from "../../context/products/useProducts";
 import { routineService } from "../../services";
+import ProductModal from "../../components/products/ProductModal";
 
 export default function AddRoutineScreen({ navigation, route }) {
     const { category, imageKey } = route.params;
@@ -34,10 +35,11 @@ export default function AddRoutineScreen({ navigation, route }) {
     const [showCalender, setShowCalender] = useState(false);
     const [showCategoryModal, setShowCategoryModal] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(category || '');
-    const [selectedImageKey, setSelectedImageKey] = useState(imageKey );
+    const [selectedImageKey, setSelectedImageKey] = useState(imageKey);
+
+    const [showProductsModal, setShowProductsModal] = useState(false);
     const { products, loading } = useProducts();
 
-    const routinesCollection = collection(db, 'routines');
 
 
     const routineGallery = {
@@ -48,8 +50,8 @@ export default function AddRoutineScreen({ navigation, route }) {
         special: require('../../../assets/special.png')
     }
 
-    const addRoutineHandler = async() => {
-       const { isValid, message } = validateRoutine({category, startedOn, name, notes});
+    const addRoutineHandler = async () => {
+        const { isValid, message } = validateRoutine({ category, startedOn, name, notes });
 
         if (!isValid) {
             Alert.alert("Error", message);
@@ -59,9 +61,9 @@ export default function AddRoutineScreen({ navigation, route }) {
         try {
 
             const userId = auth.currentUser.uid; // get the logged-in user's UID
-            
+
             await routineService.addRoutine(userId, {
-                category: selectedCategory, 
+                category: selectedCategory,
                 imageKey: selectedImageKey,
                 name: name || null,
                 startedOn,
@@ -70,11 +72,11 @@ export default function AddRoutineScreen({ navigation, route }) {
 
             setNotes('');
             navigation.navigate('Routine Stack Screen')
-        } catch(error) {
+        } catch (error) {
             console.error('Error adding routine', error);
             Alert.alert('Error', 'Failed to add new routine')
         }
-        
+
     }
 
     const onStartedOnDateChange = (event, selectedDate) => {
@@ -89,88 +91,105 @@ export default function AddRoutineScreen({ navigation, route }) {
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
                 <KeyboardAwareScrollView
-					style={{ flex: 1 }}
-					enableOnAndroid
+                    style={{ flex: 1 }}
+                    enableOnAndroid
                     extraScrollHeight={20}
-				>
-                        <View style={styles.containerAdd}>
-                            <View style={styles.topRow}>
-                                <Image
-                                    source={routineGallery[selectedImageKey] }
-                                    style={styles.photo}
-                                />
-                                <View style={{ paddingTop: 5, width: '45%' }}>
-                                    <View style={styles.inputCont}>
-                                        <Text style={styles.label}>Category:</Text>
-                                        <TouchableOpacity onPress={() => setShowCategoryModal(true)}>
-                                            <Text style={styles.input} >
-                                                {selectedCategory}
-                                            </Text>
-                                        </TouchableOpacity>
-                                        {showCategoryModal &&
-                                            <RoutineCategoryModal
-                                                visible={showCategoryModal}
-                                                onClose={() => setShowCategoryModal(false)}
-                                                onSelectCategory={(category, imageKey) => {
-                                                    setSelectedCategory(category);
-                                                    setSelectedImageKey(imageKey);    
-                                                }}
-                                                mode="select"
-                                            />
+                >
+                     {showProductsModal &&
+                                  
+                                        <ProductModal visible={showProductsModal} onClose={() => setShowProductsModal(false)}/>
+    
+                                    }
+                    <View style={styles.containerAdd}>
+                        <View style={styles.topRow}>
+                            <Image
+                                source={routineGallery[selectedImageKey]}
+                                style={styles.photo}
+                            />
+                            <View style={{ paddingTop: 5, width: '45%' }}>
+                                <View style={styles.inputCont}>
+                                    <Text style={styles.label}>Category:</Text>
+                                    <TouchableOpacity onPress={() => setShowCategoryModal(true)}>
+                                        <Text style={styles.input} >
+                                            {selectedCategory}
+                                        </Text>
+                                    </TouchableOpacity>
 
-                                        }
-                                    </View>
-                                    <View style={styles.inputCont} >
-                                        <Text style={styles.label}>Started on:</Text>
-                                        <TouchableOpacity onPress={() => setShowCalender(true)}>
-                                            <Text style={styles.input}>
-                                                {startedOn.toLocaleDateString()}
-                                            </Text>
+                                   
+                                    {showCategoryModal &&
+                                        <RoutineCategoryModal
+                                            visible={showCategoryModal}
+                                            onClose={() => setShowCategoryModal(false)}
+                                            onSelectCategory={(category, imageKey) => {
+                                                setSelectedCategory(category);
+                                                setSelectedImageKey(imageKey);
+                                            }}
+                                            mode="select"
+                                        />
 
-                                        </TouchableOpacity>
-                                        {showCalender &&
-                                            <DateTimePicker
-                                                value={startedOn}
-                                                mode="date"
-                                                display="default"
-                                                onChange={onStartedOnDateChange}
-                                                color='#F39EB6'
-                                            />
-                                        }
-                                    </View>
+                                    }
+                                </View>
+                                <View style={styles.inputCont} >
+                                    <Text style={styles.label}>Started on:</Text>
+                                    <TouchableOpacity onPress={() => setShowCalender(true)}>
+                                        <Text style={styles.input}>
+                                            {startedOn.toLocaleDateString()}
+                                        </Text>
+
+                                    </TouchableOpacity>
+                                    {showCalender &&
+                                        <DateTimePicker
+                                            value={startedOn}
+                                            mode="date"
+                                            display="default"
+                                            onChange={onStartedOnDateChange}
+                                            color='#F39EB6'
+                                        />
+                                    }
                                 </View>
                             </View>
-                            <View>
+                        </View>
+                        <View>
 
-                                <View style={{ paddingTop: 20, width: '100%' }}>
-                                    {selectedCategory === 'Special' &&
-                                        <View style={styles.inputCont} >
-                                            <Text style={styles.label}>Name: </Text>
+                            <View style={{ paddingTop: 20, width: '100%' }}>
+                                {selectedCategory === 'Special' &&
+                                    <View style={styles.inputCont} >
+                                        <Text style={styles.label}>Name: </Text>
 
-                                            <TextInput
-                                                placeholder="Retinol Treatment"
-                                                style={styles.input}
-                                                value={name}
-                                                onChangeText={setName}
-                                            />
-                                        </View>
-                                    }
-                                    <View style={styles.inputCont}>
-                                        <Text style={styles.label}>Notes:</Text>
                                         <TextInput
-                                            placeholder="Use after shower, focus on dry areas, avoid eye area.."
-                                            style={styles.inputArea}
-                                            value={notes}
-                                            multiline={true}
-                                            numberOfLines={4}
-                                            onChangeText={setNotes}
+                                            placeholder="Retinol Treatment"
+                                            style={styles.input}
+                                            value={name}
+                                            onChangeText={setName}
                                         />
                                     </View>
+                                }
+                                <View style={styles.inputCont}>
+                                    <Text style={styles.label}>Notes:</Text>
+                                    <TextInput
+                                        placeholder="Use after shower, focus on dry areas, avoid eye area.."
+                                        style={styles.inputArea}
+                                        value={notes}
+                                        multiline={true}
+                                        numberOfLines={4}
+                                        onChangeText={setNotes}
+                                    />
+                                </View>
 
-                                    {loading &&  <Text style={styles.loadingText}>Loading...</Text>}
 
-                                    <View style={styles.inputCont}>
+
+                                <View style={styles.inputCont}>
+                                    <View style={currStyles.row}>
                                         <Text style={styles.label}>Products:</Text>
+                                        <TouchableOpacity onPress={() => setShowProductsModal(true)}>
+                                            <Text style={currStyles.linkText} numberOfLines={1} >Add Products</Text>
+                                        </TouchableOpacity>
+                                    </View>
+
+                                   
+
+                                    {/* {loading &&  <Text style={styles.loadingText}>Loading...</Text>}
+                                        
                                         <FlatList
                                             data={products}
                                             keyExtractor={(item) => item.id}
@@ -178,22 +197,22 @@ export default function AddRoutineScreen({ navigation, route }) {
                                             ItemSeparatorComponent={() => <View style={styles.separator} />}
                                             contentContainerStyle={{ flexGrow: 1 }}
                                             scrollEnabled={false} 
-                                            />
-
-                                    </View>
+                                        /> */}
 
                                 </View>
+
                             </View>
                         </View>
-                        <View style={styles.buttonRow}>
-                            <TouchableOpacity style={styles.cancelBtn}>
-                                <Text style={styles.endBtnText}>Cancel</Text>
-                            </TouchableOpacity>
+                    </View>
+                    <View style={styles.buttonRow}>
+                        <TouchableOpacity style={styles.cancelBtn}>
+                            <Text style={styles.endBtnText}>Cancel</Text>
+                        </TouchableOpacity>
 
-                            <TouchableOpacity style={styles.saveBtn} onPress={addRoutineHandler}>
-                                <Text style={styles.endBtnText}>Save</Text>
-                            </TouchableOpacity>
-                        </View>
+                        <TouchableOpacity style={styles.saveBtn} onPress={addRoutineHandler}>
+                            <Text style={styles.endBtnText}>Save</Text>
+                        </TouchableOpacity>
+                    </View>
 
                 </KeyboardAwareScrollView>
             </SafeAreaView>
@@ -202,3 +221,21 @@ export default function AddRoutineScreen({ navigation, route }) {
 };
 
 
+const currStyles = StyleSheet.create({
+    row: {
+        flexDirection: 'row',        
+        alignItems: 'center',
+        justifyContent: 'space-between',      
+        marginVertical: 10,        
+    },
+    linkText: {
+        color: "#F39EB6",       // Typical link color (blue)
+        textDecorationLine: 'underline', // Underline the text
+        fontSize: 16,
+        fontWeight: 'bold',
+        fontStyle: 'italic',
+        textTransform: 'uppercase',
+        flex: 1,
+        paddingRight: 10
+    }
+});

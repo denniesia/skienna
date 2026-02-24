@@ -3,7 +3,7 @@ import { styles } from "../../../styles";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import RoutineCard from "../../components/RoutineCard";
 
 import RoutineCategoryModal from "../../components/RoutineCategoryModal";
@@ -17,7 +17,6 @@ export default function RoutinesScreen({ navigation }) {
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
     const { routines, loading } = useRoutine();
-
 
     return (
         <SafeAreaProvider>

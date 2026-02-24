@@ -39,7 +39,10 @@ export default function ProductCard({
                 </Text>
 
                 <Text style={styles.meta}>
-                    {product.brand} · {product.category}
+                    {product.brand}
+                </Text>
+                <Text style={styles.metaCategory}>
+                    {product.category}
                 </Text>
           
             </View>

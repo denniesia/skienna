@@ -203,6 +203,17 @@ export const styles = StyleSheet.create({
 		color: "#7A7A7A",
 		marginTop: 2,
 	},
+	metaCategory : {
+		backgroundColor: "#F39EB6",
+		padding: 3,
+		fontSize: 12,
+		fontStyle: 'italic',
+		width: '30%',
+		color: 'white',
+		borderRadius: 25,
+		textAlign: 'center',
+		marginTop: 5,
+	},
 	loadingText: {
 		marginTop: 12,
 		alignSelf: "center",
@@ -240,5 +251,42 @@ export const styles = StyleSheet.create({
 	iconButtonAdd : {
 		
         paddingTop: 10
-	}
+	},
+	overlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.5)', // darker overlay for focus
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+    },
+    modalContainer: {
+        width: '75%',
+        backgroundColor: '#fff', // clean white background
+        borderRadius: 15,
+        paddingVertical: 20,
+        paddingHorizontal: 25,
+        alignItems: 'center',
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.25,
+        shadowRadius: 5,
+        elevation: 5, // Android shadow
+    },
+	modalContainerWide : {
+		width: '95%',
+        backgroundColor: '#fff', // clean white background
+        borderRadius: 15,
+        paddingVertical: 20,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.25,
+        shadowRadius: 5,
+        elevation: 5, // Android shadow
+	},
+    title: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 2,
+        color: '#FF69B4',
+    },
 });

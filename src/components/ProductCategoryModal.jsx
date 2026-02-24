@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet, Image, Pressable } from 'react-native';
+import { styles } from '../../styles';
 
 export default function ProductCategoryModal({
     visible,
@@ -28,65 +29,65 @@ export default function ProductCategoryModal({
                 <Pressable style={styles.modalContainer} onPress={() => { }}>
                     <Text style={styles.title}>Select a Category</Text>
                     <TouchableOpacity
-                        style={styles.categoryCont}
+                        style={currentStyles.categoryCont}
                         onPress={() => handlePressHandler('Cleanser')}
                     >
-                        <Text style={styles.categoryText}>Cleanser</Text>
+                        <Text style={currentStyles.categoryText}>Cleanser</Text>
                     </TouchableOpacity>
                     
                     <TouchableOpacity
-                        style={styles.categoryCont}
+                        style={currentStyles.categoryCont}
                         onPress={() => handlePressHandler('Exfoliator')}
                     >
-                        <Text style={styles.categoryText}>Exfoliator</Text>
+                        <Text style={currentStyles.categoryText}>Exfoliator</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={styles.categoryCont}
+                        style={currentStyles.categoryCont}
                         onPress={() => handlePressHandler('Eye Cream')}
                     >
-                        <Text style={styles.categoryText}>Eye Cream</Text>
+                        <Text style={currentStyles.categoryText}>Eye Cream</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={styles.categoryCont}
+                        style={currentStyles.categoryCont}
                         onPress={() => handlePressHandler('Face Mask')}
                     >
-                        <Text style={styles.categoryText}>Face Mask</Text>
+                        <Text style={currentStyles.categoryText}>Face Mask</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={styles.categoryCont}
+                        style={currentStyles.categoryCont}
                         onPress={() => handlePressHandler('Face Oil')}
                     >
-                        <Text style={styles.categoryText}>Face Oil</Text>
+                        <Text style={currentStyles.categoryText}>Face Oil</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={styles.categoryCont}
+                        style={currentStyles.categoryCont}
                         onPress={() => handlePressHandler('Moisturizer')}
                     >
-                        <Text style={styles.categoryText}>Moisturizer</Text>
+                        <Text style={currentStyles.categoryText}>Moisturizer</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={styles.categoryCont}
+                        style={currentStyles.categoryCont}
                         onPress={() => handlePressHandler('Serum')}
                     >
-                        <Text style={styles.categoryText}>Serum</Text>
+                        <Text style={currentStyles.categoryText}>Serum</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={styles.categoryCont}
+                        style={currentStyles.categoryCont}
                         onPress={() => handlePressHandler('Retinol')}
                     >
-                        <Text style={styles.categoryText}>Retinol</Text>
+                        <Text style={currentStyles.categoryText}>Retinol</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={styles.categoryCont}
+                        style={currentStyles.categoryCont}
                         onPress={() => handlePressHandler('Sunscreen')}
                     >
-                        <Text style={styles.categoryText}>Sunscreen</Text>
+                        <Text style={currentStyles.categoryText}>Sunscreen</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={styles.categoryCont}
+                        style={currentStyles.categoryCont}
                         onPress={() => handlePressHandler('Toner')}
                     >
-                        <Text style={styles.categoryText}>Toner</Text>
+                        <Text style={currentStyles.categoryText}>Toner</Text>
                     </TouchableOpacity>
                     
 
@@ -99,33 +100,8 @@ export default function ProductCategoryModal({
     );
 };
 
-const styles = StyleSheet.create({
-    overlay: {
-        flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.5)', // darker overlay for focus
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: 20,
-    },
-    modalContainer: {
-        width: '75%',
-        backgroundColor: '#fff', // clean white background
-        borderRadius: 15,
-        paddingVertical: 20,
-        paddingHorizontal: 25,
-        alignItems: 'center',
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.25,
-        shadowRadius: 5,
-        elevation: 5, // Android shadow
-    },
-    title: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 2,
-        color: '#FF69B4',
-    },
+const currentStyles = StyleSheet.create({
+    
     categoryCont: {
         flexDirection: 'row',
         alignItems: 'center',
