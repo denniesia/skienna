@@ -68,7 +68,7 @@ export default function AddProductScreen({ navigation }) {
 				finalImageUri = Image.resolveAssetSource(require('../../../assets/product_img.png')).uri;
 			}
 
-			 await productService.addProduct(userId, {
+			await productService.addProduct(userId, {
 				name,
 				brand,
 				imageUri: finalImageUri,

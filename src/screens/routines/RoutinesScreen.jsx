@@ -5,8 +5,10 @@ import { Ionicons } from '@expo/vector-icons';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useEffect, useState } from "react";
 import RoutineCard from "../../components/RoutineCard";
-import { useRoutines } from "../../hooks/useRoutines";
+
 import RoutineCategoryModal from "../../components/RoutineCategoryModal";
+import { auth } from "../../../FirebaseConfig";
+import { useRoutine } from "../../context/routines/useRoutines";
 
 
 
@@ -14,15 +16,8 @@ export default function RoutinesScreen({ navigation }) {
     const [showCategoryModal, setShowCategoryModal] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
-    const { routines, loading, error } = useRoutines();
+    const { routines, loading } = useRoutine();
 
-    if (loading) {
-       
-    }
-
-    if (error) {
-        Alert.alert("Error", "Failed to load routines");
-    }
 
     return (
         <SafeAreaProvider>

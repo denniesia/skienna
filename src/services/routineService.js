@@ -20,3 +20,19 @@ export const getUserRoutines = async (uid) => {
     }));
 
 }
+
+
+
+export async function addRoutine(userId, routineData) {
+    if (!userId) throw new Error("User ID is required");
+
+    const docData = {
+        userId,
+        ...routineData,
+        createdOn: new Date(),
+    }
+
+    const docRef = await addDoc(routinesCollection, docData);
+
+    return { id: docRef.id, ...docData};
+}

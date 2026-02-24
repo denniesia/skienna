@@ -15,7 +15,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import {  useState } from "react";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { addDoc, collection, doc, onSnapshot, orderBy, query, snapshot } from "firebase/firestore";
-import { db } from "../../../FirebaseConfig";
+import { auth, db } from "../../../FirebaseConfig";
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import ProductCard from "../../components/ProductCard";
@@ -23,6 +23,7 @@ import ProductCard from "../../components/ProductCard";
 import { validateRoutine } from '../../utils/validateRoutine'
 import RoutineCategoryModal from "../../components/RoutineCategoryModal";
 import { useProducts } from "../../context/products/useProducts";
+import { routineService } from "../../services";
 
 export default function AddRoutineScreen({ navigation, route }) {
     const { category, imageKey } = route.params;
@@ -59,13 +60,12 @@ export default function AddRoutineScreen({ navigation, route }) {
 
             const userId = auth.currentUser.uid; // get the logged-in user's UID
             
-            await addDoc(routinesCollection, {
+            await routineService.addRoutine(userId, {
                 category: selectedCategory, 
                 imageKey: selectedImageKey,
                 name: name || null,
                 startedOn,
                 notes,
-                createdOn: new Date(),
             })
 
             setNotes('');
