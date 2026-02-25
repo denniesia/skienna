@@ -245,7 +245,7 @@ export const styles = StyleSheet.create({
     },
 	iconButton : {
         alignSelf: 'flex-start',
-        marginLeft: 70,
+        marginLeft: 60,
         paddingTop: 10
     },
 	iconButtonAdd : {

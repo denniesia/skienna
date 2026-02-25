@@ -31,8 +31,11 @@ export default function RoutineDetails({ route }) {
                 )}
 
                 <View style={styles.overlayCard}>
-                    <Text style={styles.title}>{routine.category}</Text>
-                    {routine.name && <Text style={styles.subtitle}>{routine.name}</Text>}
+                    <View style= {{marginBottom: 10}}> 
+                          <Text style={styles.title}>{routine.category}</Text>
+                        {routine.name && <Text style={styles.subtitle}>{routine.name}</Text>}
+                    </View>
+                  
                     {routine.notes &&
                         <View>
                             <Text style={styles.sectionTitle}>Notes: </Text>
@@ -114,7 +117,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "700",
         color: "#f376b4",
-        textAlign: 'center'
+        textAlign: 'center',
     },
 
     subtitle: {
@@ -132,7 +135,7 @@ const styles = StyleSheet.create({
     },
     notes: {
         fontSize: 14,
-        color: "#6b7280", // softer gray for readability
+        color: "#6b7280",
     },
     dateGrid: {
         flexDirection: "row",
@@ -180,7 +183,7 @@ const styles = StyleSheet.create({
     divider: {
         height: 1,
         backgroundColor: "#EDEDED",
-        marginTop: 10,
+        marginTop: 16,
         marginBottom: 3,
     },
 });
