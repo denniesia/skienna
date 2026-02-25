@@ -85,7 +85,7 @@ export default function AddRoutineScreen({ navigation, route }) {
                 name: name || null,
                 startedOn,
                 notes,
-                products: selectedProducts.map(p => p.id), 
+                productIds: selectedProducts.map(p => p.id), 
             };
 
             await routineService.addRoutine(userId, routineData)

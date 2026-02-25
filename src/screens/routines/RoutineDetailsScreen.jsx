@@ -1,10 +1,13 @@
 import React from "react";
-import { ScrollView, View, Text, Image, StyleSheet } from "react-native";
+import { ScrollView, View, Text, Image, StyleSheet, FlatList } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { formatDate } from "../../utils/formatDate";
+import ProductCard from "../../components/ProductCard";
+import { useProducts } from "../../context/products/useProducts";
 
 export default function RoutineDetails({ route }) {
     const { routine } = route.params;
+    const { products, loading } = useProducts();
 
     const routineGallery = {
         sun: require('../../../assets/sun.png'),
@@ -14,11 +17,12 @@ export default function RoutineDetails({ route }) {
         special: require('../../../assets/special.png')
     }
 
+    const routineProducts = routine.productIds?.map(id => products.find(p => p.id === id))
+
     return (
 
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
-                <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
                     <View style={styles.card}>
 
                         <View style={styles.headerRow}>
@@ -33,8 +37,6 @@ export default function RoutineDetails({ route }) {
 
                             </View>
                         </View>
-
-                        {/* Notes */}
                         {routine.notes &&
                             <View style={styles.section}>
                                 <Text style={styles.sectionTitle}>Notes: </Text>
@@ -42,7 +44,6 @@ export default function RoutineDetails({ route }) {
                             </View>
                         }
 
-                        {/* Dates */}
                         <View style={styles.dateGrid}>
                             <View style={styles.dateBox}>
                                 <Text style={styles.dateLabel}>Started on:</Text>
@@ -55,122 +56,151 @@ export default function RoutineDetails({ route }) {
                             </View>
                         </View>
 
+                        <View style={styles.divider} />
+                         <View style={styles.inputCont}>
+                            <View>
+                                <Text style={styles.label}>Routine Products:</Text>
+        
+                            </View>
+
+                        {routineProducts 
+                            ?  <FlatList
+                                data={routineProducts}
+                                keyExtractor={(item) => item.id}
+                                renderItem={({ item }) => 
+                                    <ProductCard 
+                                        product={item} 
+                                    />}
+                                contentContainerStyle={{ paddingBottom: 20 }}
+                                />
+                            : <Text style={styles.loadingText}>No added products</Text>
+                        }
+                           
+                            {loading &&  <Text style={styles.loadingText}>Loading...</Text>}  
+                        </View>
+
                     </View>
 
-                </ScrollView>
             </SafeAreaView>
         </SafeAreaProvider>
     );
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#f0f4f8",
+        backgroundColor: "#f9fafc", // lighter, airy background
     },
 
     card: {
         backgroundColor: "#fff",
-        margin: 16,
+        marginHorizontal: 16,
+        marginVertical: 10,
         borderRadius: 20,
         padding: 20,
-        shadowColor: "#000",
-        shadowOpacity: 0.08,
-        shadowRadius: 10,
-        elevation: 6,
+        // flat design: no shadow
+        borderWidth: 1,
+        borderColor: "#e5e7eb", // subtle border for separation
     },
 
     headerRow: {
         flexDirection: "row",
-        alignItems: "flex-start",
-        marginBottom: 10,
+        alignItems: "center",
+        marginBottom: 16,
     },
 
     thumbnail: {
-        width: 150,
-        height: 150,
+        width: 120,
+        height: 120,
         borderRadius: 16,
-        marginRight: 5,
+        marginRight: 12,
         resizeMode: "cover",
+        backgroundColor: "#f3f4f6", // subtle placeholder bg
     },
 
     headerText: {
         flex: 1,
-        marginTop: 26,
+        justifyContent: "center",
     },
 
     title: {
         fontSize: 20,
         fontWeight: "700",
         color: "#f376b4",
-        flexWrap: "nowrap",
     },
 
     subtitle: {
         fontSize: 16,
-        color: '#F2BED1',
+        color: '#f7a6c3',
         marginTop: 4,
         fontStyle: 'italic',
-        marginBottom: 6
     },
 
-    routineContainer: {
-        flexDirection: "row",
-        flexWrap: "wrap",
-        gap: 8,
-        marginBottom: 16,
-    },
-
-    routineBadge: {
-        backgroundColor: "#ffe4f0",
-        paddingVertical: 6,
-        paddingHorizontal: 12,
-        borderRadius: 999,
-    },
-
-    routineText: {
-        fontSize: 12,
-        fontWeight: "600",
-        color: '#F2BED1',
+    section: {
+        marginVertical: 12,
     },
 
     sectionTitle: {
         fontSize: 14,
         fontWeight: "600",
         color: '#f2aec7',
-        marginBottom: 2,
+        marginBottom: 4,
     },
 
     notes: {
         fontSize: 14,
         lineHeight: 22,
-        color: "#6d6c6ccc",
+        color: "#6b7280", // softer gray for readability
     },
 
     dateGrid: {
         flexDirection: "row",
-        justifyContent: "center",
-        gap: 40,
+        justifyContent: "space-between",
+        marginVertical: 12,
     },
 
     dateBox: {
         backgroundColor: "#f1f5f9",
-        padding: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 12,
         borderRadius: 16,
         alignItems: "center",
-        width: "45%",
+        flex: 1,
+        marginHorizontal: 4,
     },
 
     dateLabel: {
         fontSize: 12,
-        color: "#64748b",
+        color: "#94a3b8",
         marginBottom: 2,
     },
-
     dateValue: {
         fontSize: 13,
         fontWeight: "500",
         color: "#f376b4",
         textAlign: "center",
     },
+
+    inputCont: {
+        marginTop: 16,
+    },
+
+    label: {
+        fontSize: 18,
+        fontWeight: "600",
+        marginLeft: 14,
+        color: "#f376b4",
+        marginBottom: 6,
+    },
+    loadingText: {
+        marginTop: 8,
+        fontSize: 14,
+        color: "#94a3b8",
+        textAlign: "center",
+    },
+    divider: {
+		height: 1,
+		backgroundColor: "#EDEDED",
+		marginTop: 10,
+		marginBottom: 3,
+	},
 });
