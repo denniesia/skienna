@@ -1,11 +1,15 @@
 import { Image, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 
-export default function ProductModalItem({ product, isSelected, onPress }) {
+export default function ProductModalItem({ 
+    product, 
+    isSelected, 
+    onPress 
+}) {
     return (
         <TouchableOpacity
             style={[
                 styles.card,
-                isSelected && styles.cardSelected, // stays selected
+                isSelected && styles.cardSelected, 
             ]}
             onPress={() => onPress(product.id)}
         >
@@ -24,6 +28,7 @@ export default function ProductModalItem({ product, isSelected, onPress }) {
                 <Text style={styles.meta}>{product.brand}</Text>
                 <Text style={styles.metaCategory}>{product.category}</Text>
             </View>
+
         </TouchableOpacity>
     );
 }

@@ -37,10 +37,28 @@ export default function AddRoutineScreen({ navigation, route }) {
     const [selectedCategory, setSelectedCategory] = useState(category || '');
     const [selectedImageKey, setSelectedImageKey] = useState(imageKey);
 
+    const { products, loading} = useProducts();
     const [showProductsModal, setShowProductsModal] = useState(false);
-    const { products, loading } = useProducts();
+    const [selectedIds, setSelectedIds] = useState(new Set());
+    
+    const toggleSelect  = (id) => {
+            setSelectedIds((prev) => {
+                const newSet = new Set(prev);
+    
+                if (newSet.has(id)) {
+                    newSet.delete(id);
+                } else {
+                    newSet.add(id);
+                }
+    
+                return newSet;
+            });
+            
+        };
 
-
+    const selectedProducts = products.filter((p) =>
+        selectedIds.has(p.id)
+    );
 
     const routineGallery = {
         sun: require('../../../assets/sun.png'),
@@ -59,17 +77,20 @@ export default function AddRoutineScreen({ navigation, route }) {
         }
 
         try {
-
             const userId = auth.currentUser.uid; // get the logged-in user's UID
 
-            await routineService.addRoutine(userId, {
+            const routineData = {
                 category: selectedCategory,
                 imageKey: selectedImageKey,
                 name: name || null,
                 startedOn,
                 notes,
-            })
+                products: selectedProducts.map(p => p.id), 
+            };
 
+            await routineService.addRoutine(userId, routineData)
+
+            setSelectedIds(new Set()); 
             setNotes('');
             navigation.navigate('Routine Stack Screen')
         } catch (error) {
@@ -97,9 +118,15 @@ export default function AddRoutineScreen({ navigation, route }) {
                 >
                      {showProductsModal &&
                                   
-                                        <ProductModal visible={showProductsModal} onClose={() => setShowProductsModal(false)}/>
+                        <ProductModal 
+                            visible={showProductsModal}
+                            products={products}
+                            selectedIds={selectedIds}        
+                            toggleSelect={toggleSelect}      
+                            onClose={() => setShowProductsModal(false)}
     
-                                    }
+                        />
+                    }
                     <View style={styles.containerAdd}>
                         <View style={styles.topRow}>
                             <Image
@@ -114,8 +141,7 @@ export default function AddRoutineScreen({ navigation, route }) {
                                             {selectedCategory}
                                         </Text>
                                     </TouchableOpacity>
-
-                                   
+                                  
                                     {showCategoryModal &&
                                         <RoutineCategoryModal
                                             visible={showCategoryModal}
@@ -126,7 +152,6 @@ export default function AddRoutineScreen({ navigation, route }) {
                                             }}
                                             mode="select"
                                         />
-
                                     }
                                 </View>
                                 <View style={styles.inputCont} >
@@ -176,8 +201,6 @@ export default function AddRoutineScreen({ navigation, route }) {
                                     />
                                 </View>
 
-
-
                                 <View style={styles.inputCont}>
                                     <View style={currStyles.row}>
                                         <Text style={styles.label}>Products:</Text>
@@ -186,19 +209,17 @@ export default function AddRoutineScreen({ navigation, route }) {
                                         </TouchableOpacity>
                                     </View>
 
-                                   
-
-                                    {/* {loading &&  <Text style={styles.loadingText}>Loading...</Text>}
+                                   <FlatList
+                                        data={selectedProducts}
+                                        keyExtractor={(item) => item.id}
+                                        renderItem={({ item }) => 
+                                            <ProductCard 
+                                                product={item} 
+                                            />}
+                                        contentContainerStyle={{ paddingBottom: 20 }}
                                         
-                                        <FlatList
-                                            data={products}
-                                            keyExtractor={(item) => item.id}
-                                            renderItem={({ item }) => <ProductCard product={item} mode='display' />}
-                                            ItemSeparatorComponent={() => <View style={styles.separator} />}
-                                            contentContainerStyle={{ flexGrow: 1 }}
-                                            scrollEnabled={false} 
-                                        /> */}
-
+                                    />
+                                   {loading &&  <Text style={styles.loadingText}>Loading...</Text>}  
                                 </View>
 
                             </View>
