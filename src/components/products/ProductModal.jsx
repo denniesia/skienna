@@ -2,14 +2,31 @@ import { FlatList, Modal, Pressable, Text, TouchableOpacity, View } from "react-
 import { styles } from "../../../styles";
 import { useProducts } from "../../context/products/useProducts";
 import ProductModalItem from "./ProductModalItem";
+import { useState } from "react";
 
 
 export default function ProductModal({
     visible,
     onClose
 }) {
+    const [selectedProductIds, setSelectedProductIds] = useState(new Set());
 
     const { products, loading} = useProducts();
+
+    const handleSelect = (id) => {
+        setSelectedProductIds((prev) => {
+            const newSet = new Set(prev);
+
+            if (newSet.has(id)) {
+                newSet.delete(id);
+            } else {
+                newSet.add(id);
+            }
+
+            return newSet;
+        });
+        
+    };
 
     return (
         <Modal
@@ -26,8 +43,14 @@ export default function ProductModal({
                     <FlatList
                         data={products}
                         keyExtractor={(item) => item.id}
-                        renderItem={({ item }) => <ProductModalItem product={item} />}
+                        renderItem={({ item }) => 
+                            <ProductModalItem 
+                                product={item} 
+                                isSelected={selectedProductIds.has(item.id)}
+                                onPress={handleSelect}
+                            />}
                         contentContainerStyle={{ paddingBottom: 20 }}
+                        
                     />
 
                 </Pressable>
