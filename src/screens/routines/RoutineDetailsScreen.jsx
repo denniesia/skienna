@@ -18,68 +18,64 @@ export default function RoutineDetails({ route }) {
     }
 
     const routineProducts = routine.productIds?.map(id => products.find(p => p.id === id))
+    console.log(routineProducts)
 
     return (
-
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
-                    <View style={styles.card}>
 
-                        <View style={styles.headerRow}>
-                            {routine.imageKey ? (
-                                <Image source={routineGallery[routine.imageKey]} style={styles.thumbnail} />
-                            ) : (
-                                <Image source={require("../../../assets/product_img.png")} style={styles.thumbnail} />
-                            )}
-                            <View style={styles.headerText}>
-                                <Text style={styles.title}>{routine.category}</Text>
-                                {routine.name && <Text style={styles.subtitle}>{routine.name}</Text>}
+                {routine.imageKey ? (
+                    <Image source={routineGallery[routine.imageKey]} style={styles.heroImage} />
+                ) : (
+                    <Image source={require("../../../assets/product_img.png")} style={styles.heroImage} />
+                )}
 
-                            </View>
+                <View style={styles.overlayCard}>
+                    <Text style={styles.title}>{routine.category}</Text>
+                    {routine.name && <Text style={styles.subtitle}>{routine.name}</Text>}
+                    {routine.notes &&
+                        <View>
+                            <Text style={styles.sectionTitle}>Notes: </Text>
+                            <Text style={styles.notes}>{routine.notes}</Text>
                         </View>
-                        {routine.notes &&
-                            <View style={styles.section}>
-                                <Text style={styles.sectionTitle}>Notes: </Text>
-                                <Text style={styles.notes}>{routine.notes}</Text>
-                            </View>
-                        }
+                    }
 
-                        <View style={styles.dateGrid}>
-                            <View style={styles.dateBox}>
-                                <Text style={styles.dateLabel}>Started on:</Text>
-                                <Text style={styles.dateValue}>{formatDate(routine.startedOn)}</Text>
-                            </View>
-
-                            <View style={styles.dateBox}>
-                                <Text style={styles.dateLabel}>Created on: </Text>
-                                <Text style={styles.dateValue}>{formatDate(routine.createdOn)}</Text>
-                            </View>
+                    <View style={styles.dateGrid}>
+                        <View style={styles.dateBox}>
+                            <Text style={styles.dateLabel}>Started on:</Text>
+                            <Text style={styles.dateValue}>{formatDate(routine.startedOn)}</Text>
                         </View>
 
-                        <View style={styles.divider} />
-                         <View style={styles.inputCont}>
-                            <View>
-                                <Text style={styles.label}>Routine Products:</Text>
-        
-                            </View>
+                        <View style={styles.dateBox}>
+                            <Text style={styles.dateLabel}>Created on: </Text>
+                            <Text style={styles.dateValue}>{formatDate(routine.createdOn)}</Text>
+                        </View>
+                    </View>
 
-                        {routineProducts 
-                            ?  <FlatList
+                    <View style={styles.divider} />
+                    <View style={styles.inputCont}>
+                        <View>
+                            <Text style={styles.label}>Routine Products:</Text>
+
+                        </View>
+
+                        {routineProducts
+                            ? <FlatList
                                 data={routineProducts}
                                 keyExtractor={(item) => item.id}
-                                renderItem={({ item }) => 
-                                    <ProductCard 
-                                        product={item} 
+                                renderItem={({ item }) =>
+                                    <ProductCard
+                                        product={item}
                                     />}
                                 contentContainerStyle={{ paddingBottom: 20 }}
-                                />
+                            />
                             : <Text style={styles.loadingText}>No added products</Text>
                         }
-                           
-                            {loading &&  <Text style={styles.loadingText}>Loading...</Text>}  
-                        </View>
 
+                        {loading && <Text style={styles.loadingText}>Loading...</Text>}
                     </View>
+
+                </View>
 
             </SafeAreaView>
         </SafeAreaProvider>
@@ -90,31 +86,23 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#f9fafc", // lighter, airy background
     },
-
-    card: {
-        backgroundColor: "#fff",
+    overlayCard: {
+        marginTop: -100,
+        backgroundColor: "#ffffffee",
         marginHorizontal: 16,
-        marginVertical: 10,
-        borderRadius: 20,
         padding: 20,
-        // flat design: no shadow
-        borderWidth: 1,
-        borderColor: "#e5e7eb", // subtle border for separation
+        borderRadius: 28,
+        shadowColor: "#000",
+        shadowOpacity: 0.15,
+        shadowRadius: 20,
+        elevation: 10,
     },
 
-    headerRow: {
-        flexDirection: "row",
-        alignItems: "center",
-        marginBottom: 16,
-    },
-
-    thumbnail: {
-        width: 120,
-        height: 120,
-        borderRadius: 16,
-        marginRight: 12,
-        resizeMode: "cover",
-        backgroundColor: "#f3f4f6", // subtle placeholder bg
+    heroImage: {
+        width: "100%",
+        height: 340,
+        borderBottomLeftRadius: 40,
+        borderBottomRightRadius: 40,
     },
 
     headerText: {
@@ -126,6 +114,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "700",
         color: "#f376b4",
+        textAlign: 'center'
     },
 
     subtitle: {
@@ -133,29 +122,21 @@ const styles = StyleSheet.create({
         color: '#f7a6c3',
         marginTop: 4,
         fontStyle: 'italic',
+        textAlign: 'center'
     },
-
-    section: {
-        marginVertical: 12,
-    },
-
     sectionTitle: {
         fontSize: 14,
         fontWeight: "600",
         color: '#f2aec7',
-        marginBottom: 4,
+        marginBottom: 2,
     },
-
     notes: {
         fontSize: 14,
-        lineHeight: 22,
         color: "#6b7280", // softer gray for readability
     },
-
     dateGrid: {
         flexDirection: "row",
         justifyContent: "space-between",
-        marginVertical: 12,
     },
 
     dateBox: {
@@ -167,7 +148,6 @@ const styles = StyleSheet.create({
         flex: 1,
         marginHorizontal: 4,
     },
-
     dateLabel: {
         fontSize: 12,
         color: "#94a3b8",
@@ -198,9 +178,9 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     divider: {
-		height: 1,
-		backgroundColor: "#EDEDED",
-		marginTop: 10,
-		marginBottom: 3,
-	},
+        height: 1,
+        backgroundColor: "#EDEDED",
+        marginTop: 10,
+        marginBottom: 3,
+    },
 });
