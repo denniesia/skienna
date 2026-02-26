@@ -41,6 +41,7 @@ export function ProductProvider({children}) {
         return products.find(p => p.id === productId);
     }
 
+
     const contextValue = {
         products,
         loading,

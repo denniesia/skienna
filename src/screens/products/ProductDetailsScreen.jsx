@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { formatDate } from "../../utils/formatDate";
+import AntDesign from '@expo/vector-icons/AntDesign';
+import Feather from '@expo/vector-icons/Feather';
 
 
-export default function ProductDetailsScreen({ route }) {
+
+export default function ProductDetailsScreen({ route, navigation }) {
     const { product } = route.params; 
     
     return (
@@ -17,7 +20,22 @@ export default function ProductDetailsScreen({ route }) {
                     }
 
                     <View style={styles.overlayCard}>
-                        <Text style={styles.title}>{product.name}</Text>
+                        <View style={styles.overlayCont} >
+                            <Text style={styles.title}>{product.name}</Text>
+                            <View style={[styles.overlayCont, {gap: 15}]}>
+                                <TouchableOpacity 
+                                    hitSlop={10}
+                                    onPress={() => navigation.navigate('Product Edit', { product })}
+                                >
+                                    <AntDesign name="edit" size={28} color="#f376b4"  style={{marginRight: 10}}/>
+                                </TouchableOpacity>
+                                <TouchableOpacity hitSlop={10}>
+                                    <Feather name="trash-2" size={28} color="red"  style={{marginRight: 10}}/>
+                                </TouchableOpacity>
+                            </View>
+                           
+                            
+                        </View>
                         <Text style={styles.subtitle}>{product.brand}</Text>
 
                         {/* <View style={styles.tags}>
@@ -31,8 +49,6 @@ export default function ProductDetailsScreen({ route }) {
                             
                         <Text  style={styles.tag}>{product.category}</Text>
       
- 
-
                         <Text style={styles.notes}>{product.notes}</Text>
 
                         <View style={styles.dateGrid}>
@@ -45,8 +61,8 @@ export default function ProductDetailsScreen({ route }) {
 
                             <View style={styles.dateBox}>
                                 <Text style={styles.dateLabel}>Expires in: </Text>
-                                {product.expiresAfterMonths
-                                    ? <Text style={styles.dateValue}>{product.expiresAfterMonths}months</Text>
+                                {product.expiresInMonths
+                                    ? <Text style={styles.dateValue}>{product.expiresInMonths} months</Text>
                                     : <Text style={styles.dateValue}>N/A</Text>
                                 }
                                 
@@ -87,6 +103,10 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.15,
         shadowRadius: 20,
         elevation: 10,
+    },
+    overlayCont: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     title: {
         fontSize: 26,
@@ -134,7 +154,7 @@ const styles = StyleSheet.create({
     dateValue: {
         fontSize: 13,
         fontWeight: "400",
-        color: '#F2BED1',
+        color: '#f376b4',
         textAlign: 'center',
     },
 

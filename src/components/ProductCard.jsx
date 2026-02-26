@@ -1,10 +1,13 @@
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { View, Text, StyleSheet, Image, Pressable, TouchableOpacity } from "react-native";
 import { styles } from "../../styles";
+import AntDesign from '@expo/vector-icons/AntDesign';
+import Feather from '@expo/vector-icons/Feather';
 
-export default function ProductCard({ 
-    product ,
-    mode='default',
+
+export default function ProductCard({
+    product,
+    mode = 'default',
 }) {
     const navigation = useNavigation();
 
@@ -15,28 +18,44 @@ export default function ProductCard({
     }
 
     return (
-        <TouchableOpacity 
-            style={styles.card} 
+        <TouchableOpacity
+            style={styles.card}
             onPress={isPressable ? productPressHandler : undefined}
         >
+
             {product.imageUri
                 ? (<Image
                     source={{ uri: product.imageUri }}
                     style={styles.image}
-                    resizeMode="cover"   
+                    resizeMode="cover"
                 />)
                 : (<Image
                     source={require('../../assets/product_img.png')}
                     style={styles.image}
-                    resizeMode="cover"   
+                    resizeMode="cover"
                 />)
             }
-            
+
 
             <View style={styles.info}>
-                <Text style={styles.name} >
-                    {product.name}
-                </Text>
+                <View style={[currStyles.cont, {justifyContent: 'space-between'} ]}>
+                    <Text style={styles.name} >
+                        {product.name}
+                    </Text>
+                    <View style={[currStyles.cont, ]}>
+                        <TouchableOpacity 
+                            hitSlop={10}
+                            onPress={() => navigation.navigate('Product Edit', { product })}
+                        >
+                            <AntDesign name="edit" size={24} color="#f376b4" style={{ marginRight: 10 }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity hitSlop={10}>
+                            <Feather name="trash-2" size={24} color="red" style={{ marginRight: 10 }} />
+                        </TouchableOpacity>
+                    </View>
+                    
+                </View>
+
 
                 <Text style={styles.meta}>
                     {product.brand}
@@ -44,10 +63,16 @@ export default function ProductCard({
                 <Text style={styles.metaCategory}>
                     {product.category}
                 </Text>
-          
+
             </View>
         </TouchableOpacity>
     );
 }
 
+const currStyles = StyleSheet.create({
+    cont: {
+        flexDirection: 'row',
+        gap: 10,
 
+    }
+})

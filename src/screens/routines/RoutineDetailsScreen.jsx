@@ -18,7 +18,6 @@ export default function RoutineDetails({ route }) {
     }
 
     const routineProducts = routine.productIds?.map(id => products.find(p => p.id === id))
-    console.log(routineProducts)
 
     return (
         <SafeAreaProvider>

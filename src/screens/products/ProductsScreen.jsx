@@ -17,7 +17,6 @@ export default function ProductsScreen({ navigation }) {
 
                 <View style={styles.header}>
                     <View style={[styles.headerContent, { justifyContent: 'space-between' }]}>
-                        {/* Title */}
                         <Text style={styles.title}>My Products</Text>
 
                         <View style={styles.iconContainer}>
