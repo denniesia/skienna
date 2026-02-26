@@ -6,7 +6,7 @@ import { MaterialIcons  } from '@expo/vector-icons';
 import { useCurrentDate } from '../hooks/useCurrentDate';
 import { useAuth } from '../context/auth/useAuth';
 import { useRoutine } from '../context/routines/useRoutines';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import RoutineCard from '../components/RoutineCard';
 
 
@@ -24,11 +24,14 @@ export default function TodayScreen() {
     const toggleRoutineSelect = (id) => {
         setSelectedRoutineIds(prev => 
             prev.includes(id) 
-            ? prev.filter(item => item != id)
+            ? prev.filter(item => item !== id)
             : [...prev,id]
-        )   
+        ) ;
     };
 
+    useEffect(() => {
+        setSelectedRoutineIds([]);
+    }, [today]);
 
     return (
         <SafeAreaProvider>
@@ -86,13 +89,13 @@ export default function TodayScreen() {
                      {routines.length > 0
                         ? <FlatList
                             data={routines}
-                            keyExtractor={(item) => item.id}
+                            keyExtractor={(item) => item.id.toString()}
                             renderItem={({ item }) => 
                                 <RoutineCard 
                                     routine={item} 
                                     showCheckbox={true}
-                                    isSelected ={true}
-                                    onToggle= {() => toggleRoutineSelect()}
+                                    isSelected={selectedRoutineIds.includes(item.id)}
+                                    onToggle= {() => toggleRoutineSelect(item.id)}
                                 />}
                             ItemSeparatorComponent={() => <View style={styles.separator} />}
                             contentContainerStyle={{ flexGrow: 1 }}
@@ -152,8 +155,8 @@ const currStyles = StyleSheet.create({
         fontWeight: '600',
     },
     routineContainer: {
-        marginHorizontal: 25,
-        marginTop: 10,
+        marginHorizontal: 20,
+        marginTop: 6,
     },
     routineHeader: {
         flexDirection: 'row',
@@ -164,15 +167,18 @@ const currStyles = StyleSheet.create({
         fontSize: 22,
         fontWeight: '700',
         color: '#f376b4',
+        marginLeft: 10,
     },
     editButton: {
         color: '#FF69B4',
         fontWeight: '600',
     },
     routineSubtitle: {
-        marginTop: 5,
+        marginTop: 3,
+        marginBottom: 10,
         color: '#FF69B4',
         fontSize: 14,
+        marginLeft: 10,
     },
     
 });

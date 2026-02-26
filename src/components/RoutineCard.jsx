@@ -61,16 +61,17 @@ export  default function RoutineCard ({
     }
 
     return (
-        <View style={currStyles.rowContainer}>
-            <TouchableOpacity 
+        <View style={[currStyles.rowContainer]}>
+            {CardContent}
+
+             <TouchableOpacity 
                 style={[currStyles.checkbox, isSelected && currStyles.checkboxSelected]}
                 onPress={onToggle}
                 activeOpacity={0.8}
+                hitSlop={20}
             >
                 {isSelected && <View style={currStyles.checkboxInner} />}
             </TouchableOpacity>
-
-            {CardContent}
         </View>
     );
 };
@@ -78,30 +79,27 @@ const currStyles = StyleSheet.create({
     rowContainer: {
         flexDirection: "row",
         alignItems: "center",
-
-        marginVertical: 8,
+        justifyContent: "center",
+        marginVertical: 4,
     },
-
     checkbox: {
         width: 25,
         height: 25,
         borderRadius: 6,
-        borderWidth: 1,
+        borderWidth: 4,
         borderColor: "#f376b4",
-        marginRight: 10,
+        marginLeft: 10,
         justifyContent: "center",
         alignItems: "center",
     },
-
     checkboxSelected: {
         backgroundColor: "#f376b4",
     },
-
     checkboxInner: {
-        width: 18,
-        height: 18,
-        backgroundColor: "#fff",
-        borderRadius: 1,
+        width: 25,
+        height: 25,
+        backgroundColor:  "#f376b4",
+        borderRadius: 6,
     },
 
 

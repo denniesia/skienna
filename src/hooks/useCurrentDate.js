@@ -4,6 +4,8 @@ export function useCurrentDate() {
 	const [today, setToday] = useState(new Date());
 
 	useEffect(() => {
+		let interval;
+
 		const now = new Date();
 		const tomorrow = new Date(
 			now.getFullYear(),
@@ -16,17 +18,15 @@ export function useCurrentDate() {
 		const timeout = setTimeout(() => {
 			setToday(new Date());
 
-			const interval = setInterval(
-				() => {
-					setToday(new Date());
-				},
-				24 * 60 * 60 * 1000,
-			);
-
-			return () => clearInterval(interval);
+			interval = setInterval(() => {
+				setToday(new Date());
+			}, 24 * 60 * 60 * 1000);
 		}, msUntilMidnight);
 
-		return () => clearTimeout(timeout);
+		return () => {
+			clearTimeout(timeout);
+			if (interval) clearInterval(interval);
+		};
 	}, []);
 
 	return today;
