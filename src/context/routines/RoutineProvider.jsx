@@ -5,6 +5,7 @@ import { auth } from "../../../FirebaseConfig";
 
 export const RoutineContext = createContext({
     routines: [],
+    loading: true,
 });
 
 
@@ -39,6 +40,7 @@ export function RoutineProvider({children}) {
 
     const contextValue = {
         routines,
+        loading
     }
 
      return (

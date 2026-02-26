@@ -1,19 +1,34 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList } from 'react-native';
 import CalendarStrip from 'react-native-calendar-strip';
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { styles } from '../../styles';
 import { MaterialIcons  } from '@expo/vector-icons';
 import { useCurrentDate } from '../hooks/useCurrentDate';
 import { useAuth } from '../context/auth/useAuth';
+import { useRoutine } from '../context/routines/useRoutines';
+import { useState } from 'react';
+import RoutineCard from '../components/RoutineCard';
 
 
 export default function TodayScreen() {
     const today = useCurrentDate();
     const { logout, user } = useAuth();
+    const { routines, loading} = useRoutine();
 
     const day = today.getDate();
     const month = today.toLocaleString("en-US", { month: "long" });
     const weekday = today.toLocaleString("en-US", { weekday: "long" });
+
+    const [selectedRoutineIds, setSelectedRoutineIds] = useState([]);
+
+    const toggleRoutineSelect = (id) => {
+        setSelectedRoutineIds(prev => 
+            prev.includes(id) 
+            ? prev.filter(item => item != id)
+            : [...prev,id]
+        )   
+    };
+
 
     return (
         <SafeAreaProvider>
@@ -42,7 +57,6 @@ export default function TodayScreen() {
                     accessible={false}
                     importantForAccessibility="no"
                 />
-                {/* Calendar */}
                 <CalendarStrip
                     scrollable
                     style={currStyles.calendar}
@@ -61,7 +75,6 @@ export default function TodayScreen() {
                     importantForAccessibility="no"
                 />
 
-                {/* Routine Section */}
                 <View style={currStyles.routineContainer}>
                     <View style={currStyles.routineHeader}>
                         <Text style={currStyles.routineTitle}>Your daily routines</Text>
@@ -70,14 +83,27 @@ export default function TodayScreen() {
                         Tap on a routine to complete
                     </Text>
 
-                    {/* <View>
-                        {routines
-                            ?
-                            <Text>there are some routines</Text>
-                            :
-                            <Text>No routines</Text>
-                        }
-                    </View> */}
+                     {routines.length > 0
+                        ? <FlatList
+                            data={routines}
+                            keyExtractor={(item) => item.id}
+                            renderItem={({ item }) => 
+                                <RoutineCard 
+                                    routine={item} 
+                                    showCheckbox={true}
+                                    isSelected ={true}
+                                    onToggle= {() => toggleRoutineSelect()}
+                                />}
+                            ItemSeparatorComponent={() => <View style={styles.separator} />}
+                            contentContainerStyle={{ flexGrow: 1 }}
+                        />
+                        : (
+                           
+                            <Text style={styles.noItemText}>No routines yet</Text>
+                        
+                            
+                        )
+                    }
                 </View>
             </SafeAreaView>
         </SafeAreaProvider>

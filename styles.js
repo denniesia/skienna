@@ -165,6 +165,7 @@ export const styles = StyleSheet.create({
 	},
 
 	card: {
+		width: '90%',
 		alignSelf: "center",
 		flexDirection: "row",
 		backgroundColor: "#FFFFFF",
@@ -173,8 +174,7 @@ export const styles = StyleSheet.create({
 		borderColor: "#F2BED1",
 		paddingHorizontal: 12,
 		marginBottom: 10,
-		marginHorizontal: 10,
-
+		
 		// iOS shadow
 		shadowColor: "#000",
 		shadowOpacity: 0.06,
@@ -289,4 +289,15 @@ export const styles = StyleSheet.create({
         marginBottom: 2,
         color: '#FF69B4',
     },
+	 routineName: {
+        fontSize: 14,
+        color: '#F2BED1',
+        marginTop: 2,
+        fontStyle: 'italic'
+    },
+    routineNotes: {
+        fontSize: 12,
+        marginTop: 2,
+        color: '#8d8b8bcc',
+    }
 });

@@ -17,7 +17,7 @@ export default function RoutinesScreen({ navigation }) {
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
     const { routines, loading } = useRoutine();
-
+    
     return (
         <SafeAreaProvider>
             <SafeAreaView style={[styles.container]}>
@@ -66,7 +66,10 @@ export default function RoutinesScreen({ navigation }) {
                     ? <FlatList
                         data={routines}
                         keyExtractor={(item) => item.id}
-                        renderItem={({ item }) => <RoutineCard routine={item} />}
+                        renderItem={({ item }) => 
+                            <RoutineCard 
+                                routine={item} 
+                            />}
                         ItemSeparatorComponent={() => <View style={styles.separator} />}
                         contentContainerStyle={{ flexGrow: 1 }}
                     />
