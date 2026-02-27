@@ -16,7 +16,6 @@ import ImagePicker from "../../components/ImagePicker";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { validateProduct } from "../../utils/validateProduct";
 import ProductCategoryModal from "../../components/products/ProductCategoryModal";
-import { productService } from "../../services";
 import { useNavigation } from "@react-navigation/native";
 
 
@@ -56,9 +55,7 @@ export default function ProductForm({
             Alert.alert("Error", message);
             return;
         }
-        console.log("Update button pressed", {
-        name, brand, category, expiresInMonths, notes
-    });
+       
         onSubmit({
             name,
             brand,

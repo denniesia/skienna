@@ -11,7 +11,6 @@ import { auth } from "../../../FirebaseConfig";
 import { useRoutine } from "../../context/routines/useRoutines";
 
 
-
 export default function RoutinesScreen({ navigation }) {
     const [showCategoryModal, setShowCategoryModal] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('');
