@@ -68,6 +68,7 @@ export default function RoutineDetails({ route }) {
                                 renderItem={({ item }) =>
                                     <ProductCard
                                         product={item}
+                                        mode="display"
                                     />}
                                 contentContainerStyle={{ paddingBottom: 20 }}
                             />
