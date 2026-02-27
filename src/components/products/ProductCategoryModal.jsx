@@ -1,15 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet, Image, Pressable } from 'react-native';
-import { styles } from '../../styles';
+import { styles } from '../../../styles';
 
 export default function ProductCategoryModal({
     visible,
     onClose,
     onSelectCategory,
 }) {
-    const navigation = useNavigation();
-    const [selectedCategory, setSelectedCategory] = useState();
+ 
 
     const handlePressHandler = (category) => {
         setSelectedCategory(category);

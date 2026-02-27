@@ -4,9 +4,9 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState } from "react";
-import RoutineCard from "../../components/RoutineCard";
+import RoutineCard from "../../components/routines/RoutineCard";
 
-import RoutineCategoryModal from "../../components/RoutineCategoryModal";
+import RoutineCategoryModal from "../../components/routines/RoutineCategoryModal";
 import { auth } from "../../../FirebaseConfig";
 import { useRoutine } from "../../context/routines/useRoutines";
 

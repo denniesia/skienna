@@ -1,8 +1,8 @@
-
 import { View, Text, StyleSheet, Image, Pressable, TouchableOpacity } from "react-native";
-// import { styles } from "../../styles";
+
 import { useNavigation } from "@react-navigation/native";
-import { styles } from "../../styles";
+import { styles } from "../../../styles";
+
 
 
 export  default function RoutineCard ({
@@ -14,11 +14,11 @@ export  default function RoutineCard ({
 }) {
     const navigation = useNavigation();
     const routineGallery = {
-        'Morning Routine': require('../../assets/sun.png'),
-        'Night Routine': require('../../assets/moon.png'),
-        'Face Mask': require('../../assets/face_mask.png'),
-        'Under Eye Mask': require('../../assets/under_eye.png'),
-        'Special': require('../../assets/special.png')
+        'Morning Routine': require('../../../assets/sun.png'),
+        'Night Routine': require('../../../assets/moon.png'),
+        'Face Mask': require('../../../assets/face_mask.png'),
+        'Under Eye Mask': require('../../../assets/under_eye.png'),
+        'Special': require('../../../assets/special.png')
     }
 
     const CardContent = (

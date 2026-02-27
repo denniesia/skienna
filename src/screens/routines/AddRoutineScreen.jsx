@@ -14,13 +14,13 @@ import { useState } from "react";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { auth } from "../../../FirebaseConfig";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import ProductCard from "../../components/ProductCard";
 
 import { validateRoutine } from '../../utils/validateRoutine'
-import RoutineCategoryModal from "../../components/RoutineCategoryModal";
+import RoutineCategoryModal from "../../components/routines/RoutineCategoryModal";
 import { useProducts } from "../../context/products/useProducts";
 import { routineService } from "../../services";
 import ProductModal from "../../components/products/ProductModal";
+import ProductCard from "../../components/products/ProductCard";
 
 export default function AddRoutineScreen({ navigation, route }) {
     const { category, imageKey } = route.params;
@@ -73,7 +73,7 @@ export default function AddRoutineScreen({ navigation, route }) {
         }
 
         try {
-            const userId = auth.currentUser.uid; // get the logged-in user's UID
+            const userId = auth.currentUser.uid;
 
             const routineData = {
                 category: selectedCategory,

@@ -2,26 +2,20 @@ import {
     Text,
     TextInput,
     View,
-    ScrollView,
     TouchableOpacity,
     Image,
-    Button,
-    ActivityIndicator,
     Alert
 } from "react-native";
 import { styles } from "../../../styles";
 
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
-import { useCameraPermissions, launchCameraAsync, useMediaLibraryPermissions, launchImageLibraryAsync } from "expo-image-picker";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { addDoc, collection } from "firebase/firestore";
-import { auth, db } from "../../../FirebaseConfig";
 import CameraCapture from "../../components/CameraCapture";
 import ImagePicker from "../../components/ImagePicker";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { validateProduct } from "../../utils/validateProduct";
-import ProductCategoryModal from "../../components/ProductCategoryModal";
+import ProductCategoryModal from "../../components/products/ProductCategoryModal";
 import { productService } from "../../services";
 import { useNavigation } from "@react-navigation/native";
 

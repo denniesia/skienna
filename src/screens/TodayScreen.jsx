@@ -7,7 +7,7 @@ import { useCurrentDate } from '../hooks/useCurrentDate';
 import { useAuth } from '../context/auth/useAuth';
 import { useRoutine } from '../context/routines/useRoutines';
 import { useEffect, useState } from 'react';
-import RoutineCard from '../components/RoutineCard';
+import RoutineCard from '../components/routines/RoutineCard';
 
 
 export default function TodayScreen() {

@@ -1,6 +1,6 @@
-import { useRoute, useNavigation } from "@react-navigation/native";
-import { View, Text, StyleSheet, Image, Pressable, TouchableOpacity } from "react-native";
-import { styles } from "../../styles";
+import { useNavigation } from "@react-navigation/native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { styles } from "../../../styles";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
 
@@ -30,7 +30,7 @@ export default function ProductCard({
                     resizeMode="cover"
                 />)
                 : (<Image
-                    source={require('../../assets/product_img.png')}
+                    source={require('../../../assets/product_img.png')}
                     style={styles.image}
                     resizeMode="cover"
                 />)

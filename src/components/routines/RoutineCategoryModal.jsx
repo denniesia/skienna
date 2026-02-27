@@ -12,11 +12,11 @@ export default function RoutineCategoryModal({
     const [selected, setSelected] = useState({category:null , imageKey: null});
 
     const routineGallery = {
-        sun: require('../../assets/sun.png'),
-        moon: require('../../assets/moon.png'),
-        faceMask: require('../../assets/face_mask.png'),
-        underEyeMask: require('../../assets/under_eye.png'),
-        special: require('../../assets/special.png')
+        sun: require('../../../assets/sun.png'),
+        moon: require('../../../assets/moon.png'),
+        faceMask: require('../../../assets/face_mask.png'),
+        underEyeMask: require('../../../assets/under_eye.png'),
+        special: require('../../../assets/special.png')
     }
 
     const handlePressHandler = (category, imageKey) => {

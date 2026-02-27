@@ -2,7 +2,7 @@ import React from "react";
 import { ScrollView, View, Text, Image, StyleSheet, FlatList } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { formatDate } from "../../utils/formatDate";
-import ProductCard from "../../components/ProductCard";
+import ProductCard from "../../components/products/ProductCard";
 import { useProducts } from "../../context/products/useProducts";
 
 export default function RoutineDetails({ route }) {

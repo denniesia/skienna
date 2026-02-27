@@ -1,7 +1,7 @@
 import { Text, View, TextInput, TouchableOpacity, FlatList, ActivityIndicator } from "react-native";
 import { styles } from "../../../styles";
 
-import ProductCard from "../../components/ProductCard";
+import ProductCard from "../../components/products/ProductCard";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
