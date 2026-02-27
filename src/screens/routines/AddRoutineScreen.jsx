@@ -5,8 +5,6 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
-    KeyboardAvoidingView,
-    Platform,
     FlatList,
     Alert
 } from "react-native";
@@ -14,10 +12,8 @@ import { styles } from "../../../styles";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { addDoc, collection, doc, onSnapshot, orderBy, query, snapshot } from "firebase/firestore";
-import { auth, db } from "../../../FirebaseConfig";
+import { auth } from "../../../FirebaseConfig";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import ProductCard from "../../components/ProductCard";
 
 import { validateRoutine } from '../../utils/validateRoutine'
@@ -215,6 +211,7 @@ export default function AddRoutineScreen({ navigation, route }) {
                                         renderItem={({ item }) => 
                                             <ProductCard 
                                                 product={item} 
+                                                mode='display'
                                             />}
                                         contentContainerStyle={{ paddingBottom: 20 }}
                                         

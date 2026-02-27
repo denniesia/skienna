@@ -38,22 +38,25 @@ export default function ProductCard({
 
 
             <View style={styles.info}>
-                <View style={[currStyles.cont, {justifyContent: 'space-between'} ]}>
+                <View style={[currStyles.cont, { justifyContent: 'space-between' }]}>
                     <Text style={styles.name} >
                         {product.name}
                     </Text>
-                    <View style={[currStyles.cont, ]}>
-                        <TouchableOpacity 
-                            hitSlop={10}
-                            onPress={() => navigation.navigate('Product Edit', { product })}
-                        >
-                            <AntDesign name="edit" size={24} color="#f376b4" style={{ marginRight: 10 }} />
-                        </TouchableOpacity>
-                        <TouchableOpacity hitSlop={10}>
-                            <Feather name="trash-2" size={24} color="red" style={{ marginRight: 10 }} />
-                        </TouchableOpacity>
-                    </View>
-                    
+                    {mode === 'default' &&
+
+                        <View style={[currStyles.cont,]}>
+                            <TouchableOpacity
+                                hitSlop={10}
+                                onPress={() => navigation.navigate('Product Edit', { product })}
+                            >
+                                <AntDesign name="edit" size={24} color="#f376b4" style={{ marginRight: 10 }} />
+                            </TouchableOpacity>
+                            <TouchableOpacity hitSlop={10}>
+                                <Feather name="trash-2" size={24} color="red" style={{ marginRight: 10 }} />
+                            </TouchableOpacity>
+                        </View>
+                    }
+
                 </View>
 
 
