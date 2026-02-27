@@ -29,7 +29,6 @@ export default function RootNavigator() {
                     tabBarIcon: ({ color, size }) => <Ionicons name="today-outline" size={size} color={color} />,
 
                 }}
-
             />
             <Tabs.Screen
                 name="Products"

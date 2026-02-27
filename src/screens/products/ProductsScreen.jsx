@@ -20,10 +20,10 @@ export default function ProductsScreen({ navigation }) {
                         <Text style={styles.title}>My Products</Text>
 
                         <View style={styles.iconContainer}>
-
-                            <TouchableOpacity onPress={() => console.log('press archived')} style={styles.iconButton}>
+                            {/* Archive Link  */}
+                            {/* <TouchableOpacity onPress={() => console.log('press archived')} style={styles.iconButton}>
                                 <Ionicons name="archive" size={28} color="#F39EB6" />
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
 
                             <TouchableOpacity onPress={() => navigation.navigate('Add Product')} style={styles.iconButtonAdd}>
                                 <AntDesign name="plus" size={28} color="#F39EB6" />
@@ -33,13 +33,14 @@ export default function ProductsScreen({ navigation }) {
                     </View>
                 </View>
 
-                <View style={styles.searchBar}>
+                {/* Search Bar  */}
+                {/* <View style={styles.searchBar}>
                     <TextInput
                         placeholder="Search"
                         placeholderTextColor="#9A9A9A"
                         style={styles.search}
                     />
-                </View>
+                </View> */}
 
                 <View style={styles.divider} />
 
