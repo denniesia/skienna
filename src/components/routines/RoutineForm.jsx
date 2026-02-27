@@ -21,6 +21,7 @@ import { useProducts } from "../../context/products/useProducts";
 import { routineService } from "../../services";
 import ProductModal from "../../components/products/ProductModal";
 import ProductCard from "../../components/products/ProductCard";
+import { useNavigation } from "@react-navigation/native";
 
 
 export default function RoutineForm({
@@ -28,7 +29,8 @@ export default function RoutineForm({
     onSubmit,
     submitLabel = 'Save'
 }) {
-
+    const navigation = useNavigation();
+    
     const [notes, setNotes] = useState(initialValues.notes || '');
     const [startedOn, setStartedOn] = useState(initialValues.startedOn || new Date());
     const [name, setName] = useState(initialValues.name || '');
@@ -215,7 +217,7 @@ export default function RoutineForm({
                         </View>
                     </View>
                     <View style={styles.buttonRow}>
-                        <TouchableOpacity style={styles.cancelBtn}>
+                       <TouchableOpacity style={styles.cancelBtn} onPress={() => navigation.goBack()}>
                             <Text style={styles.endBtnText}>Cancel</Text>
                         </TouchableOpacity>
 

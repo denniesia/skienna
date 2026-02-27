@@ -193,7 +193,7 @@ export default function ProductForm({
                             </View>
 
                             <View style={styles.buttonRow}>
-                                <TouchableOpacity style={styles.cancelBtn}>
+                                <TouchableOpacity style={styles.cancelBtn} onPress={() => navigation.goBack()}>
                                     <Text style={styles.endBtnText}>Cancel</Text>
                                 </TouchableOpacity>
 
