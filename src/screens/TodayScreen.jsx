@@ -36,7 +36,6 @@ export default function TodayScreen() {
     return (
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
-                {/* Header */}
                 <View
                     style={styles.header}
                 >
@@ -46,8 +45,8 @@ export default function TodayScreen() {
                             <Text style={styles.title}>Hey {user.displayName}!</Text>
                             <Text style={currStyles.dateText}>{day} {month}, {weekday}</Text>
                         </View>
-                        <TouchableOpacity onPress={logout} style={styles.iconButton}>
-                            <MaterialIcons  name="logout" size={28} color="#f376b4" />
+                        <TouchableOpacity onPress={logout} style={styles.iconButtonTodayScreen}>
+                            <MaterialIcons  name="logout" size={30} color="#f376b4" />
                         </TouchableOpacity>
                     </View>
 
@@ -85,7 +84,8 @@ export default function TodayScreen() {
                     <Text style={currStyles.routineSubtitle}>
                         Tap on a routine to complete
                     </Text>
-
+       
+                        
                      {routines.length > 0
                         ? <FlatList
                             data={routines}
@@ -98,15 +98,13 @@ export default function TodayScreen() {
                                     onToggle= {() => toggleRoutineSelect(item.id)}
                                 />}
                             ItemSeparatorComponent={() => <View style={styles.separator} />}
-                            contentContainerStyle={{ flexGrow: 1 }}
+                            showsVerticalScrollIndicator={false}
                         />
-                        : (
-                           
-                            <Text style={styles.noItemText}>No routines yet</Text>
-                        
-                            
+                        : (             
+                            <Text style={styles.noItemText}>No routines yet</Text>                    
                         )
                     }
+
                 </View>
             </SafeAreaView>
         </SafeAreaProvider>
@@ -157,6 +155,7 @@ const currStyles = StyleSheet.create({
     routineContainer: {
         marginHorizontal: 20,
         marginTop: 6,
+        flex: 1,
     },
     routineHeader: {
         flexDirection: 'row',

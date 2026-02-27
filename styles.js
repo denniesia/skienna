@@ -52,9 +52,10 @@ export const styles = StyleSheet.create({
 	},
 	noItemText: {
 		fontSize: 22,
-		color: "#555",
+		color: "#F39EB6",
 		fontWeight: "600",
 		marginTop: 10,
+		textAlign: 'center'
 	},
 	suggestionText: {
 		fontSize: 18,
@@ -246,13 +247,17 @@ export const styles = StyleSheet.create({
         lineHeight: 18,
     },
 	iconButton : {
-        alignSelf: 'flex-start',
+        alignSelf: 'center',
         marginLeft: 60,
-        paddingTop: 10
+        paddingTop: 5
     },
 	iconButtonAdd : {
-		
-        paddingTop: 10
+        paddingTop: 2
+	},
+	iconButtonTodayScreen : {
+		alignSelf: 'center',
+		marginLeft: 80
+   
 	},
 	overlay: {
         flex: 1,
