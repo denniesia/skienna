@@ -11,7 +11,7 @@ export default function ProductCard({
 }) {
     const navigation = useNavigation();
 
-    const isPressable = mode === 'default';
+    
 
     const productPressHandler = () => {
         navigation.navigate('Product Details', { product })
@@ -20,7 +20,7 @@ export default function ProductCard({
     return (
         <TouchableOpacity
             style={styles.card}
-            onPress={isPressable ? productPressHandler : undefined}
+            onPress={productPressHandler}
         >
 
             {product.imageUri
