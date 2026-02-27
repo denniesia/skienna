@@ -69,6 +69,7 @@ export default function RoutinesScreen({ navigation }) {
                         renderItem={({ item }) => 
                             <RoutineCard 
                                 routine={item} 
+                                mode="display"
                             />}
                         ItemSeparatorComponent={() => <View style={styles.separator} />}
                         contentContainerStyle={{ flexGrow: 1 }}
