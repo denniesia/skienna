@@ -9,7 +9,7 @@ export const ProductContext = createContext({
     loading: true,
     getUserProductById(productId) {},
     reloadProducts: async() => {},
-    deleteProduct(productId) {},
+    deleteProduct(userId, productId) {},
 });
 
 

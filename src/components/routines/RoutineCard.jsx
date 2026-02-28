@@ -1,9 +1,10 @@
-import { View, Text, StyleSheet, Image, Pressable, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable, TouchableOpacity, Alert } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "../../../styles";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
+import { useRoutine } from "../../context/routines/useRoutines";
 
 
 export default function RoutineCard({
@@ -15,6 +16,23 @@ export default function RoutineCard({
 
 }) {
     const navigation = useNavigation();
+    const { deleteRoutine } = useRoutine();
+
+    const handleDelete = () => {
+        Alert.alert(
+            "Delete Routine",
+            "Are you sure you want to delete this routine?",
+            [
+                { text: "Cancel", style: "cancel" },
+                { 
+                    text: "Delete", 
+                    style: "destructive", 
+                    onPress: () => deleteRoutine(routine.id) 
+                }
+            ]
+        );
+    };
+
     const routineGallery = {
         'Morning Routine': require('../../../assets/sun.png'),
         'Night Routine': require('../../../assets/moon.png'),
@@ -24,10 +42,7 @@ export default function RoutineCard({
     }
 
     const CardContent = (
-
-        <View style={[styles.card]}
-
-        >
+        <View style={[styles.card]}>
             <TouchableOpacity
                 onPress={() => navigation.navigate('Routine Details', { routine })}
                 activeOpacity={0.9}
@@ -68,7 +83,10 @@ export default function RoutineCard({
                     >
                         <AntDesign name="edit" size={24} color="#f376b4"  />
                     </TouchableOpacity>
-                    <TouchableOpacity hitSlop={10}>
+                    <TouchableOpacity 
+                        hitSlop={10}
+                        onPress={handleDelete}
+                    >
                         <Feather name="trash-2" size={24} color="red"  />
                     </TouchableOpacity>
                 </View>

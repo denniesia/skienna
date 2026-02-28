@@ -7,6 +7,7 @@ export const RoutineContext = createContext({
     routines: [],
     loading: true,
     reloadRoutines: async() => {},
+    deleteRoutine(userId, routineId) {},
 });
 
 
@@ -49,10 +50,23 @@ export function RoutineProvider({children}) {
     } , [routines]);
 
 
+    const deleteRoutine = async(routineId) => {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        try {
+            await routineService.deleteRoutine(user.uid, routineId);
+            setRoutines((oldRoutines) => oldRoutines.filter(routine => routine.id !== routineId))
+        } catch(err) {
+            console.error("Error deleting routine", err)
+        }
+    }
+
     const contextValue = {
         routines,
         loading, 
         reloadRoutines,
+        deleteRoutine
     }
 
      return (

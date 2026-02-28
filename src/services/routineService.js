@@ -1,6 +1,7 @@
 import {
 	addDoc,
 	collection,
+	deleteDoc,
 	doc,
 	getDoc,
 	getDocs,
@@ -68,6 +69,19 @@ export async function updateRoutine(userId, routineId, updatedData) {
 		await updateDoc(routineRef, dataToUpdate);
 	} catch (error) {
 		console.error("Failed to update routine:", error);
-		throw error;
 	}
+}
+
+export async function deleteRoutine(userId, routineId) {
+	if (!userId) throw new Error("User ID is required");
+    if (!routineId) throw new Error("Routine ID is required");
+
+	const routineRef = doc(db, "routines", routineId);
+	
+		try {
+			await deleteDoc(routineRef);
+			
+		} catch (err) {
+			console.error("Failed to delete routine", err);
+		}
 }
