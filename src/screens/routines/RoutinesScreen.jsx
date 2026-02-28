@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, TextInput, ScrollView, FlatList, TouchableOpacity, Alert } from "react-native";
+import { Text, View, StyleSheet, TextInput, ScrollView, FlatList, TouchableOpacity, Alert, RefreshControl } from "react-native";
 import { styles } from "../../../styles";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from '@expo/vector-icons';
@@ -15,8 +15,16 @@ export default function RoutinesScreen({ navigation }) {
     const [showCategoryModal, setShowCategoryModal] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
-    const { routines, loading } = useRoutine();
-    
+    const { routines, loading, reloadRoutines } = useRoutine();
+
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = async () => {
+        setRefreshing(true);
+        await reloadRoutines();
+        setRefreshing(false);
+    }
+
     return (
         <SafeAreaProvider>
             <SafeAreaView style={[styles.container]}>
@@ -61,28 +69,33 @@ export default function RoutinesScreen({ navigation }) {
                     />
                 }
 
-                {loading &&  <Text style={styles.loadingText}>Loading...</Text>}
-                {routines.length > 0
-                    ? <FlatList
-                        data={routines}
-                        keyExtractor={(item) => item.id}
-                        renderItem={({ item }) => 
-                            <RoutineCard 
-                                routine={item} 
-                                mode="display"
-                            />}
-                        ItemSeparatorComponent={() => <View style={styles.separator} />}
-                        contentContainerStyle={{ flexGrow: 1 }}
-                    />
-                    : (
-                        <TouchableOpacity style={styles.noItemContainer}
-                            onPress={() => setShowCategoryModal(true)}
-                        >
-                            <MaterialCommunityIcons name="sprout-outline" size={40} color="#eb8f9e" />
-                            <Text style={styles.noItemText}>No routines yet</Text>
-                            <Text style={styles.suggestionText}>Tap to create!</Text>
-                        </TouchableOpacity>
-                    )
+                {loading && routines.length === 0
+                    ? (<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={styles.loadingText}>Loading...</Text>
+                    </View>)
+                    : routines.length > 0
+                        ? (<FlatList
+                            data={routines}
+                            keyExtractor={(item) => item.id}
+                            renderItem={({ item }) => <RoutineCard routine={item} mode="display" />}
+                            ItemSeparatorComponent={() => <View style={styles.separator} />}
+                            contentContainerStyle={{ flexGrow: 1 }}
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={refreshing}
+                                    onRefresh={onRefresh}
+                                    colors={['#F39EB6']} // spinner color
+                                />
+                            }
+                        />) 
+                        : (<TouchableOpacity
+                                style={styles.noItemContainer}
+                                onPress={() => setShowCategoryModal(true)}
+                            >
+                                <MaterialCommunityIcons name="sprout-outline" size={40} color="#eb8f9e" />
+                                <Text style={styles.noItemText}>No routines yet</Text>
+                                <Text style={styles.suggestionText}>Tap to create!</Text>
+                            </TouchableOpacity>)
                 }
 
             </SafeAreaView>
