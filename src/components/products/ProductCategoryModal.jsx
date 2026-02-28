@@ -8,8 +8,7 @@ export default function ProductCategoryModal({
     onClose,
     onSelectCategory,
 }) {
- 
-
+    const [selectedCategory, setSelectedCategory] = useState(null);
     const handlePressHandler = (category) => {
         setSelectedCategory(category);
         onSelectCategory?.(category);

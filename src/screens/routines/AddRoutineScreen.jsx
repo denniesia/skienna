@@ -1,26 +1,12 @@
 import {
-    Text,
-    TextInput,
-    View,
-    StyleSheet,
-    TouchableOpacity,
-    Image,
-    FlatList,
+   
     Alert
 } from "react-native";
-import { styles } from "../../../styles";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { useState } from "react";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { auth } from "../../../FirebaseConfig";
-import DateTimePicker from '@react-native-community/datetimepicker';
 
-import { validateRoutine } from '../../utils/validateRoutine'
-import RoutineCategoryModal from "../../components/routines/RoutineCategoryModal";
-import { useProducts } from "../../context/products/useProducts";
+import { auth } from "../../../FirebaseConfig";
+
 import { routineService } from "../../services";
-import ProductModal from "../../components/products/ProductModal";
-import ProductCard from "../../components/products/ProductCard";
+
 import RoutineForm from "../../components/routines/RoutineForm";
 
 export default function AddRoutineScreen({ navigation, route }) {

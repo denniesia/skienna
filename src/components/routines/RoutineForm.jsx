@@ -39,7 +39,7 @@ export default function RoutineForm({
     const [selectedCategory, setSelectedCategory] = useState(initialValues.category || '');
     const [selectedImageKey, setSelectedImageKey] = useState(initialValues.imageKey);
 
-    const { products, loading} = useProducts();
+    const { products, loading } = useProducts();
     const [showProductsModal, setShowProductsModal] = useState(false);
     const [selectedIds, setSelectedIds] = useState(initialValues.productsId || new Set());
     
@@ -97,7 +97,6 @@ export default function RoutineForm({
     }
 
 
-    
     return (
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
@@ -210,7 +209,7 @@ export default function RoutineForm({
                                         contentContainerStyle={{ paddingBottom: 20 }}
 
                                     />
-                                    {loading && <Text style={styles.loadingText}>Loading...</Text>}
+                                    { selectedIds.size === 0 && <Text style={currStyles.noItemText}>No products yet.</Text>}
                                 </View>
 
                             </View>
@@ -241,13 +240,20 @@ const currStyles = StyleSheet.create({
         marginVertical: 10,        
     },
     linkText: {
-        color: "#F39EB6",       // Typical link color (blue)
-        textDecorationLine: 'underline', // Underline the text
+        color: "#F39EB6",       
+        textDecorationLine: 'underline', 
         fontSize: 16,
         fontWeight: 'bold',
         fontStyle: 'italic',
         textTransform: 'uppercase',
         flex: 1,
         paddingRight: 10
+    },
+    noItemText : {
+        textAlign: 'center',
+        fontSize: 18,
+        color: "#f376b4",
+        marginBottom: 20,
+
     }
 });
