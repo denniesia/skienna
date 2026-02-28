@@ -8,6 +8,7 @@ export const ProductContext = createContext({
     products: [],
     loading: true,
     getUserProductById(productId) {},
+    reloadProducts: async() => {},
 
 });
 
@@ -16,20 +17,33 @@ export function ProductProvider({children}) {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const loadProducts = async(userId) => {
+        setLoading(true);
+        try {
+            const data = await productService.getUserProducts(userId);
+            setProducts(data);
+        } catch (err) {
+            console.error("Error fetching products", err)
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const reloadProducts = async() => {
+        const user = auth.currentUser;
+
+        if (user) {
+            await loadProducts(user.uid)
+        }
+    }; 
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
 
-            if (!user) {
-                setLoading(false);
-                return;
-            }
-
-            try {
-                const data = await productService.getUserProducts(user.uid);
-                setProducts(data);
-            } catch (err) {
-                console.error("Error fetching products", err);
-            } finally {
+            if (user) {
+                await loadProducts(user.uid)
+            } else {
+                setProducts([]);
                 setLoading(false);
             }
         });
@@ -46,6 +60,7 @@ export function ProductProvider({children}) {
         products,
         loading,
         getUserProductById, 
+        reloadProducts,
     }
 
     return (

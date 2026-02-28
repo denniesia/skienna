@@ -1,4 +1,4 @@
-import { Text, View, TextInput, TouchableOpacity, FlatList, ActivityIndicator } from "react-native";
+import { Text, View, TextInput, TouchableOpacity, FlatList, ActivityIndicator, RefreshControl } from "react-native";
 import { styles } from "../../../styles";
 
 import ProductCard from "../../components/products/ProductCard";
@@ -7,9 +7,17 @@ import { Ionicons } from '@expo/vector-icons';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useProducts } from "../../context/products/useProducts";
+import { useState } from "react";
 
 export default function ProductsScreen({ navigation }) {
-    const { products, loading } = useProducts();
+    const { products, loading, reloadProducts } = useProducts();
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = async() => {
+        setRefreshing(true);
+        await reloadProducts();
+        setRefreshing(false);
+    }
 
     return (
         <SafeAreaProvider>
@@ -44,27 +52,32 @@ export default function ProductsScreen({ navigation }) {
 
                 <View style={styles.divider} />
 
-                    {loading && 
-                        <ActivityIndicator size="large" style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} />
-                    }
-               
-                   {products.length > 0
-                        ? <FlatList
-                            data={products}
-                            keyExtractor={(item) => item.id}
-                            renderItem={({ item }) => <ProductCard product={item} />}
-                            ItemSeparatorComponent={() => <View style={styles.separator} />}
-                            contentContainerStyle={{ flexGrow: 1 }}
-                        />
-                        : (
-                            <TouchableOpacity style={styles.noItemContainer} onPress={() => navigation.navigate('Add Product')}>
-                                <MaterialCommunityIcons name="flower-tulip-outline" size={40} color="#eb8f9e" />
-                                <Text style={styles.noItemText}>No products yet</Text>
-                                <Text style={styles.suggestionText}>
-                                    Tap to add!
-                                </Text>
-                            </TouchableOpacity>
-                        )}
+                   
+                   {products.length > 0 ? (
+                    <FlatList
+                        data={products}
+                        keyExtractor={(item) => item.id}
+                        renderItem={({ item }) => <ProductCard product={item} />}
+                        ItemSeparatorComponent={() => <View style={styles.separator} />}
+                        contentContainerStyle={{ flexGrow: 1 }}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh}
+                                colors={['#F39EB6']}
+                            />
+                        }
+                    />
+                ) : (
+                    <TouchableOpacity
+                        style={styles.noItemContainer}
+                        onPress={() => navigation.navigate('Add Product')}
+                    >
+                        <MaterialCommunityIcons name="flower-tulip-outline" size={40} color="#eb8f9e" />
+                        <Text style={styles.noItemText}>No products yet</Text>
+                        <Text style={styles.suggestionText}>Tap to add!</Text>
+                    </TouchableOpacity>
+                )}
     
             </SafeAreaView>
         </SafeAreaProvider>
