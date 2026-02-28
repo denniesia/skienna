@@ -1,8 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from "react-native";
 import { styles } from "../../../styles";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
+
+import { useProducts } from "../../context/products/useProducts";
 
 
 export default function ProductCard({
@@ -11,11 +13,26 @@ export default function ProductCard({
 }) {
     const navigation = useNavigation();
 
-    
+    const { deleteProduct } = useProducts();
 
     const productPressHandler = () => {
         navigation.navigate('Product Details', { product })
     }
+
+    const handleDelete = () => {
+        Alert.alert(
+            "Delete Product",
+            "Are you sure you want to delete this product?",
+            [
+                { text: "Cancel", style: "cancel" },
+                { 
+                    text: "Delete", 
+                    style: "destructive", 
+                    onPress: () => deleteProduct(product.id) 
+                }
+            ]
+        );
+    };
 
     return (
         <TouchableOpacity
@@ -49,7 +66,10 @@ export default function ProductCard({
                             >
                                 <AntDesign name="edit" size={24} color="#f376b4" style={{ marginRight: 10 }} />
                             </TouchableOpacity>
-                            <TouchableOpacity hitSlop={10}>
+                            <TouchableOpacity 
+                                hitSlop={10} 
+                                onPress={handleDelete}
+                            >
                                 <Feather name="trash-2" size={24} color="red" style={{ marginRight: 10 }} />
                             </TouchableOpacity>
                         </View>

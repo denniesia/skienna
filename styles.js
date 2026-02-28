@@ -52,14 +52,14 @@ export const styles = StyleSheet.create({
 	},
 	noItemText: {
 		fontSize: 22,
-		color: "#F39EB6",
+		color: "#f376b4",
 		fontWeight: "600",
 		marginTop: 10,
 		textAlign: 'center'
 	},
 	suggestionText: {
 		fontSize: 18,
-		color: "#F39EB6",
+		color: "#f376b4",
 		marginTop: 10,
 		textAlign: "center",
 		fontWeight: "bold",

@@ -1,4 +1,4 @@
-import { addDoc, collection, getDoc, getDocs, orderBy, query, updateDoc, where, doc } from "firebase/firestore";
+import { addDoc, collection, getDoc, getDocs, orderBy, query, updateDoc, where, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../../FirebaseConfig";
 import { Timestamp } from "firebase/firestore";
 
@@ -78,6 +78,19 @@ export async function updateProduct(userId, productId, updatedData) {
         
     } catch (error) {
         console.error("Failed to update product:", error);
-        throw error;
+    }
+}
+
+export async function deleteProduct(userId, productId) {
+    if (!userId) throw new Error("User ID is required");
+    if (!productId) throw new Error("Product ID is required"); 
+
+    const productRef = doc(db, "products", productId);
+
+    try {
+        await deleteDoc(productRef);
+        
+    } catch (err) {
+        console.error("Failed to delete product", err);
     }
 }

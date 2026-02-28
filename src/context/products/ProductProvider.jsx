@@ -9,7 +9,7 @@ export const ProductContext = createContext({
     loading: true,
     getUserProductById(productId) {},
     reloadProducts: async() => {},
-
+    deleteProduct(productId) {},
 });
 
 
@@ -55,12 +55,25 @@ export function ProductProvider({children}) {
         return products.find(p => p.id === productId);
     }
 
+    const deleteProduct = async(productId) => {
+        const user = auth.currentUser;
+        if (!user) return;
+        
+        try {
+            await productService.deleteProduct(user.uid, productId);
+            setProducts((oldProducts) => oldProducts.filter(product => product.id !== productId));
+        } catch(err) {
+            console.error("Error deleting product", err);
+        }
+    }
+
 
     const contextValue = {
         products,
         loading,
         getUserProductById, 
         reloadProducts,
+        deleteProduct,
     }
 
     return (

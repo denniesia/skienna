@@ -34,7 +34,7 @@ export default function ProductsScreen({ navigation }) {
                             </TouchableOpacity> */}
 
                             <TouchableOpacity onPress={() => navigation.navigate('Add Product')} style={styles.iconButtonAdd}>
-                                <AntDesign name="plus" size={28} color="#F39EB6" />
+                                <AntDesign name="plus" size={28} color="#f376b4" />
                             </TouchableOpacity>
 
                         </View>
@@ -73,7 +73,7 @@ export default function ProductsScreen({ navigation }) {
                         style={styles.noItemContainer}
                         onPress={() => navigation.navigate('Add Product')}
                     >
-                        <MaterialCommunityIcons name="flower-tulip-outline" size={40} color="#eb8f9e" />
+                        <MaterialCommunityIcons name="flower-tulip-outline" size={40} color="#f376b4" />
                         <Text style={styles.noItemText}>No products yet</Text>
                         <Text style={styles.suggestionText}>Tap to add!</Text>
                     </TouchableOpacity>

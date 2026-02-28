@@ -39,7 +39,7 @@ export default function RoutinesScreen({ navigation }) {
                             </TouchableOpacity> */}
 
                             <TouchableOpacity onPress={() => setShowCategoryModal(true)} style={styles.iconButtonAdd}>
-                                <AntDesign name="plus" size={28} color="#F39EB6" />
+                                <AntDesign name="plus" size={28} color="#f376b4" />
                             </TouchableOpacity>
 
                         </View>
@@ -92,7 +92,7 @@ export default function RoutinesScreen({ navigation }) {
                                 style={styles.noItemContainer}
                                 onPress={() => setShowCategoryModal(true)}
                             >
-                                <MaterialCommunityIcons name="sprout-outline" size={40} color="#eb8f9e" />
+                                <MaterialCommunityIcons name="sprout-outline" size={40} color="#f376b4" />
                                 <Text style={styles.noItemText}>No routines yet</Text>
                                 <Text style={styles.suggestionText}>Tap to create!</Text>
                             </TouchableOpacity>)
