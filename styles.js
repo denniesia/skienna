@@ -173,7 +173,7 @@ export const styles = StyleSheet.create({
 		borderRadius: 16,
 		borderWidth: 1,
 		borderColor: "#F2BED1",
-		paddingHorizontal: 12,
+		paddingHorizontal: 6,
 		marginBottom: 10,
 		
 		// iOS shadow
@@ -187,7 +187,6 @@ export const styles = StyleSheet.create({
 		height: 100,
 		marginVertical: 5,
 		borderRadius: 12,
-		backgroundColor: "#F4F4F4",
 	},
 	info: {
 		flex: 1,
@@ -198,11 +197,13 @@ export const styles = StyleSheet.create({
 		fontSize: 18,
 		fontWeight: "600",
 		color: "#f376b4",
+		textAlign: 'left'
 	},
 	meta: {
 		fontSize: 14,
 		color: "#7A7A7A",
 		marginTop: 2,
+		paddingLeft: 10,
 	},
 	metaCategory : {
 		width: '40%',
@@ -215,6 +216,7 @@ export const styles = StyleSheet.create({
         fontWeight: "600",
         fontStyle: 'italic',
         textAlign: 'center',
+		marginLeft: 10
 
 	},
 	loadingText: {

@@ -127,14 +127,14 @@ const currStyles = StyleSheet.create({
         flexDirection: 'row',
         gap: 15,
         marginTop: 20,
-        marginLeft: -28,
+        marginLeft: -34,
         
     },
     card: {
         width: '90%',
         alignSelf: "center",
         flexDirection: "row",
-        paddingHorizontal: 12,
+        paddingHorizontal: 4,
         marginBottom: 10,
 
         // iOS shadow

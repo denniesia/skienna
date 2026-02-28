@@ -35,8 +35,6 @@ export default function ProductCard({
                     resizeMode="cover"
                 />)
             }
-
-
             <View style={styles.info}>
                 <View style={[currStyles.cont, { justifyContent: 'space-between' }]}>
                     <Text style={styles.name} >
@@ -44,7 +42,7 @@ export default function ProductCard({
                     </Text>
                     {mode === 'default' &&
 
-                        <View style={[currStyles.cont,]}>
+                        <View style={currStyles.cont}>
                             <TouchableOpacity
                                 hitSlop={10}
                                 onPress={() => navigation.navigate('Product Edit', { product })}
@@ -58,7 +56,6 @@ export default function ProductCard({
                     }
 
                 </View>
-
 
                 <Text style={styles.meta}>
                     {product.brand}
@@ -75,7 +72,8 @@ export default function ProductCard({
 const currStyles = StyleSheet.create({
     cont: {
         flexDirection: 'row',
-        gap: 10,
+        gap: 15,
+        marginLeft: 10
 
     }
 })
