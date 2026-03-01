@@ -12,13 +12,11 @@ import { styles } from "../../../styles";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { auth } from "../../../FirebaseConfig";
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import { validateRoutine } from '../../utils/validateRoutine'
 import RoutineCategoryModal from "../../components/routines/RoutineCategoryModal";
 import { useProducts } from "../../context/products/useProducts";
-import { routineService } from "../../services";
 import ProductModal from "../../components/products/ProductModal";
 import ProductCard from "../../components/products/ProductCard";
 import { useNavigation } from "@react-navigation/native";
@@ -194,7 +192,7 @@ export default function RoutineForm({
                                     <View style={currStyles.row}>
                                         <Text style={styles.label}>Products:</Text>
                                         <TouchableOpacity onPress={() => setShowProductsModal(true)}>
-                                            <Text style={currStyles.linkText} numberOfLines={1} >Add Products</Text>
+                                            <Text style={currStyles.linkText}>Add Products</Text>
                                         </TouchableOpacity>
                                     </View>
 
