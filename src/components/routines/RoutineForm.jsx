@@ -6,7 +6,8 @@ import {
     TouchableOpacity,
     Image,
     FlatList,
-    Alert
+    Alert,
+    KeyboardAvoidingView
 } from "react-native";
 import { styles } from "../../../styles";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -98,10 +99,8 @@ export default function RoutineForm({
     return (
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
-                <KeyboardAwareScrollView
-                    style={{ flex: 1 }}
-                    enableOnAndroid
-                    extraScrollHeight={20}
+                <KeyboardAvoidingView
+                    
                 >
                     {showProductsModal &&
 
@@ -196,17 +195,22 @@ export default function RoutineForm({
                                         </TouchableOpacity>
                                     </View>
 
-                                    <FlatList
-                                        data={selectedProducts}
-                                        keyExtractor={(item) => item.id}
-                                        renderItem={({ item }) =>
-                                            <ProductCard
-                                                product={item}
-                                                mode='display'
-                                            />}
-                                        contentContainerStyle={{ paddingBottom: 20 }}
+                                    <View >
 
-                                    />
+                                    
+                                        <FlatList
+                                            data={selectedProducts}
+                                            keyExtractor={(item) => item.id}
+                                            renderItem={({ item }) =>
+                                                <ProductCard
+                                                    product={item}
+                                                    mode='display'
+                                                />}
+                                                style={{ maxHeight: 180 }}
+                                            contentContainerStyle={{ paddingBottom: 20 }}
+
+                                        />
+                                     </View>
                                     { selectedIds.size === 0 && <Text style={currStyles.noItemText}>No products yet.</Text>}
                                 </View>
 
@@ -223,7 +227,7 @@ export default function RoutineForm({
                         </TouchableOpacity>
                     </View>
 
-                </KeyboardAwareScrollView>
+                </KeyboardAvoidingView>
             </SafeAreaView>
         </SafeAreaProvider>
     );
