@@ -1,13 +1,30 @@
 import React from "react";
-import { ScrollView, View, Text, Image, StyleSheet, FlatList } from "react-native";
+import { ScrollView, View, Text, Image, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { formatDate } from "../../utils/formatDate";
 import ProductCard from "../../components/products/ProductCard";
 import { useProducts } from "../../context/products/useProducts";
+import AntDesign from '@expo/vector-icons/AntDesign';
+import Feather from '@expo/vector-icons/Feather';
+import { confirmDelete } from "../../utils/confirmDelete";
+import { useRoutine } from "../../context/routines/useRoutines";
+import { useNavigation } from "@react-navigation/native";
+
 
 export default function RoutineDetails({ route }) {
     const { routine } = route.params;
+    const navigation = useNavigation();
     const { products, loading } = useProducts();
+    const { deleteRoutine } = useRoutine()
+
+    const handleDelete = () => {
+        confirmDelete({
+            title: "Delete Routine",
+            message: "Are you sure you want to delete this routine?",
+            onConfirm: () => deleteRoutine(routine.id)
+        })
+
+    };
 
     const routineGallery = {
         sun: require('../../../assets/sun.png'),
@@ -30,17 +47,39 @@ export default function RoutineDetails({ route }) {
                 )}
 
                 <View style={styles.overlayCard}>
-                    <View style={{ marginBottom: 10 }}>
-                        <Text style={styles.title}>{routine.category}</Text>
-                        {routine.name && <Text style={styles.subtitle}>{routine.name}</Text>}
-                    </View>
-
-                    {routine.notes &&
+                    <View style={styles.cardCont}>
                         <View>
-                            <Text style={styles.sectionTitle}>Notes: </Text>
-                            <Text style={styles.notes}>{routine.notes}</Text>
+
+                        
+                            <View style= {{flex: 1}}>
+                                <Text style={styles.title}>{routine.category}</Text>
+                                {routine.name && <Text style={styles.subtitle}>{routine.name}</Text>}
+                            </View>
+
+                           
                         </View>
-                    }
+                        <View style={styles.cont}>
+                            <TouchableOpacity
+                                hitSlop={10}
+                                onPress={() => navigation.navigate('Routine Edit', { routine })}
+                            >
+                                <AntDesign name="edit" size={24} color="#f376b4" />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                hitSlop={10}
+                                onPress={handleDelete}
+                            >
+                                <Feather name="trash-2" size={24} color="red" />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                     {routine.notes &&
+                                <View>
+                                    <Text style={styles.sectionTitle}>Notes: </Text>
+                                    <Text style={styles.notes}>{routine.notes}</Text>
+                                </View>
+                            }
+                    
 
                     <View style={styles.dateGrid}>
                         <View style={styles.dateBox}>
@@ -79,7 +118,7 @@ export default function RoutineDetails({ route }) {
                             <Text style={styles.loadingText}>Loading...</Text>
                         )}
 
-                        {!loading && products.length === 0 && (
+                        {!loading && routineProducts.length === 0 && (
                             <Text style={styles.loadingText}>No products added yet</Text>
                         )}
                     </View>
@@ -106,7 +145,12 @@ const styles = StyleSheet.create({
         shadowRadius: 20,
         elevation: 10,
     },
-
+    cardCont: {
+        marginBottom: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
     heroImage: {
         width: "100%",
         height: 340,
@@ -123,25 +167,27 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "700",
         color: "#f376b4",
-        textAlign: 'center',
+        marginLeft: 10,
     },
 
     subtitle: {
         fontSize: 16,
         color: '#f7a6c3',
         marginTop: 4,
+        marginLeft: 10,
         fontStyle: 'italic',
-        textAlign: 'center'
     },
     sectionTitle: {
         fontSize: 14,
         fontWeight: "600",
         color: '#f2aec7',
         marginBottom: 2,
+        marginLeft: 10,
     },
     notes: {
         fontSize: 14,
         color: "#6b7280",
+        marginLeft: 10,
     },
     dateGrid: {
         flexDirection: "row",
@@ -191,5 +237,12 @@ const styles = StyleSheet.create({
         backgroundColor: "#EDEDED",
         marginTop: 16,
         marginBottom: 3,
+    },
+    cont: {
+       flexDirection: 'row',
+       alignItems: 'flex-start',
+        gap: 20,
+        marginLeft: -34,
+
     },
 });

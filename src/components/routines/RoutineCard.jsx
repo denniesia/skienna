@@ -5,6 +5,7 @@ import { styles } from "../../../styles";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
 import { useRoutine } from "../../context/routines/useRoutines";
+import { confirmDelete } from "../../utils/confirmDelete";
 
 
 export default function RoutineCard({
@@ -19,18 +20,12 @@ export default function RoutineCard({
     const { deleteRoutine } = useRoutine();
 
     const handleDelete = () => {
-        Alert.alert(
-            "Delete Routine",
-            "Are you sure you want to delete this routine?",
-            [
-                { text: "Cancel", style: "cancel" },
-                { 
-                    text: "Delete", 
-                    style: "destructive", 
-                    onPress: () => deleteRoutine(routine.id) 
-                }
-            ]
-        );
+        confirmDelete({
+            title: "Delete Routine",
+            message: "Are you sure you want to delete this routine?",
+            onConfirm: () => deleteRoutine(routine.id) 
+        })
+        
     };
 
     const routineGallery = {
