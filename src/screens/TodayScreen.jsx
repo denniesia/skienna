@@ -15,6 +15,7 @@ export default function TodayScreen() {
     const { logout, user } = useAuth();
     const { routines, loading, updateRoutine } = useRoutine();
 
+    const [selectedDate, setSelectedDate] = useState(today);
     const day = today.getDate();
     const month = today.toLocaleString("en-US", { month: "long" });
     const weekday = today.toLocaleString("en-US", { weekday: "long" });
@@ -35,24 +36,42 @@ export default function TodayScreen() {
     // }, [today]);
 
     const formatDate = (date) => {
-        return date.toISOString().split("T")[0]; 
+        return date.toISOString().split("T")[0];
     };
+    
+
+   const formatLocalDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+};
     const todayString = formatDate(today);
+const selectedDateString = formatLocalDate(selectedDate.toDate ? selectedDate.toDate() : selectedDate);   
+const routinesToShow = routines.filter(routine => {
+    const routineStartDate = routine.startedOn.toDate
+        ? routine.startedOn.toDate()
+        : new Date(routine.startedOn);
+
+    const routineDateString = formatLocalDate(routineStartDate);
+
+    // Only show routines that have started on or before the selected date
+    return routineDateString <= selectedDateString;
+});
 
     const toggleRoutine = async (routine) => {
-        const todayString = formatDate(today);
+    const dateToToggle = selectedDateString; // <-- toggle for selected date
 
-        let updatedDone;
+    let updatedDone;
 
-        if (routine.done?.includes(todayString)) {
-            updatedDone = routine.done.filter(date => date !== todayString);
-        } else {
-            updatedDone = [...(routine.done || []), todayString];
-        }
+    if (routine.done?.includes(dateToToggle)) {
+        updatedDone = routine.done.filter(date => date !== dateToToggle);
+    } else {
+        updatedDone = [...(routine.done || []), dateToToggle];
+    }
 
-        await updateRoutine(routine.id, { done: updatedDone });
-    };
-
+    await updateRoutine(routine.id, { done: updatedDone });
+};
     return (
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
@@ -89,7 +108,8 @@ export default function TodayScreen() {
                     dateNumberStyle={currStyles.dateNumber}
                     dateNameStyle={currStyles.dateName}
                     iconContainer={{ flex: 0.1 }}
-                    selectedDate={new Date()}
+                    selectedDate={selectedDate}
+                    onDateSelected={(date) => setSelectedDate(date)}
                 />
                 <View
                     style={styles.divider}
@@ -102,22 +122,22 @@ export default function TodayScreen() {
                         <Text style={currStyles.routineTitle}>Your daily routines</Text>
                     </View>
 
-                    {routines.length > 0
+                    {routinesToShow.length > 0
                         ? <FlatList
-                            data={routines}
+                            data={routinesToShow}
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={({ item }) =>
                                 <RoutineCard
                                     routine={item}
                                     showCheckbox={true}
-                                    isSelected={item.done?.includes(todayString)}
+                                    isSelected={item.done?.includes(selectedDateString)}
                                     onToggle={() => toggleRoutine(item)}
                                 />}
                             ItemSeparatorComponent={() => <View style={styles.separator} />}
                             showsVerticalScrollIndicator={false}
                         />
                         : (
-                            <Text style={[styles.noItemText, {fontSize: 20, color: '#8a8a8acc', marginTop: 20}]}>No routines yet.</Text>
+                            <Text style={[styles.noItemText, { fontSize: 20, color: '#8a8a8acc', marginTop: 20 }]}>No routines yet.</Text>
                         )
                     }
 
