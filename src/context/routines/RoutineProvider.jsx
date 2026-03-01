@@ -7,6 +7,7 @@ export const RoutineContext = createContext({
     routines: [],
     loading: true,
     reloadRoutines: async() => {},
+    updateRoutine: async(routineId) => {},
     deleteRoutine(userId, routineId) {},
 });
 
@@ -49,7 +50,24 @@ export function RoutineProvider({children}) {
         return unsubscribe;
     } , [routines]);
 
+    const updateRoutine = async (routineId, updatedData) => {
+        const user = auth.currentUser;
+        if (!user) return;
 
+        try {
+            await routineService.updateRoutine(user.uid, routineId, updatedData);
+
+            setRoutines((oldRoutines) =>
+                oldRoutines.map((routine) =>
+                    routine.id === routineId
+                        ? { ...routine, ...updatedData }
+                        : routine
+                )
+            );
+        } catch (err) {
+            console.error("Error updating routine", err);
+        }
+    };
     const deleteRoutine = async(routineId) => {
         const user = auth.currentUser;
         if (!user) return;
@@ -66,6 +84,7 @@ export function RoutineProvider({children}) {
         routines,
         loading, 
         reloadRoutines,
+        updateRoutine, 
         deleteRoutine
     }
 

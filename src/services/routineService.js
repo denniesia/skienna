@@ -44,6 +44,7 @@ export async function addRoutine(userId, routineData) {
 	const docData = {
 		userId,
 		...routineData,
+		done: [],
 		createdOn: new Date(),
 	};
 
@@ -58,18 +59,18 @@ export async function updateRoutine(userId, routineId, updatedData) {
 
 	const routineRef = doc(db, "routines", routineId);
 
-	const dataToUpdate = {
-		...updatedData,
-		startedOn: updatedData.startedOn
-			? Timestamp.fromDate(updatedData.startedOn)
-			: undefined,
-	};
+    const dataToUpdate = { ...updatedData };
 
-	try {
-		await updateDoc(routineRef, dataToUpdate);
-	} catch (error) {
-		console.error("Failed to update routine:", error);
-	}
+    if (updatedData.startedOn) {
+        dataToUpdate.startedOn = Timestamp.fromDate(updatedData.startedOn);
+    }
+
+    try {
+        await updateDoc(routineRef, dataToUpdate);
+    } catch (error) {
+        console.error("Failed to update routine:", error);
+        throw error;
+    }
 }
 
 export async function deleteRoutine(userId, routineId) {

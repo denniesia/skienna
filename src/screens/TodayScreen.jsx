@@ -13,25 +13,45 @@ import RoutineCard from '../components/routines/RoutineCard';
 export default function TodayScreen() {
     const today = useCurrentDate();
     const { logout, user } = useAuth();
-    const { routines, loading } = useRoutine();
+    const { routines, loading, updateRoutine } = useRoutine();
 
     const day = today.getDate();
     const month = today.toLocaleString("en-US", { month: "long" });
     const weekday = today.toLocaleString("en-US", { weekday: "long" });
 
-    const [selectedRoutineIds, setSelectedRoutineIds] = useState([]);
 
-    const toggleRoutineSelect = (id) => {
-        setSelectedRoutineIds(prev =>
-            prev.includes(id)
-                ? prev.filter(item => item !== id)
-                : [...prev, id]
-        );
+    // const [selectedRoutineIds, setSelectedRoutineIds] = useState([]);
+
+    // const toggleRoutineSelect = (id) => {
+    //     setSelectedRoutineIds(prev =>
+    //         prev.includes(id)
+    //             ? prev.filter(item => item !== id)
+    //             : [...prev, id]
+    //     );
+    // };
+
+    // useEffect(() => {
+    //     setSelectedRoutineIds([]);
+    // }, [today]);
+
+    const formatDate = (date) => {
+        return date.toISOString().split("T")[0]; 
     };
+    const todayString = formatDate(today);
 
-    useEffect(() => {
-        setSelectedRoutineIds([]);
-    }, [today]);
+    const toggleRoutine = async (routine) => {
+    const todayString = formatDate(today);
+
+    let updatedDone;
+
+    if (routine.done?.includes(todayString)) {
+        updatedDone = routine.done.filter(date => date !== todayString);
+    } else {
+        updatedDone = [...(routine.done || []), todayString];
+    }
+
+    await updateRoutine(routine.id, { done: updatedDone });
+};
 
     return (
         <SafeAreaProvider>
@@ -90,8 +110,8 @@ export default function TodayScreen() {
                                 <RoutineCard
                                     routine={item}
                                     showCheckbox={true}
-                                    isSelected={selectedRoutineIds.includes(item.id)}
-                                    onToggle={() => toggleRoutineSelect(item.id)}
+                                    isSelected={item.done?.includes(todayString)}
+                                    onToggle={() => toggleRoutine(item)}
                                 />}
                             ItemSeparatorComponent={() => <View style={styles.separator} />}
                             showsVerticalScrollIndicator={false}
