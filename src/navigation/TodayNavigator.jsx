@@ -3,6 +3,7 @@ import TodayScreen from "../screens/TodayScreen";
 import RoutineDetails from "../screens/routines/RoutineDetailsScreen";
 import ProductDetailsScreen from "../screens/products/ProductDetailsScreen";
 import EditProductScreen from "../screens/products/EditProductScreen";
+import EditRoutineScreen from "../screens/routines/EditRoutineScreen";
 
 
 export default function TodayNavigator() {
@@ -32,6 +33,17 @@ export default function TodayNavigator() {
             <Stack.Screen
                 name="Product Edit"
                 component={EditProductScreen}
+                options={{
+                    headerShown: true,
+                    headerTintColor: '#F39EB6',
+                    headerTitleStyle: { fontSize: 20 },
+                    headerBackVisible: true,
+                    headerBackButtonDisplayMode: 'minimal'
+                }}
+            />
+            <Stack.Screen
+                name="Routine Edit"
+                component={EditRoutineScreen}
                 options={{
                     headerShown: true,
                     headerTintColor: '#F39EB6',
