@@ -32,9 +32,9 @@ const LoginScreen = () => {
         if (!isValid) {
             setErrors(errors);
             return;
-        }   
+        }
         await login(email, password);
-          
+
     };
 
     return (
@@ -54,7 +54,7 @@ const LoginScreen = () => {
                     <View style={curStyles.card}>
                         <Text style={curStyles.title}>Welcome Back </Text>
 
-                       {error && (
+                        {error && (
                             <View style={styles.errorBanner}>
                                 <Ionicons name="alert-circle" size={18} color="#DC2626" />
                                 <Text style={styles.errorBannerText}>
@@ -110,6 +110,10 @@ const LoginScreen = () => {
                                 Don't have an account? Sign up
                             </Text>
                         </TouchableOpacity>
+                        <View style={curStyles.demoInfo}>
+                            <Text style={curStyles.demoTitle}>Demo Account:</Text>
+                            <Text style={curStyles.demoText}>demo@example.com / password1</Text>
+                        </View>
                     </View>
 
 
@@ -183,6 +187,23 @@ const curStyles = StyleSheet.create({
         marginTop: 18,
         color: "#f376b4",
         fontWeight: "600",
+    },
+    demoInfo: {
+        marginTop: 40,
+        padding: 16,
+        backgroundColor: '#f8fafc',
+        borderRadius: 12,
+        alignItems: 'center',
+    },
+    demoTitle: {
+        fontSize: 12,
+        color: "#F39EB6",
+        fontWeight: '600',
+        marginBottom: 4,
+    },
+    demoText: {
+        fontSize: 13,
+        color:  "#F39EB6",
     },
 
 });
