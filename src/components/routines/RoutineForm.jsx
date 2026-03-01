@@ -208,7 +208,6 @@ export default function RoutineForm({
                                                 />}
                                                 style={{ maxHeight: 180 }}
                                             contentContainerStyle={{ paddingBottom: 20 }}
-
                                         />
                                      </View>
                                     { selectedIds.size === 0 && <Text style={currStyles.noItemText}>No products yet.</Text>}

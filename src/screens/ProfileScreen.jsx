@@ -4,19 +4,18 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "../../styles";
 import { useAuth } from "../context/auth/useAuth";
 import { MaterialIcons } from '@expo/vector-icons';
+import { formatDate } from "../utils/formatDate";
+import { useRoutine } from "../context/routines/useRoutines";
+import { useProducts } from "../context/products/useProducts";
 
 
 export default function ProfileScreen() {
-    const { logout, user1 } = useAuth();
-    const user = {
-        name: "Jane Doe",
-        gender: "Female",
-        memberSince: "Jan 2025",
-        avatar: "https://www.shutterstock.com/image-vector/vector-bright-portrait-beautiful-brunette-600nw-2452267975.jpg",
-        productsCount: 5,
-        routinesCount: 3,
-        routinesDone: 42,
-    };
+    const { logout, user } = useAuth();
+    const { routines } = useRoutine();
+    const { products } = useProducts();
+
+    const routinesCount = routines.length;
+    const productsCount = products.length; 
 
     return (
         <SafeAreaProvider>
@@ -37,19 +36,17 @@ export default function ProfileScreen() {
 
                     <View style={currStyles.avatarSection}>
                         <Image source={require('../../assets/profile_pic.jpg')} style={currStyles.avatar} />
-                        <Text style={currStyles.name}>{user.name}</Text>
+                        <Text style={currStyles.name}>{user.email}</Text>
+                        
                         <Text style={currStyles.meta}>
-                            {user.gender}
-                        </Text>
-                        <Text style={currStyles.meta}>
-                            Member since {user.memberSince}
+                            Member since {formatDate(user.createdAt ?? user.metadata.creationTime)}
                         </Text>
                     </View>
 
                     <View style={currStyles.statsCard}>
-                        <ProfileStat label="Products" value={user.productsCount} />
+                        <ProfileStat label="Products" value={productsCount} />
 
-                        <ProfileStat label="Routines" value={user.routinesCount} />
+                        <ProfileStat label="Routines" value={routinesCount} />
 
                         <ProfileStat label="Done" value={user.routinesDone} />
                     </View>
@@ -73,6 +70,7 @@ const currStyles = StyleSheet.create({
         height: 150,
         borderRadius: 48,
         marginBottom: 12,
+
     },
     name: {
         fontSize: 24,
@@ -82,7 +80,7 @@ const currStyles = StyleSheet.create({
     meta: {
         fontSize: 18,
         color: "#e8a7ba",
-        marginTop: 4,
+        marginTop: 20,
     },
 
     statsCard: {
