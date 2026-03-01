@@ -81,7 +81,7 @@ export default function ProductForm({
                     <KeyboardAwareScrollView
                         style={{ flex: 1 }}
                         enableOnAndroid
-                        extraScrollHeight={20}
+                        extraScrollHeight={90}
                     >
                         <View style={styles.containerAdd}>
                             <View style={styles.topRow}>
@@ -188,10 +188,8 @@ export default function ProductForm({
                                             onChangeText={setNotes}
                                         />
                                     </View>
-
                                 </View>
                             </View>
-
                             <View style={styles.buttonRow}>
                                 <TouchableOpacity style={styles.cancelBtn} onPress={() => navigation.goBack()}>
                                     <Text style={styles.endBtnText}>Cancel</Text>

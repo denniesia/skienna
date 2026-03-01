@@ -230,7 +230,7 @@ export const styles = StyleSheet.create({
 	errorBanner: {
         flexDirection: "row",
         alignItems: "center",
-        backgroundColor: "#FEF2F2",   // very soft red
+        backgroundColor: "#FEF2F2",   
         borderLeftWidth: 4,
         borderLeftColor: "#DC2626",
         paddingVertical: 10,
@@ -263,14 +263,14 @@ export const styles = StyleSheet.create({
 	},
 	overlay: {
         flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.5)', // darker overlay for focus
+        backgroundColor: 'rgba(0,0,0,0.5)', 
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: 20,
     },
     modalContainer: {
         width: '75%',
-        backgroundColor: '#fff', // clean white background
+        backgroundColor: '#fff', 
         borderRadius: 15,
         paddingVertical: 20,
         paddingHorizontal: 25,
@@ -279,18 +279,18 @@ export const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.25,
         shadowRadius: 5,
-        elevation: 5, // Android shadow
+        elevation: 5, 
     },
 	modalContainerWide : {
 		width: '95%',
-        backgroundColor: '#fff', // clean white background
+        backgroundColor: '#fff', 
         borderRadius: 15,
         paddingVertical: 20,
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.25,
         shadowRadius: 5,
-        elevation: 5, // Android shadow
+        elevation: 5, 
 	},
     title: {
         fontSize: 20,
@@ -308,5 +308,10 @@ export const styles = StyleSheet.create({
         fontSize: 12,
         marginTop: 2,
         color: '#8d8b8bcc',
-    }
+    },
+	centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+},
 });

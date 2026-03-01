@@ -2,12 +2,10 @@ import {
    
     Alert
 } from "react-native";
-
 import { auth } from "../../../FirebaseConfig";
-
 import { routineService } from "../../services";
-
 import RoutineForm from "../../components/routines/RoutineForm";
+
 
 export default function AddRoutineScreen({ navigation, route }) {
     const { category, imageKey } = route.params;

@@ -69,33 +69,29 @@ export default function RoutinesScreen({ navigation }) {
                     />
                 }
 
-                {loading && routines.length === 0
-                    ? (<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={styles.loadingText}>Loading...</Text>
-                    </View>)
-                    : routines.length > 0
-                        ? (<FlatList
-                            data={routines}
-                            keyExtractor={(item) => item.id}
-                            renderItem={({ item }) => <RoutineCard routine={item} mode="display" />}
-                            ItemSeparatorComponent={() => <View style={styles.separator} />}
-                            contentContainerStyle={{ flexGrow: 1 }}
-                            refreshControl={
-                                <RefreshControl
-                                    refreshing={refreshing}
-                                    onRefresh={onRefresh}
-                                    colors={['#F39EB6']} // spinner color
-                                />
-                            }
-                        />) 
-                        : (<TouchableOpacity
-                                style={styles.noItemContainer}
-                                onPress={() => setShowCategoryModal(true)}
-                            >
-                                <MaterialCommunityIcons name="sprout-outline" size={40} color="#f376b4" />
-                                <Text style={styles.noItemText}>No routines yet</Text>
-                                <Text style={styles.suggestionText}>Tap to create!</Text>
-                            </TouchableOpacity>)
+                {routines.length > 0
+                    ? (<FlatList
+                        data={routines}
+                        keyExtractor={(item) => item.id}
+                        renderItem={({ item }) => <RoutineCard routine={item} mode="display" />}
+                        ItemSeparatorComponent={() => <View style={styles.separator} />}
+                        contentContainerStyle={{ flexGrow: 1 }}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh}
+                                colors={['#F39EB6']} 
+                            />
+                        }
+                    />)
+                    : (<TouchableOpacity
+                        style={styles.noItemContainer}
+                        onPress={() => setShowCategoryModal(true)}
+                    >
+                        <MaterialCommunityIcons name="sprout-outline" size={40} color="#f376b4" />
+                        <Text style={styles.noItemText}>No routines yet</Text>
+                        <Text style={styles.suggestionText}>Tap to create!</Text>
+                    </TouchableOpacity>)
                 }
 
             </SafeAreaView>
