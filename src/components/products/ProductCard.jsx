@@ -5,6 +5,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
 
 import { useProducts } from "../../context/products/useProducts";
+import { confirmDelete } from "../../utils/confirmDelete";
 
 
 export default function ProductCard({
@@ -20,18 +21,11 @@ export default function ProductCard({
     }
 
     const handleDelete = () => {
-        Alert.alert(
-            "Delete Product",
-            "Are you sure you want to delete this product?",
-            [
-                { text: "Cancel", style: "cancel" },
-                { 
-                    text: "Delete", 
-                    style: "destructive", 
-                    onPress: () => deleteProduct(product.id) 
-                }
-            ]
-        );
+        confirmDelete({
+        title: "Delete Product",
+        message: "Are you sure you want to delete this product?",
+        onConfirm: () => deleteProduct(product.id),
+        });
     };
 
     return (

@@ -4,11 +4,22 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { formatDate } from "../../utils/formatDate";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
+import { confirmDelete } from "../../utils/confirmDelete";
+import { useProducts } from "../../context/products/useProducts";
 
 
 
 export default function ProductDetailsScreen({ route, navigation }) {
     const { product } = route.params; 
+    const { deleteProduct } = useProducts();
+
+    const handleDelete = () => {
+        confirmDelete({
+            title: "Delete Product",
+            message: "Are you sure you want to delete this product?",
+            onConfirm: () => deleteProduct(product.id),
+        });
+    };
     
     return (
         <SafeAreaProvider>
@@ -29,7 +40,10 @@ export default function ProductDetailsScreen({ route, navigation }) {
                                 >
                                     <AntDesign name="edit" size={28} color="#f376b4"  style={{marginRight: 10}}/>
                                 </TouchableOpacity>
-                                <TouchableOpacity hitSlop={10}>
+                                <TouchableOpacity 
+                                    hitSlop={10}
+                                    onPress={handleDelete}
+                                >
                                     <Feather name="trash-2" size={28} color="red"  style={{marginRight: 10}}/>
                                 </TouchableOpacity>
                             </View>
