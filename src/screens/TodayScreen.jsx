@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList, ActivityIndicator } from 'react-native';
 import CalendarStrip from 'react-native-calendar-strip';
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { styles } from '../../styles';
-import { MaterialIcons  } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { useCurrentDate } from '../hooks/useCurrentDate';
 import { useAuth } from '../context/auth/useAuth';
 import { useRoutine } from '../context/routines/useRoutines';
@@ -13,7 +13,7 @@ import RoutineCard from '../components/routines/RoutineCard';
 export default function TodayScreen() {
     const today = useCurrentDate();
     const { logout, user } = useAuth();
-    const { routines, loading} = useRoutine();
+    const { routines, loading } = useRoutine();
 
     const day = today.getDate();
     const month = today.toLocaleString("en-US", { month: "long" });
@@ -22,11 +22,11 @@ export default function TodayScreen() {
     const [selectedRoutineIds, setSelectedRoutineIds] = useState([]);
 
     const toggleRoutineSelect = (id) => {
-        setSelectedRoutineIds(prev => 
-            prev.includes(id) 
-            ? prev.filter(item => item !== id)
-            : [...prev,id]
-        ) ;
+        setSelectedRoutineIds(prev =>
+            prev.includes(id)
+                ? prev.filter(item => item !== id)
+                : [...prev, id]
+        );
     };
 
     useEffect(() => {
@@ -46,12 +46,12 @@ export default function TodayScreen() {
                             <Text style={currStyles.dateText}>{day} {month}, {weekday}</Text>
                         </View>
                         <TouchableOpacity onPress={logout} style={styles.iconButtonTodayScreen}>
-                            <MaterialIcons  name="logout" size={30} color="#f376b4" />
+                            <MaterialIcons name="logout" size={30} color="#f376b4" />
                         </TouchableOpacity>
                     </View>
 
                     <View>
-                       
+
                     </View>
                 </View>
                 <View
@@ -81,27 +81,23 @@ export default function TodayScreen() {
                     <View style={currStyles.routineHeader}>
                         <Text style={currStyles.routineTitle}>Your daily routines</Text>
                     </View>
-                    <Text style={currStyles.routineSubtitle}>
-                        Tap on a routine to complete
-                    </Text>
-       
-                        
-                     {routines.length > 0
+
+                    {routines.length > 0
                         ? <FlatList
                             data={routines}
                             keyExtractor={(item) => item.id.toString()}
-                            renderItem={({ item }) => 
-                                <RoutineCard 
-                                    routine={item} 
+                            renderItem={({ item }) =>
+                                <RoutineCard
+                                    routine={item}
                                     showCheckbox={true}
                                     isSelected={selectedRoutineIds.includes(item.id)}
-                                    onToggle= {() => toggleRoutineSelect(item.id)}
+                                    onToggle={() => toggleRoutineSelect(item.id)}
                                 />}
                             ItemSeparatorComponent={() => <View style={styles.separator} />}
                             showsVerticalScrollIndicator={false}
                         />
-                        : (             
-                            <Text style={styles.noItemText}>No routines yet</Text>                    
+                        : (
+                            <Text style={[styles.noItemText, {fontSize: 20, color: '#8a8a8acc', marginTop: 20}]}>No routines yet.</Text>
                         )
                     }
 
@@ -179,5 +175,5 @@ const currStyles = StyleSheet.create({
         fontSize: 14,
         marginLeft: 10,
     },
-    
+
 });
