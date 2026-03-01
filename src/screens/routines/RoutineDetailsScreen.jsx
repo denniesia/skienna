@@ -94,7 +94,7 @@ export default function RoutineDetails({ route }) {
                     </View>
 
                     <View style={styles.divider} />
-                    <View style={styles.inputCont}>
+                    <View style={[styles.inputCont]}>
                         <View>
                             <Text style={styles.label}>Routine Products:</Text>
 
@@ -109,7 +109,8 @@ export default function RoutineDetails({ route }) {
                                         product={item}
                                         mode="display"
                                     />}
-                                contentContainerStyle={{ paddingBottom: 20 }}
+                                style={{ maxHeight: 300 }}
+                                contentContainerStyle={{ paddingBottom: 80 }}
                             />
                             : <Text style={styles.loadingText}>No added products</Text>
                         }
