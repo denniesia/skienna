@@ -1,10 +1,11 @@
 import { Alert } from "react-native";
 import { auth } from "../../../FirebaseConfig";
-import { routineService } from "../../services";
 import RoutineForm from "../../components/routines/RoutineForm";
+import { useRoutine } from "../../context/routines/useRoutines";
 
 export default function EditRoutineScreen({ navigation, route }) {
     const { routine } = route.params;
+    const { updateRoutine } = useRoutine();
 
     const handleUpdate = async (formData) => {
         try {
@@ -14,7 +15,7 @@ export default function EditRoutineScreen({ navigation, route }) {
                 return;
             }
             
-            await routineService.updateRoutine(user.uid, routine.id, formData);
+            updateRoutine(user.uid, routine.id, formData);
             Alert.alert("Success", "Routine updated successfully");
             navigation.goBack();
         } catch (error) {

@@ -1,7 +1,6 @@
 import ProductForm from "../../components/products/ProductForm";
 import { useProducts } from "../../context/products/useProducts";
 
-
 export default function AddProductScreen({ navigation }) {
     const { addProduct } = useProducts();
 

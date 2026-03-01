@@ -1,7 +1,6 @@
 import {
     Alert
 } from "react-native";
-import { auth } from "../../../FirebaseConfig";
 import RoutineForm from "../../components/routines/RoutineForm";
 import { useRoutine } from "../../context/routines/useRoutines";
 
