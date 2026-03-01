@@ -1,19 +1,19 @@
 import {
-   
     Alert
 } from "react-native";
 import { auth } from "../../../FirebaseConfig";
-import { routineService } from "../../services";
 import RoutineForm from "../../components/routines/RoutineForm";
+import { useRoutine } from "../../context/routines/useRoutines";
 
 
 export default function AddRoutineScreen({ navigation, route }) {
     const { category, imageKey } = route.params;
+
+    const { addRoutine } = useRoutine();
     
     const handleAdd = async (formData) => {
         try {
-            const userId = auth.currentUser.uid;
-            await routineService.addRoutine(userId, formData);
+            addRoutine(formData);
             navigation.goBack();
         } catch (error) {
             console.error(error);

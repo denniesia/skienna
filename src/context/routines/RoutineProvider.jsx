@@ -6,9 +6,11 @@ import { auth } from "../../../FirebaseConfig";
 export const RoutineContext = createContext({
     routines: [],
     loading: true,
+    addRoutine(routineData) {},
     reloadRoutines: async() => {},
     updateRoutine: async(routineId) => {},
     deleteRoutine(userId, routineId) {},
+    getUserRoutineById(routineId) {},
 });
 
 
@@ -36,6 +38,14 @@ export function RoutineProvider({children}) {
         }
     };
 
+    const addRoutine = async(routineData) => {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        const newRoutine = await routineService.addRoutine(user.uid, routineData);
+        setRoutines((prev) => [newRoutine, ...prev])
+    };
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
 
@@ -48,7 +58,7 @@ export function RoutineProvider({children}) {
         });
 
         return unsubscribe;
-    } , [routines]);
+    } , []);
 
     const updateRoutine = async (routineId, updatedData) => {
         const user = auth.currentUser;
@@ -68,6 +78,8 @@ export function RoutineProvider({children}) {
             console.error("Error updating routine", err);
         }
     };
+
+    
     const deleteRoutine = async(routineId) => {
         const user = auth.currentUser;
         if (!user) return;
@@ -80,12 +92,19 @@ export function RoutineProvider({children}) {
         }
     }
 
+    const getUserRoutineById = (routineId) => {
+        return routines.find(r => r.id === routineId);
+    }
+    
+
     const contextValue = {
         routines,
         loading, 
+        addRoutine,
         reloadRoutines,
         updateRoutine, 
-        deleteRoutine
+        deleteRoutine,
+        getUserRoutineById
     }
 
      return (

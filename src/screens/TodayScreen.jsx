@@ -40,18 +40,18 @@ export default function TodayScreen() {
     const todayString = formatDate(today);
 
     const toggleRoutine = async (routine) => {
-    const todayString = formatDate(today);
+        const todayString = formatDate(today);
 
-    let updatedDone;
+        let updatedDone;
 
-    if (routine.done?.includes(todayString)) {
-        updatedDone = routine.done.filter(date => date !== todayString);
-    } else {
-        updatedDone = [...(routine.done || []), todayString];
-    }
+        if (routine.done?.includes(todayString)) {
+            updatedDone = routine.done.filter(date => date !== todayString);
+        } else {
+            updatedDone = [...(routine.done || []), todayString];
+        }
 
-    await updateRoutine(routine.id, { done: updatedDone });
-};
+        await updateRoutine(routine.id, { done: updatedDone });
+    };
 
     return (
         <SafeAreaProvider>

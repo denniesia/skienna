@@ -11,6 +11,7 @@ export const ProductContext = createContext({
     addProduct(productData) {},
     getUserProductById(productId) {},
     reloadProducts: async() => {},
+    updateProduct(productId) {},
     deleteProduct(userId, productId) {},
 });
 
@@ -61,6 +62,26 @@ export function ProductProvider({children}) {
         return unsubscribe;
     } , []);
 
+    const updateProduct = async (productId, updatedData) => {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        try {
+            await productService.updateProduct(user.uid, productId, updatedData);
+
+            setRoutines((oldProducts) =>
+                oldProducts.map((product) =>
+                    product.id === productId
+                        ? { ...product, ...updatedData }
+                        : product
+                )
+            );
+        } catch (err) {
+            console.error("Error updating product", err);
+        }
+    };
+
+
     const getUserProductById = (productId) => {
         return products.find(p => p.id === productId);
     }
@@ -84,6 +105,7 @@ export function ProductProvider({children}) {
         addProduct,
         getUserProductById, 
         reloadProducts,
+        updateProduct,
         deleteProduct,
     }
 

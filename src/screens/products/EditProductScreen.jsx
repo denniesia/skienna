@@ -1,10 +1,11 @@
 import { Alert } from "react-native";
 import { auth } from "../../../FirebaseConfig";
 import ProductForm from "../../components/products/ProductForm";
-import { productService } from "../../services";
+import { useProducts } from "../../context/products/useProducts";
 
 export default function EditProductScreen({ navigation, route }) {
     const { product } = route.params;
+    const { updateProduct } = useProducts();
 
     const handleUpdate = async (formData) => {
         try {
@@ -14,7 +15,7 @@ export default function EditProductScreen({ navigation, route }) {
                 return;
             }
             
-            await productService.updateProduct(user.uid, product.id, formData);
+            updateProduct(user.uid, product.id, formData);
             Alert.alert("Success", "Product updated successfully");
             navigation.goBack();
         } catch (error) {
