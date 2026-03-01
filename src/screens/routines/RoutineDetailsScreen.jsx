@@ -30,11 +30,11 @@ export default function RoutineDetails({ route }) {
                 )}
 
                 <View style={styles.overlayCard}>
-                    <View style= {{marginBottom: 10}}> 
-                          <Text style={styles.title}>{routine.category}</Text>
+                    <View style={{ marginBottom: 10 }}>
+                        <Text style={styles.title}>{routine.category}</Text>
                         {routine.name && <Text style={styles.subtitle}>{routine.name}</Text>}
                     </View>
-                  
+
                     {routine.notes &&
                         <View>
                             <Text style={styles.sectionTitle}>Notes: </Text>
@@ -75,7 +75,13 @@ export default function RoutineDetails({ route }) {
                             : <Text style={styles.loadingText}>No added products</Text>
                         }
 
-                        {loading && <Text style={styles.loadingText}>Loading...</Text>}
+                        {loading && (
+                            <Text style={styles.loadingText}>Loading...</Text>
+                        )}
+
+                        {!loading && products.length === 0 && (
+                            <Text style={styles.loadingText}>No products added yet</Text>
+                        )}
                     </View>
 
                 </View>

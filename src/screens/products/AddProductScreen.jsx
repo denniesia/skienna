@@ -1,16 +1,15 @@
 import { auth } from "../../../FirebaseConfig";
 import ProductForm from "../../components/products/ProductForm";
+import { useProducts } from "../../context/products/useProducts";
 import { productService } from "../../services";
 
 export default function AddProductScreen({ navigation }) {
+  const { addProduct } = useProducts();
 
   const handleAdd = async (formData) => {
-    const userId = auth.currentUser.uid;
-
-    await productService.addProduct(userId, formData);
+    await addProduct(formData); // ✅ use context
     navigation.goBack();
   };
-
   return (
     <ProductForm
       initialValues={{}}

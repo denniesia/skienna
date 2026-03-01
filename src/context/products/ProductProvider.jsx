@@ -2,11 +2,13 @@ import { createContext, useEffect, useState } from "react";
 import { productService } from "../../services";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../../FirebaseConfig";
+import { addProduct } from "../../services/productService";
 
 
 export const ProductContext = createContext({
     products: [],
     loading: true,
+    addProduct(productData) {},
     getUserProductById(productId) {},
     reloadProducts: async() => {},
     deleteProduct(userId, productId) {},
@@ -37,6 +39,14 @@ export function ProductProvider({children}) {
         }
     }; 
 
+    const addProduct = async (productData) => {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        const newProduct = await productService.addProduct(user.uid, productData);
+        setProducts((prev) => [newProduct, ...prev]);
+    };
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
 
@@ -49,7 +59,7 @@ export function ProductProvider({children}) {
         });
 
         return unsubscribe;
-    } , [products]);
+    } , []);
 
     const getUserProductById = (productId) => {
         return products.find(p => p.id === productId);
@@ -71,6 +81,7 @@ export function ProductProvider({children}) {
     const contextValue = {
         products,
         loading,
+        addProduct,
         getUserProductById, 
         reloadProducts,
         deleteProduct,
