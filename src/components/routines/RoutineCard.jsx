@@ -1,5 +1,4 @@
-import { View, Text, StyleSheet, Image, Pressable, TouchableOpacity, Alert } from "react-native";
-
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "../../../styles";
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -7,14 +6,12 @@ import Feather from '@expo/vector-icons/Feather';
 import { useRoutine } from "../../context/routines/useRoutines";
 import { confirmDelete } from "../../utils/confirmDelete";
 
-
 export default function RoutineCard({
     routine,
     showCheckbox = false,
     isSelected = false,
     onToggle,
     mode = 'default'
-
 }) {
     const navigation = useNavigation();
     const { deleteRoutine } = useRoutine();
@@ -23,9 +20,8 @@ export default function RoutineCard({
         confirmDelete({
             title: "Delete Routine",
             message: "Are you sure you want to delete this routine?",
-            onConfirm: () => deleteRoutine(routine.id) 
-        })
-        
+            onConfirm: () => deleteRoutine(routine.id),
+        });
     };
 
     const routineGallery = {
@@ -34,14 +30,14 @@ export default function RoutineCard({
         'Face Mask': require('../../../assets/face_mask.png'),
         'Under Eye Mask': require('../../../assets/under_eye.png'),
         'Special': require('../../../assets/special.png')
-    }
+    };
 
     const CardContent = (
-        <View style={[styles.card]}>
+        <View style={styles.card}>
             <TouchableOpacity
                 onPress={() => navigation.navigate('Routine Details', { routine })}
                 activeOpacity={0.9}
-                style={[currStyles.card]}
+                style={currStyles.cardInner}
             >
                 <Image
                     source={routineGallery[routine.category]}
@@ -50,55 +46,36 @@ export default function RoutineCard({
                 />
 
                 <View style={styles.info}>
-                    <Text style={styles.name}>
-                        {routine.category}
-                    </Text>
-
-                    {routine.name &&
-                        <Text style={styles.routineName}>
-                            {routine.name}
-                        </Text>
-                    }
-
-                    {routine.notes &&
+                    <Text style={styles.name}>{routine.category}</Text>
+                    {routine.name && <Text style={styles.routineName}>{routine.name}</Text>}
+                    {routine.notes && (
                         <Text style={styles.routineNotes}>
                             {routine.notes.length > 50
                                 ? `${routine.notes.slice(0, 50)}...`
-                                : routine.notes
-                            }
+                                : routine.notes}
                         </Text>
-                    }
+                    )}
                 </View>
             </TouchableOpacity>
-            {mode === 'display' &&
-                <View style={[currStyles.cont,]}>
-                    <TouchableOpacity
-                        hitSlop={10}
-                        onPress={() => navigation.navigate('Routine Edit', { routine })}
-                    >
-                        <AntDesign name="edit" size={24} color="#f376b4"  />
+
+            {mode === 'display' && (
+                <View style={currStyles.iconContainer}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Routine Edit', { routine })}>
+                        <AntDesign name="edit" size={24} color="#f376b4" />
                     </TouchableOpacity>
-                    <TouchableOpacity 
-                        hitSlop={10}
-                        onPress={handleDelete}
-                    >
-                        <Feather name="trash-2" size={24} color="red"  />
+                    <TouchableOpacity onPress={handleDelete}>
+                        <Feather name="trash-2" size={24} color="red" />
                     </TouchableOpacity>
                 </View>
-            }
+            )}
         </View>
-
-
     );
 
-    if (!showCheckbox) {
-        return CardContent;
-    }
+    if (!showCheckbox) return CardContent;
 
     return (
-        <View style={[currStyles.rowContainer]}>
+        <View style={currStyles.rowContainer}>
             {CardContent}
-
             <TouchableOpacity
                 style={[currStyles.checkbox, isSelected && currStyles.checkboxSelected]}
                 onPress={onToggle}
@@ -109,7 +86,8 @@ export default function RoutineCard({
             </TouchableOpacity>
         </View>
     );
-};
+}
+
 const currStyles = StyleSheet.create({
     rowContainer: {
         flexDirection: "row",
@@ -136,25 +114,15 @@ const currStyles = StyleSheet.create({
         backgroundColor: "#f376b4",
         borderRadius: 6,
     },
-    cont: {
-        flexDirection: 'row',
-        gap: 15,
-        marginTop: 20,
-        marginLeft: -34,
-        
-    },
-    card: {
-        width: '90%',
-        alignSelf: "center",
+    cardInner: {
         flexDirection: "row",
-        paddingHorizontal: 4,
-        marginBottom: 10,
-
-        // iOS shadow
-        shadowColor: "#000",
-        shadowOpacity: 0.06,
-        shadowRadius: 8,
-        shadowOffset: { width: 0, height: 4 },
+        flex: 1,
     },
-
+    iconContainer: {
+        position: 'absolute',
+        right: 10,
+        top: 10,
+        height: 80,
+        justifyContent: 'space-between', 
+    },
 });
