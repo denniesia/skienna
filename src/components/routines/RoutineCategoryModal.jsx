@@ -1,6 +1,7 @@
 import { useNavigation} from '@react-navigation/native';
 import React, { useState } from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet, Image, Pressable } from 'react-native';
+import { routineGallery } from './constants/routineGallery';
 
 export default function RoutineCategoryModal({ 
     visible, 
@@ -10,14 +11,6 @@ export default function RoutineCategoryModal({
 }) {
     const navigation = useNavigation();
     const [selected, setSelected] = useState({category:null , imageKey: null});
-
-    const routineGallery = {
-        sun: require('../../../assets/sun.png'),
-        moon: require('../../../assets/moon.png'),
-        faceMask: require('../../../assets/face_mask.png'),
-        underEyeMask: require('../../../assets/under_eye.png'),
-        special: require('../../../assets/special.png')
-    }
 
     const handlePressHandler = (category, imageKey) => {
 
@@ -32,7 +25,6 @@ export default function RoutineCategoryModal({
         }
         onClose();
     }
-
     return (
         <Modal
             visible={visible}

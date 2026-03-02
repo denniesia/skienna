@@ -9,6 +9,7 @@ import Feather from '@expo/vector-icons/Feather';
 import { confirmDelete } from "../../utils/confirmDelete";
 import { useRoutine } from "../../context/routines/useRoutines";
 import { useNavigation } from "@react-navigation/native";
+import { routineGallery } from "../../components/routines/constants/routineGallery";
 
 
 export default function RoutineDetails({ route }) {
@@ -26,13 +27,6 @@ export default function RoutineDetails({ route }) {
 
     };
 
-    const routineGallery = {
-        sun: require('../../../assets/sun.png'),
-        moon: require('../../../assets/moon.png'),
-        faceMask: require('../../../assets/face_mask.png'),
-        underEyeMask: require('../../../assets/under_eye.png'),
-        special: require('../../../assets/special.png')
-    }
 
     const routineProducts = routine.productIds?.map(id => products.find(p => p.id === id))
 

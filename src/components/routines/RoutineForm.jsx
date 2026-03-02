@@ -21,6 +21,7 @@ import { useProducts } from "../../context/products/useProducts";
 import ProductModal from "../../components/products/ProductModal";
 import ProductCard from "../../components/products/ProductCard";
 import { useNavigation } from "@react-navigation/native";
+import { routineGallery } from "./constants/routineGallery";
 
 
 export default function RoutineForm({
@@ -61,13 +62,7 @@ export default function RoutineForm({
         selectedIds.has(p.id)
     );
 
-    const routineGallery = {
-        sun: require('../../../assets/sun.png'),
-        moon: require('../../../assets/moon.png'),
-        faceMask: require('../../../assets/face_mask.png'),
-        underEyeMask: require('../../../assets/under_eye.png'),
-        special: require('../../../assets/special.png')
-    }
+    
 
     const onStartedOnDateChange = (event, selectedDate) => {
         setShowCalender(false);

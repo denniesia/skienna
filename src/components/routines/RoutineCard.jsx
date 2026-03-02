@@ -5,6 +5,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
 import { useRoutine } from "../../context/routines/useRoutines";
 import { confirmDelete } from "../../utils/confirmDelete";
+import { categoryImageMap, routineGallery } from './constants/routineGallery.js';
 
 export default function RoutineCard({
     routine,
@@ -24,14 +25,6 @@ export default function RoutineCard({
         });
     };
 
-    const routineGallery = {
-        'Morning Routine': require('../../../assets/sun.png'),
-        'Night Routine': require('../../../assets/moon.png'),
-        'Face Mask': require('../../../assets/face_mask.png'),
-        'Under Eye Mask': require('../../../assets/under_eye.png'),
-        'Special': require('../../../assets/special.png')
-    };
-
     const CardContent = (
         <View style={styles.card}>
             <TouchableOpacity
@@ -40,7 +33,7 @@ export default function RoutineCard({
                 style={currStyles.cardInner}
             >
                 <Image
-                    source={routineGallery[routine.category]}
+                    source={routineGallery[categoryImageMap[routine.category]]}
                     style={styles.image}
                     resizeMode="cover"
                 />
