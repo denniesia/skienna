@@ -30,7 +30,7 @@ export default function RoutineForm({
     submitLabel = 'Save'
 }) {
     const navigation = useNavigation();
-    
+
     const [notes, setNotes] = useState(initialValues.notes || '');
     const [startedOn, setStartedOn] = useState(initialValues.startedOn || new Date());
     const [name, setName] = useState(initialValues.name || '');
@@ -42,27 +42,27 @@ export default function RoutineForm({
     const { products, loading } = useProducts();
     const [showProductsModal, setShowProductsModal] = useState(false);
     const [selectedIds, setSelectedIds] = useState(initialValues.productsId || new Set());
-    
-     const toggleSelect  = (id) => {
-            setSelectedIds((prev) => {
-                const newSet = new Set(prev);
-    
-                if (newSet.has(id)) {
-                    newSet.delete(id);
-                } else {
-                    newSet.add(id);
-                }
-    
-                return newSet;
-            });
-            
-        };
+
+    const toggleSelect = (id) => {
+        setSelectedIds((prev) => {
+            const newSet = new Set(prev);
+
+            if (newSet.has(id)) {
+                newSet.delete(id);
+            } else {
+                newSet.add(id);
+            }
+
+            return newSet;
+        });
+
+    };
 
     const selectedProducts = products.filter((p) =>
         selectedIds.has(p.id)
     );
 
-    
+
 
     const onStartedOnDateChange = (event, selectedDate) => {
         setShowCalender(false);
@@ -71,7 +71,7 @@ export default function RoutineForm({
         }
     };
 
-    const handleSubmit = async() => {
+    const handleSubmit = async () => {
         const { isValid, message } = validateRoutine({ category: selectedCategory, startedOn, name, notes });
 
         if (!isValid) {
@@ -94,18 +94,15 @@ export default function RoutineForm({
     return (
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
-                <KeyboardAvoidingView
-                    
+                <KeyboardAwareScrollView
                 >
                     {showProductsModal &&
-
                         <ProductModal
                             visible={showProductsModal}
                             products={products}
                             selectedIds={selectedIds}
                             toggleSelect={toggleSelect}
                             onClose={() => setShowProductsModal(false)}
-
                         />
                     }
                     <View style={styles.containerAdd}>
@@ -157,7 +154,7 @@ export default function RoutineForm({
                         </View>
                         <View>
 
-                            <View style={{ paddingTop: 20, width: '100%' }}>
+                            <View style={{ width: '100%' }}>
                                 {selectedCategory === 'Special' &&
                                     <View style={styles.inputCont} >
                                         <Text style={styles.label}>Name: </Text>
@@ -190,29 +187,27 @@ export default function RoutineForm({
                                         </TouchableOpacity>
                                     </View>
 
-                                    <View >
+                                    <View>
 
-                                    
-                                        <FlatList
-                                            data={selectedProducts}
-                                            keyExtractor={(item) => item.id}
-                                            renderItem={({ item }) =>
+
+                                        <View style={{ flex:1 }}>
+                                            {selectedProducts.map((item) => (
                                                 <ProductCard
+                                                    key={item.id}
                                                     product={item}
-                                                    mode='display'
-                                                />}
-                                                style={{ maxHeight: 180 }}
-                                            contentContainerStyle={{ paddingBottom: 20 }}
-                                        />
-                                     </View>
-                                    { selectedIds.size === 0 && <Text style={currStyles.noItemText}>No products yet.</Text>}
+                                                    mode="display"
+                                                />
+                                            ))}
+                                        </View>
+                                    </View>
+                                    {selectedIds.size === 0 && <Text style={currStyles.noItemText}>No products yet.</Text>}
                                 </View>
 
                             </View>
                         </View>
                     </View>
                     <View style={styles.buttonRow}>
-                       <TouchableOpacity style={styles.cancelBtn} onPress={() => navigation.goBack()}>
+                        <TouchableOpacity style={styles.cancelBtn} onPress={() => navigation.goBack()}>
                             <Text style={styles.endBtnText}>Cancel</Text>
                         </TouchableOpacity>
 
@@ -221,7 +216,7 @@ export default function RoutineForm({
                         </TouchableOpacity>
                     </View>
 
-                </KeyboardAvoidingView>
+                </KeyboardAwareScrollView>
             </SafeAreaView>
         </SafeAreaProvider>
     );
@@ -230,14 +225,14 @@ export default function RoutineForm({
 
 const currStyles = StyleSheet.create({
     row: {
-        flexDirection: 'row',        
+        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',      
-        marginVertical: 10,        
+        justifyContent: 'space-between',
+        marginVertical: 10,
     },
     linkText: {
-        color: "#F39EB6",       
-        textDecorationLine: 'underline', 
+        color: "#F39EB6",
+        textDecorationLine: 'underline',
         fontSize: 16,
         fontWeight: 'bold',
         fontStyle: 'italic',
@@ -245,7 +240,7 @@ const currStyles = StyleSheet.create({
         flex: 1,
         paddingRight: 10
     },
-    noItemText : {
+    noItemText: {
         textAlign: 'center',
         fontSize: 18,
         color: "#f376b4",

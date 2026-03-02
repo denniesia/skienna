@@ -20,7 +20,6 @@ export default function ProfileScreen() {
     let routinesDoneCount = 0;
     for (let i = 0; i < routines.length; i++ ) {
         routinesDoneCount += routines[i].done.length;
-        console.log(routinesDoneCount)
     }
     
     return (

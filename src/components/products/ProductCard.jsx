@@ -30,7 +30,7 @@ export default function ProductCard({ product, mode = 'default' }) {
             }
 
             <View style={styles.info}>
-                <Text style={[styles.name, { maxWidth: '85%' }]}>{product.name}</Text>
+                <Text style={[styles.name, { maxWidth: '85%', paddingLeft: 10 }]}>{product.name}</Text>
                 <Text style={styles.meta}>{product.brand}</Text>
                 <Text style={styles.metaCategory}>{product.category}</Text>
             </View>

@@ -203,6 +203,7 @@ const currStyles = StyleSheet.create({
         fontWeight: '700',
         color: '#f376b4',
         marginLeft: 10,
+        marginBottom: 10,
     },
     editButton: {
         color: '#FF69B4',
