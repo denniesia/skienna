@@ -9,15 +9,9 @@ export default function EditProductScreen({ navigation, route }) {
 
     const handleUpdate = async (formData) => {
         try {
-            const user = auth.currentUser;
-            if (!user) {
-                Alert.alert("Error", "You must be logged in");
-                return;
-            }
-            
-            updateProduct(user.uid, product.id, formData);
+            updateProduct(product.id, formData);
             Alert.alert("Success", "Product updated successfully");
-            navigation.goBack();
+            navigation.navigate('Product Details', { productId: product.id });
         } catch (error) {
             console.error("Update failed:", error);
             Alert.alert("Error", "Failed to update product. Please try again.");

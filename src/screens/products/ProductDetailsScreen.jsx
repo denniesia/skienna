@@ -10,7 +10,10 @@ import { useProducts } from "../../context/products/useProducts";
 
 
 export default function ProductDetailsScreen({ route, navigation }) {
-    const { product } = route.params; 
+    const { productId } = route.params; 
+    const { products } = useProducts();
+
+    const product = products.find(p => p.id === productId);
     const { deleteProduct } = useProducts();
 
     const handleDelete = () => {

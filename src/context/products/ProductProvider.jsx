@@ -69,7 +69,7 @@ export function ProductProvider({children}) {
         try {
             await productService.updateProduct(user.uid, productId, updatedData);
 
-            setRoutines((oldProducts) =>
+            setProducts((oldProducts) =>
                 oldProducts.map((product) =>
                     product.id === productId
                         ? { ...product, ...updatedData }

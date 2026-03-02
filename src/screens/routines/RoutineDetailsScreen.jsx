@@ -19,11 +19,10 @@ export default function RoutineDetails({ route }) {
     const { routines } = useRoutine();
 
     const routine = routines.find(r => r.id === routineId);
-    
+
     const navigation = useNavigation();
     const { products, loading } = useProducts();
     const { deleteRoutine } = useRoutine();
-
 
 
     const handleDelete = () => {

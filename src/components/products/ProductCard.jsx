@@ -11,7 +11,7 @@ export default function ProductCard({ product, mode = 'default' }) {
     const { deleteProduct } = useProducts();
 
     const productPressHandler = () => {
-        navigation.navigate('Product Details', { product });
+        navigation.navigate('Product Details', { productId: product.id });
     };
 
     const handleDelete = () => {
