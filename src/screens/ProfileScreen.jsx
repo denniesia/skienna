@@ -15,8 +15,14 @@ export default function ProfileScreen() {
     const { products } = useProducts();
 
     const routinesCount = routines.length;
-    const productsCount = products.length; 
+    const productsCount = products.length;
 
+    let routinesDoneCount = 0;
+    for (let i = 0; i < routines.length; i++ ) {
+        routinesDoneCount += routines[i].done.length;
+        console.log(routinesDoneCount)
+    }
+    
     return (
         <SafeAreaProvider>
             <SafeAreaView style={[styles.container]}>
@@ -48,7 +54,7 @@ export default function ProfileScreen() {
 
                         <ProfileStat label="Routines" value={routinesCount} />
 
-                        <ProfileStat label="Done" value={user.routinesDone} />
+                        <ProfileStat label="Done Routines" value={routinesDoneCount} />
                     </View>
                 </View>
             </SafeAreaView>
