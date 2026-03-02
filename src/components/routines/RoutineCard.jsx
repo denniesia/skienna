@@ -28,7 +28,7 @@ export default function RoutineCard({
     const CardContent = (
         <View style={styles.card}>
             <TouchableOpacity
-                onPress={() => navigation.navigate('Routine Details', { routine })}
+                onPress={() => navigation.navigate('Routine Details', { routineId: routine.id })}
                 activeOpacity={0.9}
                 style={currStyles.cardInner}
             >

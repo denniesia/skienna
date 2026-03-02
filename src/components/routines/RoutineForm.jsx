@@ -188,8 +188,6 @@ export default function RoutineForm({
                                     </View>
 
                                     <View>
-
-
                                         <View style={{ flex:1 }}>
                                             {selectedProducts.map((item) => (
                                                 <ProductCard

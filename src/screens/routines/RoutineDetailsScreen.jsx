@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ScrollView, View, Text, Image, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { formatDate } from "../../utils/formatDate";
@@ -10,13 +10,21 @@ import { confirmDelete } from "../../utils/confirmDelete";
 import { useRoutine } from "../../context/routines/useRoutines";
 import { useNavigation } from "@react-navigation/native";
 import { routineGallery } from "../../components/routines/constants/routineGallery";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../../FirebaseConfig";
 
 
 export default function RoutineDetails({ route }) {
-    const { routine } = route.params;
+    const { routineId } = route.params;
+    const { routines } = useRoutine();
+
+    const routine = routines.find(r => r.id === routineId);
+    
     const navigation = useNavigation();
     const { products, loading } = useProducts();
-    const { deleteRoutine } = useRoutine()
+    const { deleteRoutine } = useRoutine();
+
+
 
     const handleDelete = () => {
         confirmDelete({

@@ -8,16 +8,10 @@ export default function EditRoutineScreen({ navigation, route }) {
     const { updateRoutine } = useRoutine();
 
     const handleUpdate = async (formData) => {
-        try {
-            const user = auth.currentUser;
-            if (!user) {
-                Alert.alert("Error", "You must be logged in");
-                return;
-            }
-            
-            updateRoutine(user.uid, routine.id, formData);
+        try { 
+            await updateRoutine(routine.id, formData);
             Alert.alert("Success", "Routine updated successfully");
-            navigation.goBack();
+            navigation.navigate('Routine Details', { routineId: routine.id });
         } catch (error) {
             console.error("Update failed:", error);
             Alert.alert("Error", "Failed to update routine. Please try again.");
