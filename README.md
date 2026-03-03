@@ -15,7 +15,7 @@ https://drive.google.com/file/d/1ZliHOsSJzk4G6tZ4-BGkVEmmtsxnyqs8/view?usp=shari
 ## Functional Guide
 1. Project Overview
  - *Application Name*: **Skienna**
- - *Application Category / Topic*: **Beauty & Wellness**
+ - *Application Category / Topic*: **Beauty & Wellness** , ** Skincare Routine tracker**
  - *Main Purpose*: **Keeping track of your daily skincare routines. Additionally user can add their skincare products and include them into their routines.**
 ---
 2. User Access & Permissions
