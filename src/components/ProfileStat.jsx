@@ -28,11 +28,11 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: 22,
     fontWeight: "700",
-    color: "#F39EB6",
+    color: "#f376b4",
   },
   statLabel: {
     fontSize: 18,
-    color: "#F39EB6",
+    color: "#f376b4",
     marginTop: 4,
     textAlign: 'center',
   },

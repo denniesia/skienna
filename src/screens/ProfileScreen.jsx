@@ -80,14 +80,13 @@ const currStyles = StyleSheet.create({
     name: {
         fontSize: 24,
         fontWeight: "700",
-        color: "#F39EB6",
+        color: "#f376b4",
     },
     meta: {
         fontSize: 18,
-        color: "#e8a7ba",
+        color: "#f376b4",
         marginTop: 20,
     },
-
     statsCard: {
         flexDirection: "row",
         backgroundColor: "#FFFFFF",
@@ -105,7 +104,7 @@ const currStyles = StyleSheet.create({
     statValue: {
         fontSize: 18,
         fontWeight: "700",
-        color: "#F39EB6",
+        color: "#f376b4",
     },
     statLabel: {
         fontSize: 12,
