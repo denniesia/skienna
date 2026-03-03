@@ -45,7 +45,7 @@ const RegisterScreen = ({ navigation }) => {
                 <KeyboardAwareScrollView
                     contentContainerStyle={currStyles.scroll}
                     enableOnAndroid
-                    extraScrollHeight={20}
+                    extraScrollHeight={40}
                 >
 
                     <Image
@@ -166,6 +166,7 @@ const currStyles = StyleSheet.create({
         flexGrow: 1,
         justifyContent: "center",
         padding: 20,
+        paddingBottom: 100
     },
     image: {
         width: "160%",

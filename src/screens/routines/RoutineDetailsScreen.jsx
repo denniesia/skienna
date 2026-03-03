@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Text, Image, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, Image, StyleSheet, FlatList, TouchableOpacity, ScrollView } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { formatDate } from "../../utils/formatDate";
 import ProductCard from "../../components/products/ProductCard";
@@ -38,6 +38,7 @@ export default function RoutineDetails({ route }) {
     return (
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
+                <ScrollView>
 
                 {routine.imageKey ? (
                     <Image source={routineGallery[routine.imageKey]} style={styles.heroImage} />
@@ -125,8 +126,8 @@ export default function RoutineDetails({ route }) {
                                         product={item}
                                         mode="display"
                                     />}
-                                style={{ maxHeight: 300 }}
-                                contentContainerStyle={{ paddingBottom: 80 }}
+                                style={{ maxHeight: 400 }}
+                                contentContainerStyle={{ marginBottom: 20 }}
                             />
                             : <Text style={styles.loadingText}>No added products</Text>
                         }
@@ -141,7 +142,7 @@ export default function RoutineDetails({ route }) {
                     </View>
 
                 </View>
-
+                </ScrollView>
             </SafeAreaView>
         </SafeAreaProvider>
     );
@@ -209,6 +210,7 @@ const styles = StyleSheet.create({
     dateGrid: {
         flexDirection: "row",
         justifyContent: "space-between",
+        marginTop: 20,
     },
 
     dateBox: {

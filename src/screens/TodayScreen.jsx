@@ -19,22 +19,7 @@ export default function TodayScreen() {
     const day = today.getDate();
     const month = today.toLocaleString("en-US", { month: "long" });
     const weekday = today.toLocaleString("en-US", { weekday: "long" });
-
-
-    // const [selectedRoutineIds, setSelectedRoutineIds] = useState([]);
-
-    // const toggleRoutineSelect = (id) => {
-    //     setSelectedRoutineIds(prev =>
-    //         prev.includes(id)
-    //             ? prev.filter(item => item !== id)
-    //             : [...prev, id]
-    //     );
-    // };
-
-    // useEffect(() => {
-    //     setSelectedRoutineIds([]);
-    // }, [today]);
-
+ 
     const formatDate = (date) => {
         return date.toISOString().split("T")[0];
     };
@@ -125,7 +110,8 @@ const routinesToShow = routines.filter(routine => {
                     {routinesToShow.length > 0
                         ? <FlatList
                             data={routinesToShow}
-                            keyExtractor={(item) => item.id.toString()}
+                            keyExtractor={(item, index) => (item.id != null ? item.id.toString() : index.toString())}
+
                             renderItem={({ item }) =>
                                 <RoutineCard
                                     routine={item}
