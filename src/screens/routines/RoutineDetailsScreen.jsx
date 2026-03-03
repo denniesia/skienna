@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { ScrollView, View, Text, Image, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, Image, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { formatDate } from "../../utils/formatDate";
 import ProductCard from "../../components/products/ProductCard";
@@ -10,9 +10,7 @@ import { confirmDelete } from "../../utils/confirmDelete";
 import { useRoutine } from "../../context/routines/useRoutines";
 import { useNavigation } from "@react-navigation/native";
 import { routineGallery } from "../../components/routines/constants/routineGallery";
-import { doc, onSnapshot } from "firebase/firestore";
-import { db } from "../../../FirebaseConfig";
-
+import { Switch } from "react-native";
 
 export default function RoutineDetails({ route }) {
     const { routineId } = route.params;
@@ -51,13 +49,13 @@ export default function RoutineDetails({ route }) {
                     <View style={styles.cardCont}>
                         <View>
 
-                        
-                            <View style= {{flex: 1}}>
+
+                            <View style={{ flex: 1 }}>
                                 <Text style={styles.title}>{routine.category}</Text>
                                 {routine.name && <Text style={styles.subtitle}>{routine.name}</Text>}
                             </View>
 
-                           
+
                         </View>
                         <View style={styles.cont}>
                             <TouchableOpacity
@@ -74,13 +72,13 @@ export default function RoutineDetails({ route }) {
                             </TouchableOpacity>
                         </View>
                     </View>
-                     {routine.notes &&
-                                <View>
-                                    <Text style={styles.sectionTitle}>Notes: </Text>
-                                    <Text style={styles.notes}>{routine.notes}</Text>
-                                </View>
-                            }
-                    
+                    {routine.notes &&
+                        <View>
+                            <Text style={styles.sectionTitle}>Notes: </Text>
+                            <Text style={styles.notes}>{routine.notes}</Text>
+                        </View>
+                    }
+
 
                     <View style={styles.dateGrid}>
                         <View style={styles.dateBox}>
@@ -92,6 +90,23 @@ export default function RoutineDetails({ route }) {
                             <Text style={styles.dateLabel}>Created on: </Text>
                             <Text style={styles.dateValue}>{formatDate(routine.createdOn)}</Text>
                         </View>
+                    </View>
+                    <View style={styles.inputCont}>
+                        <View style={styles.reminderRow}>
+                            <Text style={styles.label}>Reminder:</Text>
+
+                            <Switch
+                                value={routine.reminder}
+                                trackColor={{ false: "#E0E0E0", true: "#F39EB6" }}
+                                thumbColor={routine.reminder ? "#f376b4" : "#f4f3f4"}
+                                ios_backgroundColor="#E0E0E0"
+                                style={{ transform: [{ scaleX: 1.4 }, { scaleY: 1.4 }], marginLeft: 20 }}
+                            />
+                        </View>
+
+                        <Text style={styles.reminderText}>
+                            {routine.reminder ? "Reminder is ON" : "Reminder is OFF"}
+                        </Text>
                     </View>
 
                     <View style={styles.divider} />
@@ -218,7 +233,7 @@ const styles = StyleSheet.create({
     },
 
     inputCont: {
-        marginTop: 16,
+        marginTop: 8,
     },
 
     label: {
@@ -229,7 +244,6 @@ const styles = StyleSheet.create({
         marginBottom: 6,
     },
     loadingText: {
-        marginTop: 8,
         fontSize: 14,
         color: "#94a3b8",
         textAlign: "center",
@@ -241,10 +255,21 @@ const styles = StyleSheet.create({
         marginBottom: 3,
     },
     cont: {
-       flexDirection: 'row',
-       alignItems: 'flex-start',
+        flexDirection: 'row',
+        alignItems: 'flex-start',
         gap: 20,
         marginLeft: -34,
-
     },
+    reminderRow: {
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+    },
+    reminderText: {
+        fontSize: 14,
+        color: "#f376b4",
+        fontStyle: "italic",
+        alignSelf: 'flex-start',
+        marginLeft: 10,
+    }
 });

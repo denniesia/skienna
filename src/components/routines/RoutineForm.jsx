@@ -5,16 +5,14 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
-    FlatList,
     Alert,
-    KeyboardAvoidingView
 } from "react-native";
 import { styles } from "../../../styles";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
+import { Switch } from "react-native";
 import { validateRoutine } from '../../utils/validateRoutine'
 import RoutineCategoryModal from "../../components/routines/RoutineCategoryModal";
 import { useProducts } from "../../context/products/useProducts";
@@ -42,6 +40,8 @@ export default function RoutineForm({
     const { products, loading } = useProducts();
     const [showProductsModal, setShowProductsModal] = useState(false);
     const [selectedIds, setSelectedIds] = useState(initialValues.productsId || new Set());
+
+    const [reminder, setReminder] = useState(initialValues.reminder|| false);
 
     const toggleSelect = (id) => {
         setSelectedIds((prev) => {
@@ -84,6 +84,7 @@ export default function RoutineForm({
             imageKey: selectedImageKey,
             name: name || null,
             startedOn,
+            reminder,
             notes,
             productIds: selectedProducts.map(p => p.id),
         });
@@ -180,6 +181,25 @@ export default function RoutineForm({
                                 </View>
 
                                 <View style={styles.inputCont}>
+                                    <View style={styles.reminderRow}>
+                                        <Text style={styles.label}>Reminder:</Text>
+
+                                        <Switch
+                                            value={reminder}
+                                            onValueChange={setReminder}
+                                            trackColor={{ false: "#E0E0E0", true: "#F39EB6" }}
+                                            thumbColor={reminder ? "#f376b4" : "#f4f3f4"}
+                                            ios_backgroundColor="#E0E0E0"
+                                           style={{ transform: [{ scaleX: 1.4 }, { scaleY: 1.4 }] }}
+                                        />
+                                    </View>
+
+                                    <Text style={styles.reminderText}>
+                                        {reminder? "Reminder is ON" : "Reminder is OFF"}
+                                    </Text>
+                                </View>
+
+                                <View style={styles.inputCont}>
                                     <View style={currStyles.row}>
                                         <Text style={styles.label}>Products:</Text>
                                         <TouchableOpacity onPress={() => setShowProductsModal(true)}>
@@ -188,7 +208,7 @@ export default function RoutineForm({
                                     </View>
 
                                     <View>
-                                        <View style={{ flex:1 }}>
+                                        <View style={{ flex: 1 }}>
                                             {selectedProducts.map((item) => (
                                                 <ProductCard
                                                     key={item.id}
@@ -244,5 +264,5 @@ const currStyles = StyleSheet.create({
         color: "#f376b4",
         marginBottom: 20,
 
-    }
+    }, 
 });

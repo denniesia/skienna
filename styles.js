@@ -313,5 +313,17 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-},
+	},
+	reminderRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        
+    },
+    reminderText: {
+        fontSize: 14,
+        color: "#f376b4",
+        fontStyle: "italic",
+        alignSelf: 'flex-end',
+    }
 });
