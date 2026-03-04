@@ -29,7 +29,6 @@ Before running the project locally, make sure you have the following installed:
 ---
 3. Authentication & Session Handling
 - Authentication Flow
-- Explain step-by-step: 1. What happens when the app starts 2. How authentication status is checked 3. What happens on successful login or registration 4. What happens on logout
 When the app launches:
 1. The app initializes Firebase.
 2. Firebase Authentication automatically checks for an existing authenticated session.
@@ -131,12 +130,6 @@ RoutineNavigator
 
 ---
 5. List → Details Flow
-- List / Overview Screen
-* What type of data is displayed?
-* How does the user interact with the list?
-- Details Screen
-* How is navigation triggered?
-* What data is received via route parameters?
 
 Product List Data:
 The Product List screen displays all products created by the user in a clear and organized layout.
