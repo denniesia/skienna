@@ -8,6 +8,7 @@ import { useAuth } from '../context/auth/useAuth';
 import { useRoutine } from '../context/routines/useRoutines';
 import { useEffect, useState } from 'react';
 import RoutineCard from '../components/routines/RoutineCard';
+import { formatLocalDate } from '../utils/formatLocalDate';
 
 
 export default function TodayScreen() {
@@ -19,44 +20,31 @@ export default function TodayScreen() {
     const day = today.getDate();
     const month = today.toLocaleString("en-US", { month: "long" });
     const weekday = today.toLocaleString("en-US", { weekday: "long" });
- 
-    const formatDate = (date) => {
-        return date.toISOString().split("T")[0];
-    };
-    
 
-   const formatLocalDate = (date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-};
-    const todayString = formatDate(today);
-const selectedDateString = formatLocalDate(selectedDate.toDate ? selectedDate.toDate() : selectedDate);   
-const routinesToShow = routines.filter(routine => {
-    const routineStartDate = routine.startedOn.toDate
-        ? routine.startedOn.toDate()
-        : new Date(routine.startedOn);
+    const selectedDateString = formatLocalDate(selectedDate.toDate ? selectedDate.toDate() : selectedDate);
+    const routinesToShow = routines.filter(routine => {
+        const routineStartDate = routine.startedOn.toDate
+            ? routine.startedOn.toDate()
+            : new Date(routine.startedOn);
 
-    const routineDateString = formatLocalDate(routineStartDate);
+        const routineDateString = formatLocalDate(routineStartDate);
 
-    // Only show routines that have started on or before the selected date
-    return routineDateString <= selectedDateString;
-});
+        return routineDateString <= selectedDateString;
+    });
 
     const toggleRoutine = async (routine) => {
-    const dateToToggle = selectedDateString; // <-- toggle for selected date
+        const dateToToggle = selectedDateString; 
 
-    let updatedDone;
+        let updatedDone;
 
-    if (routine.done?.includes(dateToToggle)) {
-        updatedDone = routine.done.filter(date => date !== dateToToggle);
-    } else {
-        updatedDone = [...(routine.done || []), dateToToggle];
-    }
+        if (routine.done?.includes(dateToToggle)) {
+            updatedDone = routine.done.filter(date => date !== dateToToggle);
+        } else {
+            updatedDone = [...(routine.done || []), dateToToggle];
+        }
 
-    await updateRoutine(routine.id, { done: updatedDone });
-};
+        await updateRoutine(routine.id, { done: updatedDone });
+    };
     return (
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>

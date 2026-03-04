@@ -258,7 +258,7 @@ export const styles = StyleSheet.create({
 	},
 	iconButtonTodayScreen : {
 		alignSelf: 'center',
-		marginLeft: 100
+		marginLeft: 80
    
 	},
 	overlay: {

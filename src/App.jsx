@@ -10,7 +10,7 @@ import { RoutineProvider } from './context/routines/RoutineProvider';
 export default function App() {
     return (
         <NavigationContainer>
-            <StatusBar style="light" />
+            <StatusBar style="auto"/>
             <AuthProvider>
                 <RoutineProvider>
                     <ProductProvider>
