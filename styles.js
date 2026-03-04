@@ -325,5 +325,10 @@ export const styles = StyleSheet.create({
         color: "#f376b4",
         fontStyle: "italic",
         alignSelf: 'flex-end',
-    }
+    },
+	scroll: {
+        flexGrow: 1,
+        justifyContent: "center",
+        padding: 20,
+    },
 });

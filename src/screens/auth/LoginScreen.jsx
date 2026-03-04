@@ -41,7 +41,7 @@ const LoginScreen = () => {
         <SafeAreaProvider>
             <SafeAreaView style={curStyles.container}>
                 <KeyboardAwareScrollView
-                    contentContainerStyle={curStyles.scroll}
+                    contentContainerStyle={styles.scroll}
                     enableOnAndroid
                     extraScrollHeight={20}
                 >
@@ -127,11 +127,6 @@ const curStyles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#fff",
-    },
-    scroll: {
-        flexGrow: 1,
-        justifyContent: "center",
-        padding: 20,
     },
     image: {
         width: "160%",

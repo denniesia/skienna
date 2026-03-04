@@ -32,8 +32,9 @@ export default function RoutineDetails({ route }) {
 
     };
 
-
+  
     const routineProducts = routine.productIds?.map(id => products.find(p => p.id === id))
+      console.log(routineId)
 
     return (
         <SafeAreaProvider>
@@ -117,7 +118,7 @@ export default function RoutineDetails({ route }) {
 
                         </View>
 
-                        {routineProducts
+                        {routineProducts && routineProducts.length > 0 
                             ? <FlatList
                                 data={routineProducts}
                                 keyExtractor={(item) => item.id}

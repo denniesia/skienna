@@ -96,6 +96,8 @@ export default function RoutineForm({
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
                 <KeyboardAwareScrollView
+                    enableOnAndroid
+                    extraScrollHeight={20}
                 >
                     {showProductsModal &&
                         <ProductModal
