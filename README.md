@@ -1,9 +1,8 @@
-### Skienna 
+## Skienna 
 
-App tracking your skincare routine 
 
-## Link to APK
-https://drive.google.com/file/d/1ZliHOsSJzk4G6tZ4-BGkVEmmtsxnyqs8/view?usp=sharing
+### Link to APK
+https://drive.google.com/file/d/1147wsmtjY9cR7u7JMaaq6mbbsLuDuIdP/view?usp=sharing
 
 ## Walkthrough Tutorial (optional)
 *give simple directions on how to navigate, login and use the main app features*
@@ -35,7 +34,6 @@ When the app launches:
 
 Authentication status is checked using Firebase’s built-in session persistence. Firebase stores the user session securely (locally on the device). When the app loads, Firebase restores the session (if it exists).
 
-
 When a user logs in or registers:
 User submits email and password. Firebase Authentication validates credentials.
 
@@ -54,8 +52,6 @@ The app calls signOut() from Firebase Authentication. Firebase removes the local
 A new login is required to access the app again.
 
 - Session Persistence
-* How is the user session stored?
-* How is automatic login handled after app restart?
 Firebase Authentication is configured using getReactNativePersistence(AsyncStorage) in firebase.js, which enables session persistence through AsyncStorage. This ensures that the user’s authentication state is stored locally on the device.
 
 When the app starts, the AuthProvider listens to onAuthStateChanged. If a valid session exists in AsyncStorage, Firebase restores the authenticated user and returns the existing user object. As a result, the app automatically logs the user in without displaying the login screen.
@@ -63,12 +59,71 @@ When the app starts, the AuthProvider listens to onAuthStateChanged. If a valid 
 ---
 4. Navigation Structure
 Root Navigation Logic
-* How is navigation split between authenticated and unauthenticated users?
-- Main Navigation
-- Describe the main navigation structure: - Number and type of main sections (e.g. Tabs)
-- Nested Navigation
-* Is there nested navigation (e.g. Stack inside a Tab)?
-* What type of screens are included?
+The app separates navigation into two main flows:
+- Unauthenticated Flow (Auth Stack).
+- Authenticated Flow (Main App Stack / Bottom Tab Navigator).
+This ensures that only logged-in users can access protected features like products, routines, and tracking.
+
+
+If the user is not logged in, the app displays the Authentication Navigator.
+Screens Included:
+- Login Screen
+- Registration Screen
+Behavior:
+- User can log in or create an account.
+- No access to main app features.
+- Protected screens (Today, Products, Routines, etc.) are not accessible.
+- 
+Navigation example structure:
+
+ ```tree
+AuthStack
+ ├── Login
+ └── Register
+```
+If the user is logged in, the app displays the Main App Navigator. The App Navigator is Bottom Tab Navigator and includes several nested Navigators.
+
+ ```tree
+AppNavigator
+ ├── Today
+ └── Products
+ └── Routines
+ └── Profile
+```
+
+The Nested Today Navigator is a Stack Navigator and includes Screens that are important for the managing of screens that are displayed on the Today page which is the main page for this app. 
+
+ ```tree
+TodayNavigator
+ ├── Today Screen
+ └── Product Details Screen
+ └── Product Edit Screen
+ └── Routine Details Screen 
+ └── Routine Edit Screen
+```
+
+The Nested Products Navigator is a nested Stack Navigator. 
+
+ ```tree
+ProductsNavigator
+ ├── Products Stack Screen
+ └── Add Product Screen
+ └── Product Details Screen
+ └── Product Edit Screen
+```
+
+The Nested Routine Navigator is a nested Stack Navigator. It also includes some ProductNavigator screens to faciliate smooth flow. 
+
+ ```tree
+RoutineNavigator
+ ├── Routines Stack Screen
+ └── Add Routine Screen
+ └── Routine Details Screen
+ └── Routine Edit Screen
+ └── Product Edit Screen
+ └── Product Details Screen
+```
+
 ---
 5. List → Details Flow
 - List / Overview Screen
@@ -101,10 +156,19 @@ Root Navigation Logic
 ---
 1.  Native Device Features
 - Used Native Feature(s)
-- Select and describe at least one: - Camera / Image Picker - Location / Maps - Biometrics - Sensors
-- Usage Description
-* Where is it used?
-* What functionality does it provide?
+Camera and Image Picker (via Expo Image Picker)
+
+The Camera / Image Picker feature is used in the Add Product screen.
+When a user adds a new skincare product to their product library, they have the option to:
+- Take a photo using the device camera
+- Select an existing photo from their phone’s gallery
+
+User Experience Benefits
+- Makes product entries more personalized
+- Creates a more familiar and visually engaging experience
+- Helps users easily recognize products at a glance
+- Improves organization by visually distinguishing similar products
+
 ---
 1.  Typical User Flow
 - Describe a normal user journey through the app: 1. 2. 3. 4.
