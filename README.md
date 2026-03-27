@@ -1,7 +1,7 @@
 ## Skienna 
 
 
-This app was developed as part of completing a course.
+<img src="assets/skienna_landing.jpeg" width="300" />
 
 ### Link to APK
 https://drive.google.com/file/d/1RmQO2__sN1DICs5ztJIvEBieEYnLUSDB/view?usp=sharing
